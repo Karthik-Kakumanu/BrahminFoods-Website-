@@ -73,6 +73,12 @@ app.get('/test-db', (req, res) => {
   });
 });
 
+// ✅ Route to serve menu.html as homepage
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, './frontend/menu.html'));
+});
+
+
 // ✅ 404 fallback
 app.use((req, res) => {
   res.status(404).json({
