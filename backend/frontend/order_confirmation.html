@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Confirmation - Brahmin Foods</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1A5D1A;
+      --primary-light: #4E9F3D;
+      --primary-dark: #0D3014;
+      --light: #F5F5DC;
+      --text: #0D3014;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      color: var(--text);
+      background-color: #f8f8f0;
+      line-height: 1.6;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://www.transparenttextures.com/patterns/rice-paper-3.png') repeat;
+      opacity: 0.15;
+      z-index: -1;
+    }
+    .header {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      padding: 1.5rem;
+      text-align: center;
+      color: white;
+    }
+    .logo-text {
+      font-size: 2rem;
+      font-weight: bold;
+    }
+    .telugu-text {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+    .container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+    .confirmation-card {
+      background: white;
+      border-radius: 0.75rem;
+      padding: 2rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      text-align: center;
+    }
+    .confirmation-icon {
+      font-size: 4rem;
+      color: var(--primary-light);
+      margin-bottom: 1.5rem;
+    }
+    .confirmation-title {
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: var(--primary-dark);
+    }
+    .confirmation-subtitle {
+      margin-bottom: 1.5rem;
+      color: var(--text);
+      opacity: 0.9;
+    }
+    .order-details {
+      text-align: left;
+      margin: 2rem 0;
+      padding: 1.5rem;
+      background-color: #f9f9f9;
+      border-radius: 0.5rem;
+      border-left: 4px solid var(--primary-light);
+    }
+    .detail-row {
+      display: flex;
+      margin-bottom: 1rem;
+    }
+    .detail-label {
+      font-weight: 500;
+      color: var(--primary-dark);
+      min-width: 120px;
+    }
+    .detail-value {
+      flex: 1;
+    }
+    .order-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .order-total {
+      font-weight: 600;
+      font-size: 1.125rem;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 2px solid var(--primary-light);
+    }
+    .action-buttons {
+      display: flex;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+    .btn-primary {
+      padding: 0.75rem 1.5rem;
+      background: linear-gradient(to right, var(--primary), var(--primary-light));
+      color: white;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+    }
+    .btn-primary:hover {
+      background: linear-gradient(to right, var(--primary-dark), var(--primary));
+    }
+    .btn-icon {
+      margin-right: 0.5rem;
+    }
+    .delivery-estimate {
+      margin-top: 2rem;
+      padding: 1rem;
+      background-color: #f0fff4;
+      border-radius: 0.5rem;
+      border-left: 4px solid var(--primary-light);
+    }
+    .contact-info {
+      margin-top: 2rem;
+      font-size: 0.9rem;
+      color: var(--text);
+      opacity: 0.8;
+    }
+    .contact-info a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .contact-info a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <h1 class="logo-text">Brahmin Foods</h1>
+    <p class="telugu-text">ఆంధ్ర బ్రాహ్మణ వంటకాలు</p>
+    <p>Order Confirmation</p>
+  </header>
+
+  <div class="container">
+    <div class="confirmation-card">
+      <div class="confirmation-icon">
+        <i class="fas fa-check-circle"></i>
+      </div>
+      <h1 class="confirmation-title">Thank You For Your Order!</h1>
+      <p class="confirmation-subtitle">Your order has been placed successfully and will be processed shortly.</p>
+
+      <div class="order-details">
+        <div class="detail-row">
+          <span class="detail-label">Date:</span>
+          <span class="detail-value" id="order-date">Today</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Payment Method:</span>
+          <span class="detail-value" id="payment-method">Cash on Delivery</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Delivery To:</span>
+          <span class="detail-value" id="delivery-address">--</span>
+        </div>
+
+        <div class="order-items">
+          <h3 class="font-medium text-lg mb-2">Your Order:</h3>
+          <div id="order-items-list">
+            <!-- Dynamic order items will be inserted here -->
+          </div>
+          <div class="order-total flex justify-between">
+            <span>Total:</span>
+            <span id="order-total">₹0</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="delivery-estimate">
+        <i class="fas fa-truck mr-2 text-primary-light"></i>
+        <span id="delivery-estimate">Expected delivery: Tomorrow by 8 PM</span>
+      </div>
+
+      <div class="action-buttons">
+        <a href="menu.html" class="btn-primary">
+          <i class="fas fa-utensils btn-icon"></i> Continue Shopping
+        </a>
+      </div>
+
+      <div class="contact-info">
+        <p>Need help? Call us at <a href="tel:+917997991919"><i class="fas fa-phone-alt mr-1"></i>+91 7997991919</a></p>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Get order details from localStorage
+      const order = JSON.parse(localStorage.getItem('lastOrder'));
+      const urlParams = new URLSearchParams(window.location.search);
+  
+      // Format dates for display
+      const orderDate = new Date();
+      const formattedOrderDate = orderDate.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+  
+      // Calculate delivery date (1 day for local, 3 days for courier)
+      const deliveryDate = new Date();
+      deliveryDate.setDate(deliveryDate.getDate() + (order.deliveryType === 'courier' ? 3 : 1));
+      const formattedDeliveryDate = deliveryDate.toLocaleDateString('en-US', { 
+        weekday: 'long', 
+        month: 'short', 
+        day: 'numeric' 
+      });
+  
+      // Format payment method for display
+      const paymentMethod = order.paymentMethod === 'cod' ? 'Cash on Delivery' : 
+                           order.paymentMethod === 'online' ? 'Online Payment' : 
+                           order.paymentMethod || 'Cash on Delivery';
+  
+      // Update the order details in the UI
+      document.getElementById('order-date').textContent = formattedOrderDate;
+      document.getElementById('payment-method').textContent = paymentMethod;
+      document.getElementById('delivery-address').textContent = order.customerInfo?.address || order.address;
+      document.getElementById('delivery-estimate').textContent = 
+        `Expected delivery: ${formattedDeliveryDate} by 8 PM`;
+  
+      // Display order items
+      const orderItemsList = document.getElementById('order-items-list');
+      orderItemsList.innerHTML = order.items.map(item => `
+        <div class="order-item">
+          <span>${item.name?.en || item.name} x ${item.quantity}</span>
+          <span>₹${(item.price * item.quantity).toLocaleString('en-IN')}</span>
+        </div>
+      `).join('');
+  
+      // Display order totals
+      document.getElementById('order-total').textContent = `₹${order.total?.toLocaleString('en-IN') || '0'}`;
+  
+      // Clear the cart if this is a new order (has orderId parameter)
+      if (orderId) {
+        localStorage.removeItem('brahminFoodsCart');
+      }
+    });
+  </script>
+</body>
+</html>

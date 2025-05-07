@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f8f8f8;
+    }
+    .login-container {
+      max-width: 400px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+    }
+    button {
+      padding: 10px 15px;
+      background: #2b7cff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    .error {
+      color: red;
+      margin-top: 10px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 30px;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN FORM -->
+<div id="login-section" class="login-container">
+  <h2>Admin Login</h2>
+  <form id="loginForm">
+    <input type="text" id="username" name="username" placeholder="Username" required />
+    <input type="password" id="password" name="password" placeholder="Password" required />
+    <button type="submit">Login</button>
+    <p id="error" class="error"></p>
+  </form>
+</div>
+
+<!-- ORDERS SECTION -->
+<div id="orders-section" style="display:none;">
+  <h1>🧾 All Orders</h1>
+  <button id="logoutButton">Logout</button>
+  <table id="orders-table">
+    <thead>
+      <tr>
+        <th>Order ID</th>
+        <th>Customer</th>
+        <th>Phone</th>
+        <th>Address</th>
+        <th>Items</th>
+        <th>Total</th>
+        <th>Delivery</th>
+        <th>Placed At</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<script>
+  const API_BASE_URL = 'http://localhost:3000';
+
+  async function fetchOrders() {
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/orders`, {
+        credentials: 'include'
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Unauthorized or fetch failed');
+      }
+
+      const orders = await res.json();
+      const tbody = document.querySelector('#orders-table tbody');
+      tbody.innerHTML = '';
+
+      orders.forEach(order => {
+        const tr = document.createElement('tr');
+        const items = order.items || [];
+        const itemsList = items.map(item =>
+          `<div>
+            ID: ${item.id} | Name: ${item.name?.en || item.name || '-'} | ₹${item.price} × ${item.quantity} (${item.weight})
+          </div>`
+        ).join('');
+
+        tr.innerHTML = `
+          <td>${order.id}</td>
+          <td>${order.customer_name}</td>
+          <td>${order.phone}</td>
+          <td>${order.address}</td>
+          <td>${itemsList}</td>
+          <td>₹${order.total_price}</td>
+          <td>${order.delivery_type}</td>
+          <td>${new Date(order.created_at).toLocaleString()}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById('login-section').style.display = 'none';
+      document.getElementById('orders-section').style.display = 'block';
+
+    } catch (err) {
+      console.error('Fetch orders error:', err);
+      document.getElementById('error').textContent = err.message;
+    }
+  }
+
+  async function logout() {
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/admin/logout`, {
+        method: 'POST',
+        credentials: 'include',
+      });
+
+      if (res.ok) {
+        window.location.reload();
+      } else {
+        const errorData = await res.json().catch(() => ({}));
+        alert(errorData.error || 'Logout failed');
+      }
+    } catch (err) {
+      console.error('Logout error:', err);
+      alert('Error logging out. Try again.');
+    }
+  }
+
+  document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value;
+    document.getElementById('error').textContent = '';
+
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/admin/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        await fetchOrders();
+      } else {
+        document.getElementById('error').textContent = data.error || 'Login failed';
+      }
+    } catch (err) {
+      console.error('Login error:', err);
+      document.getElementById('error').textContent = 'Connection error. Try again.';
+    }
+  });
+
+  document.getElementById('logoutButton').addEventListener('click', logout);
+
+  //window.addEventListener('load', () => {
+    //fetchOrders().catch(() => {
+      // //Not logged in – ignore
+  //  });
+  //});
+</script>
+
+</body>
+</html>

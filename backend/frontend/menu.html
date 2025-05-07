@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brahmin Foods - Pure Vegetarian South Indian Cuisine | Brahmin.in</title>
+  <meta name="description" content="Authentic Brahmin style vegetarian food products including powders, pickles, and snacks. Pure vegetarian South Indian cuisine since 1952.">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Noto+Serif+Telugu:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #1A5D1A;
+      --primary-light: #4E9F3D;
+      --primary-dark: #0D3014;
+      --secondary: #D8B038;
+      --light: #F5F5DC;
+      --veg-symbol: #4CAF50;
+      --text: #0D3014;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: var(--text);
+      line-height: 1.6;
+      padding-top: 80px; /* Space for fixed header */
+      padding-bottom: 60px;
+      background-color: var(--light);
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Fixed Header */
+    .static-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: white;
+      padding: 10px 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+    
+    .mobile-logo {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--primary);
+    }
+    
+    .header-controls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    /* Language Toggle */
+    .lang-toggle {
+      background: white;
+      border-radius: 20px;
+      padding: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      display: flex;
+      gap: 3px;
+    }
+    .lang-btn {
+      border: none;
+      background: none;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 3px 8px;
+      border-radius: 15px;
+      font-size: 14px;
+    }
+    .lang-btn.active {
+      background: var(--primary);
+      color: white;
+    }
+    
+    /* Contact Number */
+    .contact-number {
+      background: white;
+      border-radius: 20px;
+      padding: 6px 12px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      font-weight: 600;
+    }
+    .contact-number a {
+      color: var(--primary);
+      text-decoration: none;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    /* Background Elements */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 80px; /* Below header */
+      left: 0;
+      width: 100%;
+      height: calc(100% - 80px);
+      background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDEwMDAiPjxkZWZzPjxzdHlsZT4uY2xzLTF7ZmlsbDojMDAwO29wYWNpdHk6MC4wMzt9PC9zdHlsZT48L2RlZnM+PHBhdGggY2xhc3M9ImNscy0xIiBkPSJNNDk5LjQ0LDQwLjQ0YzE2LjY2LTE2LjY2LDQzLjY3LTE2LjY2LDYwLjMzLDBsMzg4LjgsMzg4LjhjMTYuNjYsMTYuNjYsMTYuNjYsNDMuNjcsMCw2MC4zM0w1NTkuNzcsODk5LjU2Yy0xNi42NiwxNi42Ni00My42NywxNi42Ni02MC4zMywwTDQ5OS40NCw4MzkuMjNjLTE2LjY2LTE2LjY2LTE2LjY2LTQzLjY3LDAtNjAuMzNsMzg4LjgtMzg4LjhMNDk5LjQ0LDQwLjQ0WiIvPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTQ5OS40NCw0MC40NGMxNi42Ni0xNi42Niw0My42Ny0xNi42Niw2MC4zMywwbDM4OC44LDM4OC44YzE2LjY2LDE2LjY2LDE2LjY2LDQzLjY3LDAsNjAuMzNMNTU5Ljc3LDg5OS41NmMtMTYuNjYsMTYuNjYtNDMuNjcsMTYuNjYtNjAuMzMsMEw0OTkuNDQsODM5LjIzYy0xNi42Ni0xNi42Ni0xNi42Ni00My42NywwLTYwLjMzTDM4OC44LDM4OS44TDQ5OS40NCw0MC40NFoiIHRyYW5zZm9ybT0icm90YXRlKDkwIDUwMCA1MDApIi8+PC9zdmc+') repeat;
+      opacity: 0.05;
+      z-index: -1;
+      animation: leafFlow 60s linear infinite;
+    }
+
+    .floating-temples img {
+      position: fixed;
+      opacity: 0.03;
+      z-index: -1;
+      height: 150px;
+      animation: float 20s infinite ease-in-out;
+    }
+
+    .temple-1 {
+      top: 15%;
+      left: 5%;
+      animation-delay: 0s;
+    }
+    .temple-2 {
+      top: 65%;
+      right: 5%;
+      animation-delay: 5s;
+    }
+
+    .floating-spices img {
+      position: fixed;
+      width: 40px;
+      opacity: 0.1;
+      z-index: -1;
+      animation: floatSpice 15s infinite linear;
+    }
+
+    .spice-1 { top: 25%; left: 10%; }
+    .spice-2 { top: 75%; right: 15%; animation-delay: 3s; }
+    .spice-3 { bottom: 15%; left: 50%; animation-delay: 6s; }
+
+    @keyframes leafFlow {
+      0% { background-position: 0 0; }
+      100% { background-position: 1000px 1000px; }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    @keyframes floatSpice {
+      0% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-50px) rotate(180deg); }
+      100% { transform: translateY(0) rotate(360deg); }
+    }
+
+    /* Catering Marquee */
+    .catering-marquee {
+      background: rgba(216, 176, 56, 0.2);
+      padding: 10px 0;
+      margin: 0 auto;
+      text-align: center;
+      font-weight: 500;
+      border-top: 1px solid var(--secondary);
+      border-bottom: 1px solid var(--secondary);
+      overflow: hidden;
+    }
+    .marquee-content {
+      display: inline-block;
+      white-space: nowrap;
+      animation: marquee 20s linear infinite;
+      will-change: transform;
+    }
+    @keyframes marquee {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+
+    /* Main Header - Modified for left-aligned large heading */
+    .header {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      color: white;
+      padding: 3rem 1rem 2rem;
+      text-align: left;
+      position: relative;
+      margin-top: 10px;
+    }
+    
+    .header::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 10px;
+      background: linear-gradient(90deg, var(--secondary), var(--primary-light), var(--secondary));
+    }
+    
+    .header-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .logo-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 5rem; /* Increased from 3rem to 5rem */
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+      text-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+      letter-spacing: 1px;
+      background: linear-gradient(to right, #fff, #f5f5dc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+      display: block;
+      line-height: 1;
+    }
+    
+    .logo-text::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0; /* Changed from center to left */
+      transform: none; /* Removed centering transform */
+      width: 200px; /* Increased width */
+      height: 5px; /* Increased height */
+      background: var(--secondary);
+      border-radius: 3px;
+    }
+    
+    .telugu-text {
+      font-family: 'Noto Serif Telugu', serif;
+      font-size: 2rem; /* Increased from 1.5rem */
+      margin-bottom: 1rem;
+      color: var(--light);
+      text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+    }
+    
+    .tagline {
+      max-width: 600px;
+      margin: 1rem 0 0; /* Changed from auto to left */
+      font-size: 1.3rem; /* Increased from 1.1rem */
+      font-weight: 300;
+      letter-spacing: 0.5px;
+      color: rgba(255,255,255,0.9);
+    }
+    
+    .header::before {
+      content: 'PURE VEGETARIAN | శుద్ధ శాకాహారి';
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: var(--veg-symbol);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 2rem;
+      font-size: 0.8rem;
+      font-weight: bold;
+      z-index: 3;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    /* Menu Grid */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      padding: 1rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Menu Items */
+    .menu-item {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    .menu-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    }
+    .menu-item img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-bottom: 3px solid var(--primary-light);
+    }
+    .menu-item-content {
+      padding: 1.2rem;
+    }
+    .pure-veg-symbol {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 24px;
+      height: 24px;
+      background: var(--veg-symbol);
+      border-radius: 50%;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: bold;
+    }
+    .quantity-options {
+      display: flex;
+      gap: 0.5rem;
+      margin: 0.8rem 0;
+    }
+    .quantity-btn {
+      flex: 1;
+      padding: 0.3rem;
+      border: 1px solid var(--primary-light);
+      border-radius: 0.3rem;
+      background: white;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+      font-size: 0.8rem;
+    }
+    .quantity-btn:hover, .quantity-btn.selected {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+    .add-to-cart {
+      display: block;
+      width: 100%;
+      padding: 0.7rem;
+      margin-top: 1rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+    .add-to-cart:hover {
+      background: var(--primary-dark);
+    }
+    .add-to-cart:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    .food-history {
+      background: rgba(216, 176, 56, 0.1);
+      padding: 0.5rem;
+      font-size: 0.8rem;
+      text-align: center;
+      margin-top: 0.8rem;
+      border-radius: 5px;
+    }
+    .menu-item-price {
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-top: 0.5rem;
+    }
+    .price-display {
+      font-weight: bold;
+      color: var(--primary-dark);
+    }
+    
+    /* Meal Combo Specific Styles */
+    .combo-includes {
+      font-size: 0.9rem;
+      margin: 0.5rem 0;
+      color: #555;
+    }
+    .combo-includes ul {
+      padding-left: 1.2rem;
+      margin: 0.3rem 0;
+    }
+    .combo-includes li {
+      margin-bottom: 0.2rem;
+    }
+
+    /* Cart Notification */
+    .cart-notification {
+      position: fixed;
+      bottom: 100px;
+      right: 30px;
+      background: var(--primary);
+      color: white;
+      padding: 0.8rem 1.2rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+      z-index: 100;
+      animation: fadeInOut 2s ease-in-out;
+    }
+    @keyframes fadeInOut {
+      0%, 100% { opacity: 0; transform: translateY(20px); }
+      20%, 80% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Filters */
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.8rem;
+      padding: 1rem;
+      background: rgba(245, 245, 220, 0.8);
+      position: sticky;
+      top: 80px; /* Below fixed header */
+      z-index: 10;
+      backdrop-filter: blur(5px);
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .filter-btn {
+      padding: 0.7rem 1.2rem;
+      border-radius: 2rem;
+      border: 1px solid var(--primary-light);
+      background: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .filter-btn:hover {
+      transform: translateY(-2px);
+    }
+    .filter-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    /* Cart Button */
+    .cart-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--primary);
+      color: white;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      z-index: 100;
+      text-decoration: none;
+    }
+    .cart-count {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: var(--secondary);
+      color: var(--text);
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--primary-dark);
+      color: white;
+      padding: 2rem 1rem;
+      text-align: center;
+      margin-top: 2rem;
+    }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin: 1rem 0;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      color: white;
+      text-decoration: none;
+    }
+    .copyright {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding-top: 70px;
+      }
+      
+      .static-header {
+        padding: 8px 10px;
+      }
+      
+      .logo-text {
+        font-size: 3.5rem; /* Adjusted for mobile */
+      }
+      
+      .telugu-text {
+        font-size: 1.5rem; /* Adjusted for mobile */
+      }
+      
+      .header::before {
+        top: 15px;
+        right: 15px;
+        font-size: 0.7rem;
+        padding: 0.4rem 0.8rem;
+      }
+      
+      .filter-btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.8rem;
+      }
+      
+      .floating-temples img {
+        height: 100px;
+      }
+      
+      .menu-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .quantity-options {
+        flex-direction: column;
+      }
+      
+      .filters {
+        top: 70px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding-top: 60px;
+      }
+      
+      .static-header {
+        padding: 6px 8px;
+      }
+      
+      .mobile-logo {
+        font-size: 1rem;
+      }
+      
+      .contact-number a {
+        font-size: 12px;
+      }
+      
+      .lang-btn {
+        padding: 2px 6px;
+        font-size: 12px;
+      }
+      
+      .logo-text {
+        font-size: 2.5rem; /* Adjusted for small mobile */
+      }
+      
+      .telugu-text {
+        font-size: 1.2rem; /* Adjusted for small mobile */
+      }
+      
+      .tagline {
+        font-size: 1rem; /* Adjusted for small mobile */
+      }
+      
+      .header::before {
+        top: 10px;
+        right: 10px;
+        font-size: 0.6rem;
+        padding: 0.3rem 0.6rem;
+      }
+      
+      .filters {
+        top: 60px;
+        padding: 0.8rem;
+      }
+      
+      .filter-btn {
+        padding: 0.5rem 0.8rem;
+      }
+      
+      .cart-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+      }
+      
+      .cart-count {
+        width: 20px;
+        height: 20px;
+        font-size: 0.7rem;
+      }
+    }
+    /* Admin Button Styles */
+    .admin-btn {
+      position: fixed;
+      bottom: 2rem;
+      left: 2rem;
+      background: var(--primary-dark);
+      color: white;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      z-index: 100;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    
+    .admin-btn:hover {
+      background: var(--primary);
+    }
+    
+    .admin-tooltip {
+      position: absolute;
+      bottom: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--primary-dark);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 0.8rem;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    
+    .admin-btn:hover .admin-tooltip {
+      opacity: 1;
+    }
+    
+    @media (max-width: 768px) {
+      .admin-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+        bottom: 1.5rem;
+        left: 1.5rem;
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <!-- Static Header -->
+  <div class="static-header">
+    <div class="mobile-logo en">Brahmin Foods</div>
+    <div class="mobile-logo te" style="display:none">బ్రాహ్మణ్ ఫుడ్స్</div>
+    
+    <div class="header-controls">
+      <!-- Language Toggle -->
+      <div class="lang-toggle">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="te">TE</button>
+      </div>
+      
+      <!-- Contact Number -->
+      <div class="contact-number">
+        <a href="tel:7997991919">
+          <i class="fas fa-phone"></i> <span class="en">Call  7997991919</span><span class="te" style="display:none">కాల్  7997991919</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Background Elements -->
+  <div class="floating-temples">
+    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBkPSJNNDY0LDEyOEgyNzJWNDhIMjQwdjgwSDQ4djY0SDI0MHY4MEgyNzJ2LTgwSDQ2NHYtNjRaIiBmaWxsPSIjMDAwIiBvcGFjaXR5PSIwLjAzIi8+PC9zdmc+" class="temple-1">
+    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBkPSJNNDY0LDEyOEgyNzJWNDhIMjQwdjgwSDQ4djY0SDI0MHY4MEgyNzJ2LTgwSDQ2NHYtNjRaIiBmaWxsPSIjMDAwIiBvcGFjaXR5PSIwLjAzIi8+PC9zdmc+" class="temple-2">
+  </div>
+
+  <div class="floating-spices">
+    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBkPSJNNDQ4LDM1MkgzMjBWMTYwSDQ0OFoiIGZpbGw9IiNGRjAiIG9wYWNpdHk9IjAuMSIvPjwvc3ZnPg==" class="spice-1">
+    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBkPSJNNDQ4LDQ0OEgzMjBWMzIwSDQ0OFoiIGZpbGw9IiMwMEEwMDAiIG9wYWNpdHk9IjAuMSIvPjwvc3ZnPg==" class="spice-2">
+    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48Y2lyY2xlIGN4PSIyNTYiIGN5PSIyNTYiIHI9IjY0IiBmaWxsPSIjRkYwIiBvcGFjaXR5PSIwLjEiLz48L3N2Zz4=" class="spice-3">
+  </div>
+
+  <!-- Catering Marquee -->
+  <div class="catering-marquee">
+    <div class="marquee-content">
+      <span class="en">All types of catering available for 20 to 1000 members - Weddings | Upanayanams | Housewarmings | Birthdays | Corporate Events | Anniversaries - No onion or garlic used in any dishes</span>
+      <span class="te" style="display:none">20 నుండి 1000 మంది వరకు అన్ని రకాల క్యాటరింగ్ అందుబాటులో ఉన్నాయి - పెళ్లి | ఉపనయనాలు | గృహప్రవేశాలు | పుట్టినరోజులు | కార్పొరేట్ ఈవెంట్స్ | వార్షికోత్సవాలు - ఏ వంటకంలోనూ ఉల్లి లేదా వెల్లుల్లి ఉపయోగించబడదు</span>
+    </div>
+  </div>
+
+  <!-- Header - Modified for left-aligned large heading -->
+  <header class="header">
+    <div class="header-content">
+      <h1 class="logo-text">Brahmin Foods</h1>
+      <p class="telugu-text">ఆంధ్ర బ్రాహ్మణ వంటకాలు</p>
+      <p class="tagline en">Authentic vegetarian cuisine since 1952</p>
+      <p class="tagline te" style="display:none">1952 నుండి స్వచ్ఛమైన శాకాహార ఆహారం</p>
+    </div>
+  </header>
+
+  <!-- Filters -->
+  <div class="filters">
+    <button class="filter-btn active" data-category="all">
+      <span class="en">All</span>
+      <span class="te" style="display:none">అన్ని</span>
+    </button>
+    <button class="filter-btn" data-category="podulu">
+      <span class="en">Powders</span>
+      <span class="te" style="display:none">పొడులు</span>
+    </button>
+    <button class="filter-btn" data-category="pachchallu">
+      <span class="en">Pickles</span>
+      <span class="te" style="display:none">పచ్చళ్ళు</span>
+    </button>
+    <button class="filter-btn" data-category="snacks">
+      <span class="en">Snacks</span>
+      <span class="te" style="display:none">స్నాక్స్</span>
+    </button>
+    <button class="filter-btn" data-category="meals">
+      <span class="en">Meals & Catering</span>
+      <span class="te" style="display:none">భోజనాలు & క్యాటరింగ్</span>
+    </button>
+  </div>
+
+  <!-- Menu Grid -->
+  <div class="menu-grid" id="menu-container">
+    <!-- Items will be loaded here dynamically -->
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="#" class="en">About Us</a>
+      <a href="#" class="te" style="display:none">మా గురించి</a>
+      <a href="#" class="en">Contact</a>
+      <a href="#" class="te" style="display:none">సంప్రదించండి</a>
+    </div>
+    <div class="copyright en">© 2023 Brahmin Foods. All Rights Reserved.</div>
+    <div class="copyright te" style="display:none">© 2023 బ్రాహ్మణ్ ఫుడ్స్. అన్ని హక్కులు ప్రత్యేకించబడ్డాయి.</div>
+  </footer>
+
+  <!-- Admin Button -->
+  <div class="admin-btn" id="adminAccessBtn">
+    <i class="fas fa-user-shield"></i>
+    <span class="admin-tooltip en">Admin Access</span>
+    <span class="admin-tooltip te" style="display:none">అడ్మిన్ యాక్సెస్</span>
+  </div>
+
+  <!-- Cart Button -->
+  <a href="cart.html" class="cart-btn">
+    <i class="fas fa-shopping-cart"></i>
+    <span class="cart-count">0</span>
+  </a>
+
+  <script>
+    // Menu Data with English and Telugu
+    const menuItems = [
+      // Podulu (Powders) - all priced at ₹480 per kg
+      {
+        id: 1,
+        name: { en: "Kandi Podi", te: "కంది పొడి" },
+        description: { en: "Traditional roasted dal powder", te: "సాంప్రదాయ కాల్చిన కంది పొడి" },
+        category: "podulu",
+        heritage: { en: "Classic Andhra Brahmin recipe", te: "క్లాసిక్ ఆంధ్ర బ్రాహ్మణ వంటకం" },
+        rating: 4.7,
+        image: "pictures/kandi-podi.jpg",
+        quantityOptions: [
+          { weight: "250g", price: 120 },
+          { weight: "500g", price: 240 },
+          { weight: "1kg", price: 480 }
+        ]
+      },
+      {
+        id: 2,
+        name: { en: "Nuvvulu Podi", te: "నువ్వుల పొడి" },
+        description: { en: "Sesame seed powder with spices", te: "నువ్వులు మరియు మసాలా దినుసులతో తయారు చేసిన పొడి" },
+        category: "podulu",
+        heritage: { en: "Traditional Andhra recipe", te: "సాంప్రదాయ ఆంధ్ర వంటకం" },
+        rating: 4.6,
+        image: "pictures/nuvulu-podi.jpeg",
+        quantityOptions: [
+          { weight: "250g", price: 120 },
+          { weight: "500g", price: 240 },
+          { weight: "1kg", price: 480 }
+        ]
+      },
+      {
+        id: 3,
+        name: { en: "Dhaniyala Karam Podi", te: "ధనియాల కారప్పొడి" },
+        description: { en: "Spicy coriander powder", te: "కారంగల ధనియాల పొడి" },
+        category: "podulu",
+        heritage: { en: "Classic Andhra Brahmin recipe", te: "క్లాసిక్ ఆంధ్ర బ్రాహ్మణ వంటకం" },
+        rating: 4.8,
+        image: "pictures/dhanyala-podi.jpeg",
+        quantityOptions: [
+          { weight: "250g", price: 120 },
+          { weight: "500g", price: 240 },
+          { weight: "1kg", price: 480 }
+        ]
+      },
+      {
+        id: 4,
+        name: { en: "Kobbari Podi", te: "కొబ్బరిపొడి" },
+        description: { en: "Roasted coconut powder", te: "కాల్చిన కొబ్బరి పొడి" },
+        category: "podulu",
+        heritage: { en: "Traditional coastal recipe", te: "సాంప్రదాయ తీర ప్రాంత వంటకం" },
+        rating: 4.5,
+        image: "pictures/kobbari-podi.jpeg",
+        quantityOptions: [
+          { weight: "250g", price: 120 },
+          { weight: "500g", price: 240 },
+          { weight: "1kg", price: 480 }
+        ]
+      },
+      {
+        id: 5,
+        name: { en: "Pappulu Podi", te: "పప్పుల పొడి" },
+        description: { en: "Mixed lentil powder", te: "మిశ్రమ పప్పుల పొడి" },
+        category: "podulu",
+        heritage: { en: "Classic Andhra Brahmin recipe", te: "క్లాసిక్ ఆంధ్ర బ్రాహ్మణ వంటకం" },
+        rating: 4.7,
+        image: "pictures/pappulu-podi.jpeg",
+        quantityOptions: [
+          { weight: "250g", price: 120 },
+          { weight: "500g", price: 240 },
+          { weight: "1kg", price: 480 }
+        ]
+      },
+      {
+        id: 6,
+        name: { en: "Sambar Powder", te: "సాంబార్ పొడి" },
+        description: { en: "Traditional sambar spice mix", te: "సాంప్రదాయ సాంబార్ మసాలా మిశ్రమం" },
+        category: "podulu",
+        heritage: { en: "Authentic South Indian recipe", te: "అసలైన దక్షిణ భారత వంటకం" },
+        rating: 4.9,
+        image: "pictures/sambar-powder.jpeg",
+        quantityOptions: [
+          { weight: "250g", price: 120 },
+          { weight: "500g", price: 240 },
+          { weight: "1kg", price: 480 }
+        ]
+      },
+      {
+        id: 7,
+        name: { en: "Rasam Powder", te: "రసం పొడి" },
+        description: { en: "Traditional rasam spice mix", te: "సాంప్రదాయ రసం మసాలా మిశ్రమం" },
+        category: "podulu",
+        heritage: { en: "Classic Tamil Brahmin recipe", te: "క్లాసిక్ తమిళ బ్రాహ్మణ వంటకం" },
+        rating: 4.8,
+        image: "pictures/rasam-powder.jpeg",
+        quantityOptions: [
+          { weight: "250g", price: 120 },
+          { weight: "500g", price: 240 },
+          { weight: "1kg", price: 480 }
+        ]
+      },
+      {
+        id: 8,
+        name: { en: "Palli Podi", te: "పల్లీ పొడి" },
+        description: { en: "Roasted peanut powder", te: "కాల్చిన పల్లీ పొడి" },
+        category: "podulu",
+        heritage: { en: "Traditional Andhra recipe", te: "సాంప్రదాయ ఆంధ్ర వంటకం" },
+        rating: 4.7,
+        image: "pictures/palli-podi.jpeg",
+        quantityOptions: [
+          { weight: "250g", price: 120 },
+          { weight: "500g", price: 240 },
+          { weight: "1kg", price: 480 }
+        ]
+      },
+      {
+        id: 9,
+        name: { en: "Karivepaku Podi", te: "కరివేపాకు పొడి" },
+        description: { en: "Curry leaf powder with spices", te: "కరివేపాకు మరియు మసాలా దినుసులతో తయారు చేసిన పొడి" },
+        category: "podulu",
+        heritage: { en: "Classic South Indian recipe", te: "క్లాసిక్ దక్షిణ భారత వంటకం" },
+        rating: 4.8,
+        image: "pictures/karivepaku-podi.jpeg",
+        quantityOptions: [
+          { weight: "250g", price: 120 },
+          { weight: "500g", price: 240 },
+          { weight: "1kg", price: 480 }
+        ]
+      },
+      {
+        id: 10,
+        name: { en: "Nalla Karam", te: "నల్లకారం" },
+        description: { en: "Black pepper powder", te: "నల్ల మిరియాలు పొడి" },
+        category: "podulu",
+        heritage: { en: "Traditional South Indian recipe", te: "సాంప్రదాయ దక్షిణ భారత వంటకం" },
+        rating: 4.7,
+        image: "pictures/blackpepper-powder.jpeg",
+        quantityOptions: [
+          { weight: "250g", price: 120 },
+          { weight: "500g", price: 240 },
+          { weight: "1kg", price: 480 }
+        ]
+      },
+      {
+        id: 11,
+        name: { en: "Vellulli Karam", te: "వెల్లుల్లి కారం" },
+        description: { en: "Garlic powder with spices", te: "వెల్లుల్లి మరియు మసాలా దినుసులతో తయారు చేసిన పొడి" },
+        category: "podulu",
+        heritage: { en: "Classic Andhra recipe", te: "క్లాసిక్ ఆంధ్ర వంటకం" },
+        rating: 4.8,
+        image: "pictures/garlic-powder.jpeg",
+        quantityOptions: [
+          { weight: "250g", price: 120 },
+          { weight: "500g", price: 240 },
+          { weight: "1kg", price: 480 }
+        ]
+      },
+
+      // Pachchallu (Pickles) - all priced at ₹400 per kg
+      {
+        id: 12,
+        name: { en: "Chintakaya Pachadi", te: "చింతకాయ పచ్చడి" },
+        description: { en: "Tamarind pickle with spices", te: "చింతకాయ మరియు మసాలా దినుసులతో తయారు చేసిన పచ్చడి" },
+        category: "pachchallu",
+        heritage: { en: "Classic Andhra recipe", te: "క్లాసిక్ ఆంధ్ర వంటకం" },
+        rating: 4.8,
+        image: "pictures/chintakata-pachadi.jpeg",
+        quantityOptions: [
+          { weight: "250g", price: 100 },
+          { weight: "500g", price: 200 },
+          { weight: "1kg", price: 400 }
+        ]
+      },
+      {
+        id: 13,
+        name: { en: "Avakaya Pachadi", te: "ఆవకాయ పచ్చడి" },
+        description: { en: "Spicy mango pickle with mustard", te: "ఆవాలు మరియు మసాలా దినుసులతో తయారు చేసిన మామిడికాయ పచ్చడి" },
+        category: "pachchallu",
+        heritage: { en: "Traditional Andhra recipe", te: "సాంప్రదాయ ఆంధ్ర వంటకం" },
+        rating: 4.9,
+        image: "pictures/avakaya.jpeg",
+        quantityOptions: [
+          { weight: "250g", price: 100 },
+          { weight: "500g", price: 200 },
+          { weight: "1kg", price: 400 }
+        ]
+      },
+      {
+        id: 14,
+        name: { en: "Nimmakaya Pachadi", te: "నిమ్మకాయ పచ్చడి" },
+        description: { en: "Lemon pickle with spices", te: "నిమ్మకాయ మరియు మసాలా దినుసులతో తయారు చేసిన పచ్చడి" },
+        category: "pachchallu",
+        heritage: { en: "Classic South Indian recipe", te: "క్లాసిక్ దక్షిణ భారత వంటకం" },
+        rating: 4.7,
+        image: "pictures/nimakaya-pachadi.jpeg",
+        quantityOptions: [
+          { weight: "250g", price: 100 },
+          { weight: "500g", price: 200 },
+          { weight: "1kg", price: 400 }
+        ]
+      },
+      {
+        id: 15,
+        name: { en: "Usirikaya Pachadi", te: "ఉసిరికాయ పచ్చడి" },
+        description: { en: "Gooseberry pickle with spices", te: "ఉసిరికాయ మరియు మసాలా దినుసులతో తయారు చేసిన పచ్చడి" },
+        category: "pachchallu",
+        heritage: { en: "Traditional South Indian recipe", te: "సాంప్రదాయ దక్షిణ భారత వంటకం" },
+        rating: 4.8,
+        image: "pictures/usirikaya-pachadi.jpeg",
+        quantityOptions: [
+          { weight: "250g", price: 100 },
+          { weight: "500g", price: 200 },
+          { weight: "1kg", price: 400 }
+        ]
+      },
+      {
+        id: 16,
+        name: { en: "Pandla Karam", te: "పండ్లకారం" },
+        description: { en: "Fruit pickle with spices", te: "పండ్లు మరియు మసాలా దినుసులతో తయారు చేసిన పచ్చడి" },
+        category: "pachchallu",
+        heritage: { en: "Classic Andhra recipe", te: "క్లాసిక్ ఆంధ్ర వంటకం" },
+        rating: 4.7,
+        image: "pictures/pandlakaram-pachadi.jpeg",
+        quantityOptions: [
+          { weight: "250g", price: 100 },
+          { weight: "500g", price: 200 },
+          { weight: "1kg", price: 400 }
+        ]
+      },
+      {
+        id: 17,
+        name: { en: "Usiri Tokku", te: "ఉసిరి తొక్కు" },
+        description: { en: "Gooseberry peel pickle", te: "ఉసిరికాయ తొక్కుతో తయారు చేసిన పచ్చడి" },
+        category: "pachchallu",
+        heritage: { en: "Traditional South Indian recipe", te: "సాంప్రదాయ దక్షిణ భారత వంటకం" },
+        rating: 4.6,
+        image: "pictures/usiritokku-pachadi.jpeg",
+        quantityOptions: [
+          { weight: "250g", price: 100 },
+          { weight: "500g", price: 200 },
+          { weight: "1kg", price: 400 }
+        ]
+      },
+      {
+        id: 18,
+        name: { en: "Kothimeera Pachadi", te: "కొత్తిమీర పచ్చడి" },
+        description: { en: "Coriander pickle with spices", te: "కొత్తిమీర మరియు మసాలా దినుసులతో తయారు చేసిన పచ్చడి" },
+        category: "pachchallu",
+        heritage: { en: "Classic Andhra recipe", te: "క్లాసిక్ ఆంధ్ర వంటకం" },
+        rating: 4.7,
+        image: "pictures/kothimeera-pachadi.jpeg",
+        quantityOptions: [
+          { weight: "250g", price: 100 },
+          { weight: "500g", price: 200 },
+          { weight: "1kg", price: 400 }
+        ]
+      },
+      {
+        id: 19,
+        name: { en: "Dabbakaya Pachadi", te: "దబ్బకాయ పచ్చడి" },
+        description: { en: "Indian hog plum pickle", te: "దబ్బకాయ మరియు మసాలా దినుసులతో తయారు చేసిన పచ్చడి" },
+        category: "pachchallu",
+        heritage: { en: "Traditional Andhra recipe", te: "సాంప్రదాయ ఆంధ్ర వంటకం" },
+        rating: 4.8,
+        image: "pictures/dabbakaya-pachadi.jpeg",
+        quantityOptions: [
+          { weight: "250g", price: 100 },
+          { weight: "500g", price: 200 },
+          { weight: "1kg", price: 400 }
+        ]
+      },
+      {
+        id: 20,
+        name: { en: "Gongura Pachadi", te: "గోంగూర పచ్చడి" },
+        description: { en: "Sorrel leaves pickle", te: "గోంగూర ఆకులతో తయారు చేసిన పచ్చడి" },
+        category: "pachchallu",
+        heritage: { en: "Classic Andhra recipe", te: "క్లాసిక్ ఆంధ్ర వంటకం" },
+        rating: 4.9,
+        image: "pictures/gongura-pachadi.jpeg",
+        quantityOptions: [
+          { weight: "250g", price: 100 },
+          { weight: "500g", price: 200 },
+          { weight: "1kg", price: 400 }
+        ]
+      },
+      {
+        id: 21,
+        name: { en: "Magaya Pachadi", te: "మాగాయ పచ్చడి" },
+        description: { en: "Mango ginger pickle", te: "మామిడి అల్లం మరియు మసాలా దినుసులతో తయారు చేసిన పచ్చడి" },
+        category: "pachchallu",
+        heritage: { en: "Traditional South Indian recipe", te: "సాంప్రదాయ దక్షిణ భారత వంటకం" },
+        rating: 4.7,
+        image: "pictures/magaya-pachadi.jpeg",
+        quantityOptions: [
+          { weight: "250g", price: 100 },
+          { weight: "500g", price: 200 },
+          { weight: "1kg", price: 400 }
+        ]
+      },
+      {
+        id: 22,
+        name: { en: "Tomato Pachadi", te: "టొమాటో పచ్చడి" },
+        description: { en: "Tomato pickle with spices", te: "టొమాటో మరియు మసాలా దినుసులతో తయారు చేసిన పచ్చడి" },
+        category: "pachchallu",
+        heritage: { en: "Classic South Indian recipe", te: "క్లాసిక్ దక్షిణ భారత వంటకం" },
+        rating: 4.6,
+        image: "pictures/tomato-pachadi.jpeg",
+        quantityOptions: [
+          { weight: "250g", price: 100 },
+          { weight: "500g", price: 200 },
+          { weight: "1kg", price: 400 }
+        ]
+      },
+      {
+        id: 23,
+        name: { en: "Allam Pachadi", te: "అల్లం పచ్చడి" },
+        description: { en: "Ginger pickle with spices", te: "అల్లం మరియు మసాలా దినుసులతో తయారు చేసిన పచ్చడి" },
+        category: "pachchallu",
+        heritage: { en: "Traditional South Indian recipe", te: "సాంప్రదాయ దక్షిణ భారత వంటకం" },
+        rating: 4.8,
+        image: "pictures/allam-pachadi.jpeg",
+        quantityOptions: [
+          { weight: "250g", price: 100 },
+          { weight: "500g", price: 200 },
+          { weight: "1kg", price: 400 }
+        ]
+      },
+      {
+        id: 24,
+        name: { en: "Palla Gongura", te: "పళ్ళ గోంగూర" },
+        description: { en: "Red sorrel leaves pickle", te: "ఎర్ర గోంగూర ఆకులతో తయారు చేసిన పచ్చడి" },
+        category: "pachchallu",
+        heritage: { en: "Classic Andhra recipe", te: "క్లాసిక్ ఆంధ్ర వంటకం" },
+        rating: 4.9,
+        image: "pictures/pallagongura-pachadi.jpeg",
+        quantityOptions: [
+          { weight: "250g", price: 100 },
+          { weight: "500g", price: 200 },
+          { weight: "1kg", price: 400 }
+        ]
+      },
+      {
+        id: 25,
+        name: { en: "Uppu Gongura", te: "ఉప్పు గోంగూర" },
+        description: { en: "Salted sorrel leaves pickle", te: "ఉప్పు మరియు గోంగూర ఆకులతో తయారు చేసిన పచ్చడి" },
+        category: "pachchallu",
+        heritage: { en: "Traditional Andhra recipe", te: "సాంప్రదాయ ఆంధ్ర వంటకం" },
+        rating: 4.8,
+        image: "pictures/uppugongura-pachadi.jpeg",
+        quantityOptions: [
+          { weight: "250g", price: 100 },
+          { weight: "500g", price: 200 },
+          { weight: "1kg", price: 400 }
+        ]
+      },
+      {
+        id: 26,
+        name: { en: "Uppu Chintakaya", te: "ఉప్పు చింతకాయ" },
+        description: { en: "Salted tamarind pickle", te: "ఉప్పు మరియు చింతకాయతో తయారు చేసిన పచ్చడి" },
+        category: "pachchallu",
+        heritage: { en: "Classic Andhra recipe", te: "క్లాసిక్ ఆంధ్ర వంటకం" },
+        rating: 4.7,
+        image: "pictures/uppuchintakaya-pachadi.jpeg",
+        quantityOptions: [
+          { weight: "250g", price: 100 },
+          { weight: "500g", price: 200 },
+          { weight: "1kg", price: 400 }
+        ]
+      },
+
+      // Snacks - with fixed prices as specified
+      {
+        id: 27,
+        name: { en: "Chakralu", te: "చక్రాలు" },
+        description: { en: "Traditional rice flour snack", te: "సాంప్రదాయ బియ్యపు పిండితో తయారు చేసిన స్నాక్" },
+        category: "snacks",
+        heritage: { en: "Classic Andhra snack", te: "క్లాసిక్ ఆంధ్ర స్నాక్" },
+        rating: 4.7,
+        image: "pictures/chakralu.jpeg",
+        price: 360
+      },
+      {
+        id: 28,
+        name: { en: "Chakodilu", te: "చకోడీలు" },
+        description: { en: "Crispy rice flour snack", te: "క్రిస్పీ బియ్యపు పిండితో తయారు చేసిన స్నాక్" },
+        category: "snacks",
+        heritage: { en: "Traditional Andhra snack", te: "సాంప్రదాయ ఆంధ్ర స్నాక్" },
+        rating: 4.6,
+        image: "pictures/chakodilu.jpeg",
+        price: 360
+      },
+      {
+        id: 29,
+        name: { en: "Chakkalu", te: "చక్కాలు" },
+        description: { en: "Round rice flour snack", te: "గుండ్రని బియ్యపు పిండితో తయారు చేసిన స్నాక్" },
+        category: "snacks",
+        heritage: { en: "Classic South Indian snack", te: "క్లాసిక్ దక్షిణ భారత స్నాక్" },
+        rating: 4.5,
+        image: "pictures/chakkalu.jpeg",
+        price: 360
+      },
+      {
+        id: 30,
+        name: { en: "Boondi", te: "బూంది" },
+        description: { en: "Small fried chickpea flour balls", te: "పొడి సెనగపిండితో తయారు చేసిన చిన్న బంతులు" },
+        category: "snacks",
+        heritage: { en: "Traditional Indian snack", te: "సాంప్రదాయ భారతీయ స్నాక్" },
+        rating: 4.7,
+        image: "pictures/boondi.jpeg",
+        price: 360
+      },
+      {
+        id: 31,
+        name: { en: "Jantikalu", te: "జంతికలు" },
+        description: { en: "Rice flour spiral snacks", te: "బియ్యపు పిండితో తయారు చేసిన స్పైరల్ స్నాక్స్" },
+        category: "snacks",
+        heritage: { en: "Classic Andhra snack", te: "క్లాసిక్ ఆంధ్ర స్నాక్" },
+        rating: 4.8,
+        image: "pictures/jantikalu.jpeg",
+        price: 360
+      },
+      {
+        id: 32,
+        name: { en: "Gavvalu", te: "గవ్వలు" },
+        description: { en: "Shell-shaped rice flour snack", te: "చిప్ప ఆకారంలో ఉండే బియ్యపు పిండితో తయారు చేసిన స్నాక్" },
+        category: "snacks",
+        heritage: { en: "Traditional South Indian snack", te: "సాంప్రదాయ దక్షిణ భారత స్నాక్" },
+        rating: 4.8,
+        image: "pictures/gavvalu.jpeg",
+        price: 360
+      },
+      {
+        id: 33,
+        name: { en: "Karappusa", te: "కరప్పుస" },
+        description: { en: "Spicy fried snack", te: "కారంగల వేయించిన స్నాక్" },
+        category: "snacks",
+        heritage: { en: "Classic Andhra snack", te: "క్లాసిక్ ఆంధ్ర స్నాక్" },
+        rating: 4.7,
+        image: "pictures/karappusa.jpeg",
+        price: 360
+      },
+      {
+        id: 34,
+        name: { en: "Ariselu", te: "అరిసెలు" },
+        description: { en: "Sweet rice flour snack", te: "తీపి బియ్యపు పిండితో తయారు చేసిన స్నాక్" },
+        category: "snacks",
+        heritage: { en: "Traditional South Indian sweet", te: "సాంప్రదాయ దక్షిణ భారత మిఠాయి" },
+        rating: 4.9,
+        image: "pictures/ariselu.jpeg",
+        price: 360
+      },
+      {
+        id: 35,
+        name: { en: "Appadalu", te: "అప్పడాలు" },
+        description: { en: "Crispy rice papad", te: "క్రిస్పీ బియ్యపు పప్పడ్" },
+        category: "snacks",
+        heritage: { en: "Traditional South Indian snack", te: "సాంప్రదాయ దక్షిణ భారత స్నాక్" },
+        rating: 4.6,
+        image: "pictures/appadalu.jpeg",
+        price: 60
+      },
+      {
+        id: 36,
+        name: { en: "Minapa Vadiyalu", te: "మినప వడియాలు" },
+        description: { en: "Urad dal snacks", te: "మినపపప్పుతో తయారు చేసిన వడియాలు" },
+        category: "snacks",
+        heritage: { en: "Traditional Andhra snack", te: "సాంప్రదాయ ఆంధ్ర స్నాక్" },
+        rating: 4.8,
+        image: "pictures/minapa-vadiyalu.jpeg",
+        price: 600
+      },
+      {
+        id: 37,
+        name: { en: "Gummadi Vadiyalu", te: "గుమ్మడి వడియాలు" },
+        description: { en: "Pumpseed snacks", te: "గుమ్మడి గింజలతో తయారు చేసిన వడియాలు" },
+        category: "snacks",
+        heritage: { en: "Classic Andhra snack", te: "క్లాసిక్ ఆంధ్ర స్నాక్" },
+        rating: 4.7,
+        image: "pictures/gummadi-vadiyalu.jpeg",
+        price: 600
+      },
+      {
+        id: 38,
+        name: { en: "Biyyam Vadiyalu", te: "బియ్యం వడియాలు" },
+        description: { en: "Rice flour snacks", te: "బియ్యపు పిండితో తయారు చేసిన వడియాలు" },
+        category: "snacks",
+        heritage: { en: "Traditional South Indian snack", te: "సాంప్రదాయ దక్షిణ భారత స్నాక్" },
+        rating: 4.6,
+        image: "pictures/biyyam-vadiyalu.jpeg",
+        price: 320
+      },
+      {
+        id: 39,
+        name: { en: "Saggubiyyam Vadiyalu", te: "సజ్జుబియ్యం వడియాలు" },
+        description: { en: "Sago flour snacks", te: "సజ్జుబియ్యం పిండితో తయారు చేసిన వడియాలు" },
+        category: "snacks",
+        heritage: { en: "Classic South Indian snack", te: "క్లాసిక్ దక్షిణ భారత స్నాక్" },
+        rating: 4.7,
+        image: "pictures/saggubiyam-vadiyalu.jpeg",
+        price: 320
+      },
+      {
+        id: 40,
+        name: { en: "Ooramirchi", te: "ఊరమిర్చి" },
+        description: { en: "Spicy chili snack", te: "కారంగల మిరపకాయలతో తయారు చేసిన స్నాక్" },
+        category: "snacks",
+        heritage: { en: "Traditional Andhra snack", te: "సాంప్రదాయ ఆంధ్ర స్నాక్" },
+        rating: 4.8,
+        image: "pictures/ooramirchi.jpeg",
+        price: 320
+      },
+      
+      // Meal Combos and Catering (removed item 43 as requested)
+      {
+        id: 41,
+        name: { en: "Curry's Combo (For 2 Persons)", te: "కర్రీస్ కాంబో (2 మందికి)" },
+        description: { en: "Delicious meal combo for two", te: "రెండు మందికి రుచికరమైన భోజన కాంబో" },
+        category: "meals",
+        heritage: { en: "Traditional Andhra Brahmin meal", te: "సాంప్రదాయ ఆంధ్ర బ్రాహ్మణ భోజనం" },
+        rating: 4.9,
+        image: "pictures/meal-combo.jpg",
+        price: 150,
+        includes: {
+          en: [
+            "Rice",
+            "Pappu (Dal)",
+            "Curry",
+            "Fry",
+            "Sambar",
+            "Roti Pachadi",
+            "Pickle"
+          ],
+          te: [
+            "బియ్యం",
+            "పప్పు",
+            "కూర",
+            "వేపుడు",
+            "సాంబార్",
+            "రొట్టె పచ్చడి",
+            "ఊరగాయ"
+          ]
+        }
+      },
+      {
+        id: 42,
+        name: { en: "Meals Parcel (1 Person)", te: "భోజన పార్సెల్ (1 వ్యక్తి)" },
+        description: { en: "Complete meal package for one", te: "ఒక వ్యక్తికి పూర్తి భోజన ప్యాకేజీ" },
+        category: "meals",
+        heritage: { en: "Traditional Andhra Brahmin meal", te: "సాంప్రదాయ ఆంధ్ర బ్రాహ్మణ భోజనం" },
+        rating: 4.8,
+        image: "pictures/meal-parcel.jpg",
+        price: 150,
+        includes: {
+          en: [
+            "Rice",
+            "Pappu (Dal)",
+            "Curry",
+            "Fry",
+            "Sambar",
+            "Roti Pachadi",
+            "Curd"
+          ],
+          te: [
+            "బియ్యం",
+            "పప్పు",
+            "కూర",
+            "వేపుడు",
+            "సాంబార్",
+            "రొట్టె పచ్చడి",
+            "పెరుగు"
+          ]
+        }
+      }
+    ];
+
+    // Render Menu Items
+    function renderMenu(items) {
+      const container = document.getElementById('menu-container');
+      const currentLang = document.querySelector('.lang-btn.active').dataset.lang;
+      
+      container.innerHTML = items.map(item => {
+        // Check if item has quantity options (powders/pickles)
+        const hasQuantityOptions = item.quantityOptions && item.quantityOptions.length > 0;
+        // Check if item has includes list (meals)
+        const hasIncludes = item.includes && item.includes[currentLang];
+        
+        return `
+          <div class="menu-item" data-id="${item.id}" data-category="${item.category}">
+            <div class="pure-veg-symbol">✔</div>
+            <img src="${item.image}" alt="${item.name.en}">
+            <div class="menu-item-content">
+              <h3 class="en">${item.name.en}</h3>
+              <h3 class="te" style="display:none">${item.name.te}</h3>
+              <p class="en">${item.description.en}</p>
+              <p class="te" style="display:none">${item.description.te}</p>
+              
+              ${hasQuantityOptions ? `
+                <div class="quantity-options">
+                  ${item.quantityOptions.map((option, index) => `
+                    <button class="quantity-btn ${index === 0 ? 'selected' : ''}" 
+                            data-price="${option.price}" 
+                            data-weight="${option.weight}">
+                      ${option.weight} - ₹${option.price}
+                    </button>
+                  `).join('')}
+                </div>
+                <div class="price-display en">Price: ₹${item.quantityOptions[0].price}</div>
+                <div class="price-display te" style="display:none">ధర: ₹${item.quantityOptions[0].price}</div>
+              ` : `
+                <div class="menu-item-price en">Price: ₹${item.price}</div>
+                <div class="menu-item-price te" style="display:none">ధర: ₹${item.price}</div>
+              `}
+              
+              ${hasIncludes ? `
+                <div class="combo-includes">
+                  <p class="en">Includes:</p>
+                  <p class="te" style="display:none">ఉన్నాయి:</p>
+                  <ul class="en">
+                    ${item.includes.en.map(inc => `<li>${inc}</li>`).join('')}
+                  </ul>
+                  <ul class="te" style="display:none">
+                    ${item.includes.te.map(inc => `<li>${inc}</li>`).join('')}
+                  </ul>
+                </div>
+              ` : ''}
+              
+              <div class="food-history en">${item.heritage.en}</div>
+              <div class="food-history te" style="display:none">${item.heritage.te}</div>
+              
+              <button class="add-to-cart en" 
+                data-id="${item.id}"
+                ${hasQuantityOptions 
+                  ? `data-price="${item.quantityOptions[0].price}" data-weight="${item.quantityOptions[0].weight}"`
+                  : `data-price="${item.price}"`}>
+                Add to Cart
+              </button>
+              <button class="add-to-cart te" 
+                data-id="${item.id}" 
+                style="display:none"
+                ${hasQuantityOptions 
+                  ? `data-price="${item.quantityOptions[0].price}" data-weight="${item.quantityOptions[0].weight}"`
+                  : `data-price="${item.price}"`}>
+                కార్ట్‌కు జోడించండి
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // Update language visibility
+      updateLanguageVisibility(currentLang);
+      
+      // Add event listeners for quantity buttons
+      document.querySelectorAll('.quantity-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          // Remove selected class from all buttons in this group
+          this.parentNode.querySelectorAll('.quantity-btn').forEach(b => {
+            b.classList.remove('selected');
+          });
+          
+          // Add selected class to clicked button
+          this.classList.add('selected');
+          
+          // Update price display
+          const price = this.dataset.price;
+          const weight = this.dataset.weight;
+          const itemId = this.closest('.menu-item').dataset.id;
+          
+          // Update add to cart button data attributes
+          this.closest('.menu-item').querySelectorAll('.add-to-cart').forEach(cartBtn => {
+            cartBtn.dataset.price = price;
+            if (weight) cartBtn.dataset.weight = weight;
+          });
+          
+          // Update price display text
+          this.closest('.menu-item').querySelectorAll('.price-display, .menu-item-price').forEach(display => {
+            if (display.style.display !== 'none') {
+              display.textContent = display.classList.contains('en') 
+                ? `Price: ₹${price}`
+                : `ధర: ₹${price}`;
+            }
+          });
+        });
+      });
+    }
+
+    function updateLanguageVisibility(lang) {
+      document.querySelectorAll(`.${lang}`).forEach(el => {
+        el.style.display = 'block';
+      });
+
+      document.querySelectorAll('.en, .te').forEach(el => {
+        if (!el.classList.contains(lang)) {
+          el.style.display = 'none';
+        }
+      });
+    }
+
+    // Language Toggle
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        
+        const lang = this.dataset.lang;
+        updateLanguageVisibility(lang);
+      });
+    });
+
+    // Filter Functionality
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        
+        const category = this.dataset.category;
+        const filtered = category === 'all' 
+          ? menuItems 
+          : menuItems.filter(item => item.category === category);
+        renderMenu(filtered);
+      });
+    });
+
+    // Cart Functionality
+    let cart = JSON.parse(localStorage.getItem('brahminFoodsCart')) || [];
+    
+    function updateCartCount() {
+      const count = cart.reduce((total, item) => total + item.quantity, 0);
+      document.querySelector('.cart-count').textContent = count;
+    }
+    
+    function addToCart(itemId, price, weight) {
+      const item = menuItems.find(i => i.id === parseInt(itemId));
+      if (item) {
+        // Create cart item object
+        const cartItem = {
+          id: item.id,
+          name: item.name,
+          price: parseFloat(price),
+          quantity: 1,
+          image: item.image,
+          weight: weight || null,
+          productType: weight ? 'weighted' : 'fixed'
+        };
+        
+        // Check if item already exists in cart
+        const existingItemIndex = cart.findIndex(ci => 
+          ci.id === parseInt(itemId) && 
+          (!weight || ci.weight === weight)
+        );
+        
+        if (existingItemIndex >= 0) {
+          // Update quantity if item exists
+          cart[existingItemIndex].quantity += 1;
+        } else {
+          // Add new item to cart
+          cart.push(cartItem);
+        }
+        
+        // Save to localStorage
+        localStorage.setItem('brahminFoodsCart', JSON.stringify(cart));
+        updateCartCount();
+        
+        // Show added to cart notification
+        showCartNotification();
+      }
+    }
+
+    function showCartNotification() {
+      const currentLang = document.querySelector('.lang-btn.active').dataset.lang;
+      const notification = document.createElement('div');
+      notification.className = 'cart-notification';
+      notification.innerHTML = `
+        <span class="en">Added to cart</span>
+        <span class="te" style="display:none">కార్ట్‌కు జోడించబడింది</span>
+      `;
+      document.body.appendChild(notification);
+      
+      // Update language visibility for notification
+      notification.querySelector(`.${currentLang}`).style.display = 'block';
+      notification.querySelectorAll('.en, .te').forEach(el => {
+        if (!el.classList.contains(currentLang)) {
+          el.style.display = 'none';
+        }
+      });
+      
+      setTimeout(() => {
+        notification.remove();
+      }, 2000);
+    }
+    
+    // Handle add to cart button clicks
+    document.addEventListener('click', function(e) {
+      if (e.target.classList.contains('add-to-cart')) {
+        const itemId = e.target.dataset.id;
+        const price = e.target.dataset.price;
+        const weight = e.target.dataset.weight || null;
+        addToCart(itemId, price, weight);
+      }
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      renderMenu(menuItems);
+      updateCartCount();
+      
+      // Set initial active language
+      if (!document.querySelector('.lang-btn.active')) {
+        document.querySelector('.lang-btn').classList.add('active');
+      }
+    });
+    document.getElementById('adminAccessBtn').addEventListener('click', function () {
+    window.location.href = 'admin.html';
+  });
+  </script>
+</body>
+</html>

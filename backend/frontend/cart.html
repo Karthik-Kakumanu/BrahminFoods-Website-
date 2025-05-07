@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Cart - Brahmin Foods | Brahmin.in</title>
+  <meta name="description" content="View your cart items at Brahmin Foods. Authentic vegetarian South Indian cuisine products.">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #1A5D1A;
+      --primary-light: #4E9F3D;
+      --primary-dark: #0D3014;
+      --secondary: #D8B038;
+      --light: #F5F5DC;
+      --veg-symbol: #4CAF50;
+      --text: #0D3014;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: var(--text);
+      line-height: 1.6;
+      padding-bottom: 60px;
+      background: url('https://www.transparenttextures.com/patterns/rice-paper.png') no-repeat center center fixed;
+      background-size: cover;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('data:image/svg+xml;base64,...') repeat;
+      opacity: 0.05;
+      z-index: -1;
+      animation: leafFlow 60s linear infinite;
+    }
+
+    .header {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      color: white;
+      padding: 2rem 1rem;
+      text-align: center;
+      position: relative;
+      margin-bottom: 2rem;
+    }
+    .logo-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .cart-container {
+      background: white;
+      border-radius: 1rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+
+    .cart-header {
+      background: var(--primary);
+      color: white;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cart-items {
+      padding: 1rem;
+    }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      padding: 1rem 0;
+      border-bottom: 1px solid #eee;
+      transition: opacity 0.3s ease;
+    }
+
+    .fade-out {
+      opacity: 0;
+    }
+
+    .cart-item:last-child {
+      border-bottom: none;
+    }
+
+    .cart-item-img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 0.5rem;
+      margin-right: 1rem;
+      border: 2px solid var(--primary-light);
+    }
+
+    .cart-item-details {
+      flex: 1;
+    }
+
+    .cart-item-name {
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+
+    .cart-item-price {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .quantity-control {
+      margin-top: 0.5rem;
+    }
+
+    .quantity-control button {
+      padding: 0.2rem 0.6rem;
+      font-size: 1rem;
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      margin: 0 5px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    .remove-item {
+      background: none;
+      border: none;
+      color: #ff4444;
+      cursor: pointer;
+      font-size: 1.2rem;
+      padding: 0.5rem;
+    }
+
+    .cart-summary {
+      background: white;
+      border-radius: 1rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      padding: 1.5rem;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .summary-total {
+      font-weight: 700;
+      font-size: 1.2rem;
+      border-top: 1px solid #eee;
+      padding-top: 1rem;
+      margin-top: 1rem;
+    }
+
+    .checkout-btn {
+      display: block;
+      width: 100%;
+      padding: 1rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      font-size: 1.1rem;
+      cursor: pointer;
+      margin-top: 1.5rem;
+      transition: background 0.3s;
+    }
+
+    .back-to-menu-btn {
+      display: block;
+      width: 100%;
+      padding: 1rem;
+      background: var(--secondary);
+      color: var(--text);
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      font-size: 1.1rem;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: background 0.3s;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .checkout-btn:hover {
+      background: var(--primary-dark);
+    }
+
+    .back-to-menu-btn:hover {
+      background: #e0a800;
+    }
+
+    .empty-cart {
+      text-align: center;
+      padding: 3rem 0;
+    }
+
+    .empty-cart-icon {
+      font-size: 3rem;
+      color: #ccc;
+      margin-bottom: 1rem;
+    }
+
+    .back-to-menu {
+      display: inline-block;
+      margin-top: 1rem;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    @keyframes leafFlow {
+      0% { background-position: 0 0; }
+      100% { background-position: 1000px 1000px; }
+    }
+
+    @media (max-width: 768px) {
+      .cart-item {
+        flex-direction: column;
+        text-align: center;
+        margin-bottom: 1.5rem;
+      }
+      .cart-item-img {
+        margin-right: 0;
+        margin-bottom: 1rem;
+      }
+    }
+
+    .footer {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .footer-links {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      color: #fff;
+      margin: 0 15px;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-content">
+      <h1 class="logo-text">Brahmin Foods</h1>
+      <p>Your Cart</p>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="cart-container" id="cart-container" role="region" aria-label="Shopping Cart">
+      <div class="cart-header">
+        <h3>Your Items</h3>
+        <span class="cart-count">0 items</span>
+      </div>
+      <div class="cart-items" id="cart-items"></div>
+    </div>
+
+    <div class="cart-summary" id="cart-summary">
+      <div class="summary-row">
+        <span>Subtotal</span>
+        <span id="subtotal">₹0</span>
+      </div>
+      <div class="summary-row">
+        <span>Shipping</span>
+        <span id="shipping">₹40</span>
+      </div>
+      <div class="summary-row summary-total">
+        <span>Total</span>
+        <span id="total">₹0</span>
+      </div>
+      <button class="checkout-btn" id="checkout-btn">Proceed to Checkout</button>
+      <a href="menu.html" class="back-to-menu-btn">Back to Menu</a>
+    </div>
+
+    <div class="empty-cart" id="empty-cart" style="display:none;">
+      <div class="empty-cart-icon"><i class="fas fa-shopping-cart"></i></div>
+      <h3>Your cart is empty</h3>
+      <p>Add some delicious items to get started!</p>
+      <a href="menu.html" class="back-to-menu">Back to Menu</a>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="/about.html">About Us</a>
+      <a href="/contact.html">Contact</a>
+      <a href="/privacy.html">Privacy Policy</a>
+    </div>
+    <div>© 2023 Brahmin Foods. All Rights Reserved.</div>
+  </footer>
+
+  <script>
+    let cart = JSON.parse(localStorage.getItem('brahminFoodsCart')) || [];
+    const DEFAULT_SHIPPING = 40; // Default shipping cost set to ₹40
+
+    // Function to combine duplicate items in cart
+    function combineDuplicateItems(cart) {
+      const combinedCart = [];
+      const itemMap = new Map();
+      
+      cart.forEach(item => {
+        if (itemMap.has(item.id)) {
+          // If item already exists, increase quantity
+          const existingItem = itemMap.get(item.id);
+          existingItem.quantity = (existingItem.quantity || 1) + (item.quantity || 1);
+        } else {
+          // If item doesn't exist, add to map with quantity
+          const newItem = {...item};
+          newItem.quantity = newItem.quantity || 1;
+          itemMap.set(item.id, newItem);
+          combinedCart.push(newItem);
+        }
+      });
+      
+      return combinedCart;
+    }
+
+    function renderCart() {
+      // Combine duplicate items before rendering
+      const combinedCart = combineDuplicateItems(cart);
+      
+      const cartItemsContainer = document.getElementById('cart-items');
+      const emptyCartDiv = document.getElementById('empty-cart');
+      const cartContainer = document.getElementById('cart-container');
+      const cartSummary = document.getElementById('cart-summary');
+
+      if (combinedCart.length === 0) {
+        cartContainer.style.display = 'none';
+        cartSummary.style.display = 'none';
+        emptyCartDiv.style.display = 'block';
+        document.querySelector('.cart-count').textContent = '0 items';
+        return;
+      }
+
+      cartContainer.style.display = 'block';
+      cartSummary.style.display = 'block';
+      emptyCartDiv.style.display = 'none';
+      
+      // Calculate total items count by summing quantities
+      const totalItems = combinedCart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+      document.querySelector('.cart-count').textContent = `${totalItems} ${totalItems === 1 ? 'item' : 'items'}`;
+
+      cartItemsContainer.innerHTML = combinedCart.map(item => `
+        <div class="cart-item" data-id="${item.id}">
+          <img src="${item.image || 'placeholder.jpg'}" alt="${item.name?.en || 'Item'}" class="cart-item-img">
+          <div class="cart-item-details">
+            <div class="cart-item-name">${item.name?.en || 'Item'}</div>
+            <div class="cart-item-price">₹${(item.price * (item.quantity || 1)).toLocaleString('en-IN')}</div>
+            <div class="quantity-control">
+              <button class="decrease" data-id="${item.id}">-</button>
+              <span>${item.quantity || 1}</span>
+              <button class="increase" data-id="${item.id}">+</button>
+            </div>
+          </div>
+          <button class="remove-item" data-id="${item.id}"><i class="fas fa-trash"></i></button>
+        </div>
+      `).join('');
+
+      const subtotal = combinedCart.reduce((sum, item) => sum + item.price * (item.quantity || 1), 0);
+      const shipping = DEFAULT_SHIPPING; // Always use the default shipping cost
+      const total = subtotal + shipping;
+
+      document.getElementById('subtotal').textContent = `₹${subtotal.toLocaleString('en-IN')}`;
+      document.getElementById('shipping').textContent = `₹${shipping.toLocaleString('en-IN')}`;
+      document.getElementById('total').textContent = `₹${total.toLocaleString('en-IN')}`;
+    }
+
+    function removeItem(itemId) {
+      const itemEl = document.querySelector(`.cart-item[data-id="${itemId}"]`);
+      if (itemEl) {
+        itemEl.classList.add('fade-out');
+        setTimeout(() => {
+          cart = cart.filter(item => item.id !== itemId);
+          localStorage.setItem('brahminFoodsCart', JSON.stringify(cart));
+          renderCart();
+        }, 300);
+      }
+    }
+
+    function updateQuantity(itemId, action) {
+      const item = cart.find(i => i.id === itemId);
+      if (!item) return;
+
+      item.quantity = item.quantity || 1;
+      item.quantity += action === 'increase' ? 1 : -1;
+      if (item.quantity < 1) item.quantity = 1;
+
+      localStorage.setItem('brahminFoodsCart', JSON.stringify(cart));
+      renderCart();
+    }
+
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.remove-item')) {
+        const id = parseInt(e.target.closest('.remove-item').dataset.id);
+        removeItem(id);
+      }
+
+      if (e.target.classList.contains('increase')) {
+        const id = parseInt(e.target.dataset.id);
+        updateQuantity(id, 'increase');
+      }
+
+      if (e.target.classList.contains('decrease')) {
+        const id = parseInt(e.target.dataset.id);
+        updateQuantity(id, 'decrease');
+      }
+    });
+
+    document.getElementById('checkout-btn').addEventListener('click', () => {
+      window.location.href = 'checkout.html';
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Combine duplicates when page loads
+      cart = combineDuplicateItems(cart);
+      localStorage.setItem('brahminFoodsCart', JSON.stringify(cart));
+      
+      renderCart();
+      if (cart.length === 0) {
+        setTimeout(() => window.location.href = 'menu.html', 3000);
+      }
+    });
+  </script>
+</body>
+</html>
