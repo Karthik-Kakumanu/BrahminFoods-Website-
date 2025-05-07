@@ -17,7 +17,7 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 app.set('trust proxy', 1);
 
 // ✅ CORS config BEFORE session
-//app.use(cors({
+app.use(cors());
   //origin: ['http://127.0.0.1:8080', 'http://localhost:8080'],
   //credentials: true
 //}));
