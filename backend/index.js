@@ -1,7 +1,7 @@
 require('dotenv').config();
-const mysql = require('mysql2'); // Added MySQL require
+const mysql = require('mysql2');
 const session = require('express-session');
-const MySQLStore = require('express-mysql-session')(session); // Added for session storage
+const MySQLStore = require('express-mysql-session')(session);
 const path = require('path');
 const express = require('express');
 const cors = require('cors');
@@ -17,8 +17,6 @@ const db = mysql.createConnection({
   ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : null
 });
 
-
-// Test DB connection immediately
 db.connect(err => {
   if (err) {
     console.error('❌ MySQL connection failed:', err.message);
@@ -34,11 +32,11 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
-// ✅ Session store configuration
+// ✅ Session store
 const sessionStore = new MySQLStore({
   clearExpired: true,
-  checkExpirationInterval: 900000, // 15 mins
-  expiration: 86400000, // 1 day
+  checkExpirationInterval: 900000,
+  expiration: 86400000,
   createDatabaseTable: true,
   schema: {
     tableName: 'sessions',
@@ -50,49 +48,59 @@ const sessionStore = new MySQLStore({
   }
 }, db);
 
-// ✅ Trust proxy for session cookies if behind proxy
+// ✅ CORS setup (important!)
+const allowedOrigins = [
+  'http://localhost:8080',
+  'http://127.0.0.1:8080',
+  'https://www.brahminfoods.in',
+  'https://brahminfoods-website.onrender.com'
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // ✅ Allow preflight requests for all routes
+
+// ✅ Middleware
 app.set('trust proxy', 1);
-
-// ✅ CORS config BEFORE session
-app.use(cors({
-  origin: NODE_ENV === 'development' 
-  ? ['http://localhost:8080', 'http://127.0.0.1:8080'] 
-  : ['https://www.brahminfoods.in', 'https://brahminfoods-website.onrender.com'],
-
-  credentials: true
-}));
-
-// ✅ Parse incoming data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(morgan(NODE_ENV === 'development' ? 'dev' : 'combined'));
 
-// ✅ Session middleware
 app.use(session({
   name: 'sid',
   secret: process.env.SESSION_SECRET || 'keyboard_cat_replace_with_strong_secret',
   store: sessionStore,
   resave: false,
   saveUninitialized: false,
-  proxy: true, // Required for secure cookies behind proxy
+  proxy: true,
   cookie: {
     httpOnly: true,
     secure: NODE_ENV === 'production',
     sameSite: NODE_ENV === 'production' ? 'none' : 'lax',
-    maxAge: 1000 * 60 * 60 // 1 hour
+    maxAge: 1000 * 60 * 60
   }
 }));
-
-// ✅ Logger
-app.use(morgan(NODE_ENV === 'development' ? 'dev' : 'combined'));
 
 // ✅ Routes
 app.use('/api/admin', adminRouter);
 app.use('/api/orders', ordersRouter);
 
-// ✅ Serve frontend static files
+// ✅ Serve static frontend
 app.use(express.static(path.join(__dirname, './frontend')));
 
-// ✅ Health check route
+// ✅ Health check
 app.get('/health', (req, res) => {
   db.query('SELECT 1 AS test', (err) => {
     if (err) return res.status(500).json({ status: '🔴 DB connection failed' });
@@ -104,12 +112,12 @@ app.get('/health', (req, res) => {
   });
 });
 
-// ✅ Route to serve menu.html as homepage
+// ✅ Homepage route
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, './frontend/menu.html'));
 });
 
-// ✅ 404 fallback
+// ✅ 404 handler
 app.use((req, res) => {
   res.status(404).sendFile(path.join(__dirname, './frontend/404.html'));
 });
@@ -123,5 +131,5 @@ app.use((err, req, res, next) => {
 // ✅ Start server
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Server running in ${NODE_ENV} mode on port ${PORT}`);
-  console.log(`🔗 MySQL: ${process.env.MYSQL_HOST || 'shortline.proxy.rlwy.net'}`);
+  console.log(`🔗 MySQL: ${process.env.DB_HOST}`);
 });
