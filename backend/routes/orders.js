@@ -4,56 +4,56 @@ const db = require('../db');
 
 // 🧾 Place a new order
 router.post('/', (req, res) => {
-    const { 
-      items,
-      subtotal,
-      shipping,
-      total,
-      customerInfo,
-      deliveryType
-    } = req.body;
+  const { 
+    items,
+    subtotal,
+    shipping,
+    total,
+    customerInfo,
+    deliveryType
+  } = req.body;
+
+  // Basic validation
+  if (!items || !items.length || !customerInfo || !customerInfo.name || !customerInfo.phone || !customerInfo.address) {
+    return res.status(400).json({ error: 'Required fields are missing' });
+  }
+
+  const sql = `
+    INSERT INTO orders (
+      customer_name, 
+      phone, 
+      address, 
+      items, 
+      subtotal, 
+      shipping, 
+      total_price, 
+      delivery_type
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+  `;
   
-    // Basic validation
-    if (!items || !items.length || !customerInfo || !customerInfo.name || !customerInfo.phone || !customerInfo.address) {
-      return res.status(400).json({ error: 'Required fields are missing' });
+  const values = [
+    customerInfo.name.trim(),
+    customerInfo.phone.trim(),
+    customerInfo.address,
+    JSON.stringify(items),
+    parseFloat(subtotal),
+    parseFloat(shipping),
+    parseFloat(total),
+    deliveryType || 'guntur' // Default value
+  ];
+
+  db.query(sql, values, (err, result) => {
+    if (err) {
+      console.error('❌ Error inserting order:', err.message);
+      return res.status(500).json({ error: 'Failed to place order' });
     }
-  
-    const sql = `
-      INSERT INTO orders (
-        customer_name, 
-        phone, 
-        address, 
-        items, 
-        subtotal, 
-        shipping, 
-        total_price, 
-        delivery_type
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-    `;
-    
-    const values = [
-      customerInfo.name.trim(),
-      customerInfo.phone.trim(),
-      customerInfo.address,
-      JSON.stringify(items),
-      parseFloat(subtotal),
-      parseFloat(shipping),
-      parseFloat(total),
-      deliveryType || 'guntur' // Default value
-    ];
-  
-    db.query(sql, values, (err, result) => {
-      if (err) {
-        console.error('❌ Error inserting order:', err.message);
-        return res.status(500).json({ error: 'Failed to place order' });
-      }
-  
-      res.status(201).json({
-        success: true,
-        message: '✅ Order placed successfully!',
-        orderId: result.insertId
-      });
+
+    res.status(201).json({
+      success: true,
+      message: '✅ Order placed successfully!',
+      orderId: result.insertId // ✅ Send back the generated order ID
     });
+  });
 });
 
 // 📋 Get all orders (Admin only)
@@ -88,6 +88,5 @@ router.get('/', (req, res) => {
     res.status(200).json(modifiedResults);
   });
 });
-
 
 module.exports = router;

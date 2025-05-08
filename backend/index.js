@@ -1,5 +1,5 @@
 require('dotenv').config();
-const mysql = require('mysql'); // Added MySQL require
+const mysql = require('mysql2'); // Added MySQL require
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session); // Added for session storage
 const path = require('path');
@@ -9,13 +9,14 @@ const morgan = require('morgan');
 
 // ✅ MySQL Connection (Railway)
 const db = mysql.createConnection({
-  host: process.env.MYSQL_HOST || 'shortline.proxy.rlwy.net',
-  user: process.env.MYSQL_USER || 'root',
-  password: process.env.MYSQL_PASSWORD || 'tUsedpIWvlMqgGuHKSQLTXBpibhoxEqA',
-  database: process.env.MYSQL_DATABASE || 'railway',
-  port: process.env.MYSQL_PORT || 26028,
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT || 3306,
   ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : null
 });
+
 
 // Test DB connection immediately
 db.connect(err => {
@@ -55,8 +56,9 @@ app.set('trust proxy', 1);
 // ✅ CORS config BEFORE session
 app.use(cors({
   origin: NODE_ENV === 'development' 
-    ? ['http://localhost:8080', 'http://127.0.0.1:8080'] 
-    : 'https://brahminfoods-website.onrender.com',
+  ? ['http://localhost:8080', 'http://127.0.0.1:8080'] 
+  : ['https://www.brahminfoods.in', 'https://brahminfoods-website.onrender.com'],
+
   credentials: true
 }));
 
