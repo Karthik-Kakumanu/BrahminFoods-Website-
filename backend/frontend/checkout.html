@@ -1,603 +1,394 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Checkout - Brahmin Foods</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
-    :root {
-      --primary: #1A5D1A;
-      --primary-light: #4E9F3D;
-      --primary-lighter: #8FD14F;
-      --primary-dark: #0D3014;
-      --secondary: #D8B038;
-      --light: #F5F5DC;
-      --veg-symbol: #4CAF50;
-      --text: #0D3014;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
-
-    body {
-      color: var(--text);
-      line-height: 1.6;
-      padding-bottom: 60px;
-      background-color: #f8f8f0;
-      position: relative;
-      overflow-x: hidden;
-    }
-
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: url('https://www.transparenttextures.com/patterns/rice-paper-3.png') repeat;
-      opacity: 0.15;
-      z-index: -1;
-    }
-    
-    .header {
-      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-      padding: 1.5rem;
-      text-align: center;
-      color: white;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    
-    .logo-text {
-      font-size: 2rem;
-      font-weight: bold;
-      margin-bottom: 0.25rem;
-      letter-spacing: 0.5px;
-    }
-    
-    .telugu-text {
-      font-size: 1.1rem;
-      margin-bottom: 0.5rem;
-      opacity: 0.9;
-    }
-    
-    .container {
-      max-width: 1200px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 2rem;
-    }
-    
-    @media (min-width: 768px) {
-      .container {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-    
-    .checkout-section {
-      background-color: white;
-      border-radius: 0.75rem;
-      padding: 1.75rem;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      border: 1px solid rgba(0, 0, 0, 0.05);
-    }
-    
-    .section-title {
-      font-size: 1.35rem;
-      font-weight: 600;
-      margin-bottom: 1.5rem;
-      color: var(--primary-dark);
-      border-bottom: 2px solid var(--primary-light);
-      padding-bottom: 0.5rem;
-      position: relative;
-    }
-    
-    .section-title::after {
-      content: '';
-      position: absolute;
-      bottom: -2px;
-      left: 0;
-      width: 50px;
-      height: 2px;
-      background-color: var(--secondary);
-    }
-    
-    .form-group {
-      margin-bottom: 1.5rem;
-    }
-    
-    .form-group label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 500;
-      color: var(--primary-dark);
-    }
-    
-    .form-group input,
-    .form-group textarea,
-    .form-group select {
-      width: 100%;
-      padding: 0.75rem 1rem;
-      border: 1px solid #d1d5db;
-      border-radius: 0.5rem;
-      font-size: 1rem;
-      transition: all 0.3s;
-      background-color: #f9f9f9;
-    }
-    
-    .form-group input:focus,
-    .form-group textarea:focus,
-    .form-group select:focus {
-      outline: none;
-      border-color: var(--primary-light);
-      box-shadow: 0 0 0 3px rgba(78, 159, 61, 0.2);
-      background-color: white;
-    }
-    
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.25rem;
-    }
-    
-    .order-summary-item {
-      display: flex;
-      justify-content: space-between;
-      padding: 0.75rem 0;
-      border-bottom: 1px solid #e5e7eb;
-    }
-    
-    .order-summary-total {
-      font-weight: 600;
-      font-size: 1.125rem;
-      border-bottom: none;
-      color: var(--primary-dark);
-      padding-top: 1rem;
-    }
-    
-    .payment-methods {
-      margin: 1.75rem 0;
-    }
-    
-    .payment-method {
-      margin-bottom: 1rem;
-    }
-    
-    .payment-method input {
-      display: none;
-    }
-    
-    .payment-method-label {
-      display: flex;
-      align-items: center;
-      padding: 1rem 1.25rem;
-      border: 1px solid #e5e7eb;
-      border-radius: 0.5rem;
-      cursor: pointer;
-      transition: all 0.3s;
-      background-color: #f9f9f9;
-    }
-    
-    .payment-method input:checked + .payment-method-label {
-      border-color: var(--primary-light);
-      background-color: #f0fff4;
-      box-shadow: 0 0 0 1px var(--primary-light);
-    }
-    
-    .payment-icon {
-      margin-right: 1rem;
-      font-size: 1.25rem;
-      color: var(--primary);
-    }
-    
-    .place-order-btn {
-      width: 100%;
-      padding: 1rem;
-      background: linear-gradient(to right, var(--primary), var(--primary-light));
-      color: white;
-      border: none;
-      border-radius: 0.5rem;
-      font-weight: 600;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.3s;
-      margin-top: 1rem;
-      letter-spacing: 0.5px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    
-    .place-order-btn:hover {
-      background: linear-gradient(to right, var(--primary-dark), var(--primary));
-      transform: translateY(-2px);
-      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-    }
-    
-    .place-order-btn:active {
-      transform: translateY(0);
-    }
-    
-    .back-to-cart {
-      display: block;
-      text-align: center;
-      margin-top: 1.5rem;
-      color: var(--primary);
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-    
-    .back-to-cart:hover {
-      color: var(--primary-dark);
-      text-decoration: underline;
-    }
-    
     .toast {
-      position: fixed;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      background: linear-gradient(to right, var(--primary), var(--primary-light));
-      color: white;
-      padding: 1rem 2rem;
-      border-radius: 0.5rem;
-      display: flex;
-      align-items: center;
+      transition: all 0.3s ease;
+      transform: translateY(100%);
       opacity: 0;
-      transition: opacity 0.3s;
-      z-index: 1000;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
-    
     .toast.show {
+      transform: translateY(0);
       opacity: 1;
     }
-    
-    .toast-icon {
-      margin-right: 0.75rem;
-      font-size: 1.5rem;
+    .loading-spinner {
+      animation: spin 1s linear infinite;
     }
-    
-    .hidden {
-      display: none;
-    }
-
-    /* Custom checkbox */
-    input[type="checkbox"] {
-      appearance: none;
-      -webkit-appearance: none;
-      width: 18px;
-      height: 18px;
-      border: 2px solid var(--primary-light);
-      border-radius: 4px;
-      outline: none;
-      transition: all 0.2s;
-      vertical-align: middle;
-      position: relative;
-      margin-right: 8px;
-      cursor: pointer;
-    }
-
-    input[type="checkbox"]:checked {
-      background-color: var(--primary-light);
-      border-color: var(--primary-light);
-    }
-
-    input[type="checkbox"]:checked::after {
-      content: "✓";
-      position: absolute;
-      color: white;
-      font-size: 12px;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    /* Delivery type select arrow */
-    select {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%231A5D1A' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 0.75rem center;
-      background-size: 16px 12px;
-      padding-right: 2.5rem;
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
   </style>
 </head>
 <body class="bg-gray-50">
-  <header class="header">
-    <div class="header-content">
-      <h1 class="logo-text">Brahmin Foods</h1>
-      <p class="telugu-text">ఆంధ్ర బ్రాహ్మణ వంటకాలు</p>
-      <p class="opacity-90">Checkout</p>
+  <header class="bg-gradient-to-r from-green-800 to-green-600 text-white shadow-lg">
+    <div class="container mx-auto px-4 py-6 text-center">
+      <h1 class="text-3xl font-bold">Brahmin Foods</h1>
+      <p class="mt-1 text-green-100">ఆంధ్ర బ్రాహ్మణ వంటకాలు</p>
+      <p class="mt-2 opacity-90">Secure Checkout</p>
     </div>
   </header>
 
-  <div class="container">
-    <div class="checkout-section">
-      <h2 class="section-title">Delivery Information</h2>
-      
-      <form id="delivery-form">
-        <div class="form-group">
-          <label for="full-name">Full Name</label>
-          <input type="text" id="full-name" required placeholder="Enter your full name">
-        </div>
+  <main class="container mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <!-- Delivery Information -->
+      <section class="bg-white rounded-xl shadow-md p-6">
+        <h2 class="text-xl font-bold text-green-800 border-b-2 border-green-200 pb-2 mb-6 relative">
+          Delivery Information
+          <span class="absolute bottom-0 left-0 h-0.5 bg-yellow-500 w-16"></span>
+        </h2>
         
-        <div class="form-group">
-          <label for="phone">Phone Number</label>
-          <input type="tel" id="phone" required pattern="[0-9]{10}" placeholder="Enter 10-digit mobile number">
-        </div>
-        
-        <div class="form-group">
-          <label for="address">Address</label>
-          <textarea id="address" rows="3" required placeholder="Enter your complete address"></textarea>
-        </div>
-        
-        <div class="form-row">
-          <div class="form-group">
-            <label for="city">City</label>
-            <input type="text" id="city" required placeholder="Enter your city">
+        <form id="delivery-form" class="space-y-4">
+          <div>
+            <label for="full-name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+            <input type="text" id="full-name" required
+                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
           </div>
           
-          <div class="form-group">
-            <label for="state">State</label>
-            <input type="text" id="state" required placeholder="Enter your state">
-          </div>
-        </div>
-        
-        <div class="form-row">
-          <div class="form-group">
-            <label for="pincode">Pin Code</label>
-            <input type="text" id="pincode" required pattern="[0-9]{6}" placeholder="6-digit pincode">
+          <div>
+            <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+            <input type="tel" id="phone" required pattern="[0-9]{10}"
+                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                   placeholder="10-digit mobile number">
           </div>
           
-          <div class="form-group">
-            <label for="landmark">Landmark (Optional)</label>
-            <input type="text" id="landmark" placeholder="Nearby landmark">
-          </div>
-        </div>
-        
-        <div class="form-group">
-          <label for="delivery-type">Delivery Type</label>
-          <select id="delivery-type">
-            <option value="guntur">Within Guntur</option>
-            <option value="courier">Courier (Outside Guntur)</option>
-          </select>
-        </div>
-        
-        <div id="courier-fields" class="hidden">
-          <div class="form-group">
-            <label for="courier-preference">Courier Preference (Optional)</label>
-            <input type="text" id="courier-preference" placeholder="e.g. DTDC, BlueDart">
+          <div>
+            <label for="address" class="block text-sm font-medium text-gray-700 mb-1">Address</label>
+            <textarea id="address" rows="3" required
+                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"></textarea>
           </div>
           
-          <div class="form-group">
-            <label>
-              <input type="checkbox" id="agree-courier"> I agree to pay additional courier charges
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label for="city" class="block text-sm font-medium text-gray-700 mb-1">City</label>
+              <input type="text" id="city" required
+                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+            </div>
+            
+            <div>
+              <label for="state" class="block text-sm font-medium text-gray-700 mb-1">State</label>
+              <input type="text" id="state" required
+                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+            </div>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label for="pincode" class="block text-sm font-medium text-gray-700 mb-1">Pin Code</label>
+              <input type="text" id="pincode" required pattern="[0-9]{6}"
+                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                     placeholder="6-digit pincode">
+            </div>
+            
+            <div>
+              <label for="landmark" class="block text-sm font-medium text-gray-700 mb-1">Landmark (Optional)</label>
+              <input type="text" id="landmark"
+                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                     placeholder="Nearby landmark">
+            </div>
+          </div>
+          
+          <div>
+            <label for="delivery-type" class="block text-sm font-medium text-gray-700 mb-1">Delivery Type</label>
+            <select id="delivery-type"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 appearance-none bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0iIzFlYTcxYSIgdmlld0JveD0iMCAwIDE2IDE2Ij48cGF0aCBkPSJNMTEuMDYgNy4yN2EuNzUuNzUgMCAwIDEgMS4wNiAwbDMuMjUgMy4yNWEuNzUuNzUgMCAwIDEgMCAxLjA2bC0zLjI1IDMuMjVhLjc1Ljc1IDAgMSAxLTEuMDYtMS4wNkwxMy4zMSA4bC0yLjcyLTIuNzJhLjc1Ljc1IDAgMCAxIDAtMS4wNnptLTQuNSAwYS43NS43NSAwIDAgMSAwIDEuMDZMMy44MSA4bDIuNzUgMi43NWEuNzUuNzUgMCAwIDEtMS4wNiAxLjA2TC43OCA4LjUzYS43NS43NSAwIDAgMSAwLTEuMDZsMy4yNS0zLjI1YS43NS43NSAwIDAgMSAxLjA2IDB6Ii8+PC9zdmc+')] bg-no-repeat bg-[center_right_0.75rem]">
+              <option value="guntur">Within Guntur (₹40 delivery)</option>
+              <option value="courier">Courier (Outside Guntur)</option>
+            </select>
+          </div>
+          
+          <div id="courier-fields" class="hidden space-y-3 p-4 bg-gray-50 rounded-lg border border-gray-200">
+            <div>
+              <label for="courier-preference" class="block text-sm font-medium text-gray-700 mb-1">Courier Preference (Optional)</label>
+              <input type="text" id="courier-preference"
+                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                     placeholder="e.g., DTDC, BlueDart">
+            </div>
+            
+            <div class="flex items-center">
+              <input type="checkbox" id="agree-courier" required
+                     class="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500">
+              <label for="agree-courier" class="ml-2 text-sm text-gray-700">
+                I agree to pay additional courier charges
+              </label>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <!-- Order Summary -->
+      <section class="bg-white rounded-xl shadow-md p-6">
+        <h2 class="text-xl font-bold text-green-800 border-b-2 border-green-200 pb-2 mb-6 relative">
+          Order Summary
+          <span class="absolute bottom-0 left-0 h-0.5 bg-yellow-500 w-16"></span>
+        </h2>
+        
+        <div id="order-items" class="space-y-3 mb-4">
+          <!-- Order items will be loaded here -->
+        </div>
+        
+        <div class="border-t border-gray-200 pt-4 space-y-2">
+          <div class="flex justify-between">
+            <span class="text-gray-600">Subtotal</span>
+            <span id="order-subtotal" class="font-medium">₹0</span>
+          </div>
+          
+          <div class="flex justify-between">
+            <span class="text-gray-600">Shipping</span>
+            <span id="order-shipping" class="font-medium">₹40</span>
+          </div>
+          
+          <div class="flex justify-between text-lg font-bold pt-2">
+            <span>Total</span>
+            <span id="order-total" class="text-green-700">₹0</span>
+          </div>
+        </div>
+        
+        <h3 class="text-lg font-bold text-green-800 mt-8 mb-4">Payment Method</h3>
+        
+        <div class="space-y-3">
+          <div>
+            <input type="radio" id="cod" name="payment" value="cod" checked class="hidden">
+            <label for="cod" class="flex items-center p-4 border border-gray-300 rounded-lg cursor-pointer hover:border-green-500">
+              <span class="w-5 h-5 rounded-full border-2 border-green-500 flex items-center justify-center mr-3">
+                <span class="w-3 h-3 rounded-full bg-green-500 hidden"></span>
+              </span>
+              <span class="text-green-600 mr-3"><i class="fas fa-money-bill-wave"></i></span>
+              <span>Cash on Delivery</span>
+            </label>
+          </div>
+          
+          <div>
+            <input type="radio" id="online" name="payment" value="online" class="hidden">
+            <label for="online" class="flex items-center p-4 border border-gray-300 rounded-lg cursor-pointer hover:border-green-500">
+              <span class="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center mr-3">
+                <span class="w-3 h-3 rounded-full bg-green-500 hidden"></span>
+              </span>
+              <span class="text-green-600 mr-3"><i class="fas fa-credit-card"></i></span>
+              <span>Online Payment</span>
             </label>
           </div>
         </div>
-      </form>
-    </div>
-    
-    <div class="checkout-section">
-      <h2 class="section-title">Order Summary</h2>
-      
-      <div id="order-items">
-        <!-- Order items will be loaded here -->
-      </div>
-      
-      <div class="order-summary-item">
-        <span>Subtotal</span>
-        <span id="order-subtotal">₹0</span>
-      </div>
-      
-      <div class="order-summary-item">
-        <span>Shipping</span>
-        <span id="order-shipping">₹40</span>
-      </div>
-      
-      <div class="order-summary-item order-summary-total">
-        <span>Total</span>
-        <span id="order-total">₹0</span>
-      </div>
-      
-      <h3 class="section-title" style="margin-top: 2rem;">Payment Method</h3>
-      
-      <div class="payment-methods">
-        <div class="payment-method">
-          <input type="radio" id="cod" name="payment" value="cod" checked>
-          <label for="cod" class="payment-method-label">
-            <span class="payment-icon"><i class="fas fa-money-bill-wave"></i></span>
-            <span>Cash on Delivery</span>
-          </label>
-        </div>
         
-        <div class="payment-method">
-          <input type="radio" id="online" name="payment" value="online">
-          <label for="online" class="payment-method-label">
-            <span class="payment-icon"><i class="fas fa-credit-card"></i></span>
-            <span>Online Payment</span>
-          </label>
-        </div>
-      </div>
-      
-      <button type="button" id="place-order-btn" class="place-order-btn">
-        <i class="fas fa-shopping-bag mr-2"></i> Place Order
-      </button>
-      
-      <a href="cart.html" class="back-to-cart">
-        <i class="fas fa-arrow-left mr-1"></i> Back to Cart
-      </a>
+        <button id="place-order-btn" class="w-full mt-6 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white font-bold rounded-lg shadow-md hover:from-green-700 hover:to-green-800 transition-all">
+          <i class="fas fa-shopping-bag mr-2"></i> Place Order
+        </button>
+        
+        <a href="cart.html" class="block mt-4 text-center text-green-600 hover:text-green-800 font-medium">
+          <i class="fas fa-arrow-left mr-1"></i> Back to Cart
+        </a>
+      </section>
     </div>
-  </div>
+  </main>
 
-  <div id="toast" class="toast">
-    <span class="toast-icon"><i class="fas fa-check-circle"></i></span>
-    <span class="toast-message">Order placed successfully!</span>
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-6 py-3 rounded-lg shadow-xl flex items-center">
+    <i class="fas fa-check-circle mr-2"></i>
+    <span id="toast-message">Order placed successfully!</span>
   </div>
 
   <script>
-    // Load cart from localStorage using the same key as cart.html
-const cart = JSON.parse(localStorage.getItem("brahminFoodsCart")) || [];
+    const API_BASE_URL = "https://brahminfoods-website-production.up.railway.app";
+    const cart = JSON.parse(localStorage.getItem("brahminFoodsCart")) || [];
+    const placeOrderBtn = document.getElementById('place-order-btn');
+    const deliveryType = document.getElementById('delivery-type');
+    const courierFields = document.getElementById('courier-fields');
+    const toast = document.getElementById('toast');
 
-// Render order summary
-function renderOrderSummary() {
-  const orderItemsContainer = document.getElementById('order-items');
+    // Format currency
+    const formatCurrency = (amount) => {
+      return '₹' + amount.toLocaleString('en-IN');
+    };
 
-  if (cart.length === 0) {
-    orderItemsContainer.innerHTML = '<div class="text-center py-4">Your cart is empty</div>';
-    return;
-  }
-
-  // Combine duplicate items (same logic as cart.html)
-  const combinedCart = cart.reduce((acc, item) => {
-    const existingItem = acc.find(i => i.id === item.id);
-    if (existingItem) {
-      existingItem.quantity = (existingItem.quantity || 1) + (item.quantity || 1);
-    } else {
-      acc.push({...item, quantity: item.quantity || 1});
-    }
-    return acc;
-  }, []);
-
-  orderItemsContainer.innerHTML = combinedCart.map(item => `
-    <div class="order-summary-item">
-      <span class="font-medium">${item.name?.en || item.name} x ${item.quantity}</span>
-      <span class="font-medium">₹${(item.price * item.quantity).toLocaleString('en-IN')}</span>
-    </div>
-  `).join('');
-
-  const subtotal = combinedCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  const shipping = 40; // Match the DEFAULT_SHIPPING from cart.html
-  const total = subtotal + shipping;
-
-  document.getElementById('order-subtotal').textContent = `₹${subtotal.toLocaleString('en-IN')}`;
-  document.getElementById('order-shipping').textContent = `₹${shipping.toLocaleString('en-IN')}`;
-  document.getElementById('order-total').textContent = `₹${total.toLocaleString('en-IN')}`;
-}
-
-// Toggle courier fields based on delivery type
-document.getElementById('delivery-type').addEventListener('change', function() {
-  const courierFields = document.getElementById('courier-fields');
-  if (this.value === 'courier') {
-    courierFields.classList.remove('hidden');
-  } else {
-    courierFields.classList.add('hidden');
-  }
-});
-
-// Place order button functionality
-document.getElementById('place-order-btn').addEventListener('click', function() {
-  const form = document.getElementById('delivery-form');
-  if (!form.checkValidity()) {
-    form.reportValidity();
-    return;
-  }
-
-  // Combine duplicate items (same logic as cart.html)
-  const combinedCart = cart.reduce((acc, item) => {
-    const existingItem = acc.find(i => i.id === item.id);
-    if (existingItem) {
-      existingItem.quantity = (existingItem.quantity || 1) + (item.quantity || 1);
-    } else {
-      acc.push({...item, quantity: item.quantity || 1});
-    }
-    return acc;
-  }, []);
-
-  // Collect order data
-  const orderData = {
-    items: combinedCart,
-    subtotal: combinedCart.reduce((sum, item) => sum + (item.price * item.quantity), 0),
-    shipping: 40,
-    total: combinedCart.reduce((sum, item) => sum + (item.price * item.quantity), 0) + 40,
-    customerInfo: {
-      name: document.getElementById('full-name').value,
-      phone: document.getElementById('phone').value,
-      address: `${document.getElementById('address').value}, ${document.getElementById('city').value}, ${document.getElementById('state').value} - ${document.getElementById('pincode').value}`
-    },
-    deliveryType: document.getElementById('delivery-type').value
-  };
-
-  // Save order data to localStorage before redirecting
-  localStorage.setItem('lastOrder', JSON.stringify(orderData));
- // Send order data to the server
- fetch("https://brahminfoods-website-production.up.railway.app/api/orders", {
-
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify(orderData)
-})
-
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    return response.json();
-  })
-  .then(data => {
-    if (data.success) {
-      // Show success toast
-      const toast = document.getElementById('toast');
-      toast.querySelector('.toast-message').textContent = "Order Placed Successfully!";
+    // Show toast notification
+    const showToast = (message, isError = false) => {
+      toast.className = isError 
+        ? 'fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-red-600 text-white px-6 py-3 rounded-lg shadow-xl flex items-center'
+        : 'fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-6 py-3 rounded-lg shadow-xl flex items-center';
+      
+      document.getElementById('toast-message').textContent = message;
       toast.classList.add('show');
       
-      // Clear cart and redirect after delay
-      localStorage.removeItem("brahminFoodsCart");
       setTimeout(() => {
-        window.location.href = `order_confirmation.html?orderId=${data.orderId}`;
-      }, 1000);
-    } else {
-      throw new Error(data.error || 'Failed to place order');
-    }
-  })
-  .catch(error => {
-    console.error('Error:', error);
-    alert('Error placing order: ' + error.message);
-  });
-});
+        toast.classList.remove('show');
+      }, 3000);
+    };
 
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', function() {
-  renderOrderSummary();
+    // Render order summary
+    const renderOrderSummary = () => {
+      const orderItemsContainer = document.getElementById('order-items');
 
-  // If cart is empty, redirect to menu
-  if (cart.length === 0) {
-    setTimeout(() => {
-      window.location.href = 'menu.html';
-    }, 2000);
-  }
-});
+      if (cart.length === 0) {
+        orderItemsContainer.innerHTML = `
+          <div class="text-center py-6 text-gray-500">
+            <i class="fas fa-shopping-cart text-3xl mb-2"></i>
+            <p>Your cart is empty</p>
+          </div>
+        `;
+        return;
+      }
 
-// Display a toast notification when user adds an item to the cart (Example)
-document.getElementById('add-to-cart-btn').addEventListener('click', function() {
-  const toast = document.getElementById('toast');
-  toast.classList.add('show');
-  toast.textContent = "Item added to cart!";
+      // Combine duplicate items
+      const combinedCart = cart.reduce((acc, item) => {
+        const existingItem = acc.find(i => i.id === item.id);
+        if (existingItem) {
+          existingItem.quantity += item.quantity || 1;
+        } else {
+          acc.push({...item, quantity: item.quantity || 1});
+        }
+        return acc;
+      }, []);
 
-  setTimeout(() => {
-    toast.classList.remove('show');
-  }, 3000);
-});
+      orderItemsContainer.innerHTML = combinedCart.map(item => `
+        <div class="flex justify-between items-center py-2 border-b border-gray-100">
+          <div>
+            <span class="font-medium">${item.name?.en || item.name}</span>
+            <span class="text-gray-500 text-sm block">${item.weight} • ${item.quantity}x</span>
+          </div>
+          <span class="font-medium">${formatCurrency(item.price * item.quantity)}</span>
+        </div>
+      `).join('');
 
-// Clear cart functionality (if needed)
-document.getElementById('clear-cart-btn').addEventListener('click', function() {
-  localStorage.removeItem("brahminFoodsCart");
-  cart.length = 0; // Clear the cart array
-  renderOrderSummary(); // Re-render the summary
-});
+      const subtotal = combinedCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      const shipping = deliveryType.value === 'guntur' ? 40 : 0; // Courier shipping calculated separately
+      const total = subtotal + shipping;
 
-</script>
+      document.getElementById('order-subtotal').textContent = formatCurrency(subtotal);
+      document.getElementById('order-shipping').textContent = formatCurrency(shipping);
+      document.getElementById('order-total').textContent = formatCurrency(total);
+    };
 
+    // Toggle courier fields
+    deliveryType.addEventListener('change', () => {
+      if (deliveryType.value === 'courier') {
+        courierFields.classList.remove('hidden');
+        document.getElementById('order-shipping').textContent = 'Calculated separately';
+      } else {
+        courierFields.classList.add('hidden');
+        renderOrderSummary();
+      }
+    });
+
+    // Custom radio button styling
+    document.querySelectorAll('input[name="payment"]').forEach(radio => {
+      radio.addEventListener('change', () => {
+        document.querySelectorAll('input[name="payment"] + label').forEach(label => {
+          label.querySelector('span:first-child').classList.replace('border-green-500', 'border-gray-300');
+          label.querySelector('span:first-child > span').classList.add('hidden');
+        });
+        
+        const selectedLabel = document.querySelector(`input[name="payment"]:checked + label`);
+        selectedLabel.querySelector('span:first-child').classList.replace('border-gray-300', 'border-green-500');
+        selectedLabel.querySelector('span:first-child > span').classList.remove('hidden');
+      });
+    });
+
+    // Place order
+    placeOrderBtn.addEventListener('click', async () => {
+      const form = document.getElementById('delivery-form');
+      
+      // Validate form
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+      
+      // Validate courier agreement if needed
+      if (deliveryType.value === 'courier' && !document.getElementById('agree-courier').checked) {
+        showToast('Please agree to courier charges', true);
+        return;
+      }
+
+      // Combine duplicate items
+      const combinedCart = cart.reduce((acc, item) => {
+        const existingItem = acc.find(i => i.id === item.id);
+        if (existingItem) {
+          existingItem.quantity += item.quantity || 1;
+        } else {
+          acc.push({...item, quantity: item.quantity || 1});
+        }
+        return acc;
+      }, []);
+
+      // Prepare order data
+      const orderData = {
+        items: combinedCart,
+        subtotal: combinedCart.reduce((sum, item) => sum + (item.price * item.quantity), 0),
+        shipping: deliveryType.value === 'guntur' ? 40 : 0,
+        total: combinedCart.reduce((sum, item) => sum + (item.price * item.quantity), 0) + 
+               (deliveryType.value === 'guntur' ? 40 : 0),
+        customerInfo: {
+          name: document.getElementById('full-name').value,
+          phone: document.getElementById('phone').value,
+          address: {
+            street: document.getElementById('address').value,
+            city: document.getElementById('city').value,
+            state: document.getElementById('state').value,
+            pincode: document.getElementById('pincode').value,
+            landmark: document.getElementById('landmark').value || undefined
+          }
+        },
+        paymentMethod: document.querySelector('input[name="payment"]:checked').value,
+        deliveryType: deliveryType.value,
+        courierPreference: deliveryType.value === 'courier' 
+          ? document.getElementById('courier-preference').value || undefined 
+          : undefined
+      };
+
+      // Set loading state
+      placeOrderBtn.disabled = true;
+      placeOrderBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
+
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/orders`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(orderData)
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.message || 'Failed to place order');
+        }
+
+        const data = await response.json();
+        
+        // Show success
+        showToast('Order placed successfully!');
+        
+        // Clear cart and redirect
+        localStorage.removeItem('brahminFoodsCart');
+        setTimeout(() => {
+          window.location.href = `order_confirmation.html?orderId=${data.orderId}`;
+        }, 1500);
+      } catch (error) {
+        console.error('Order error:', error);
+        showToast(error.message || 'Failed to place order. Please try again.', true);
+        placeOrderBtn.disabled = false;
+        placeOrderBtn.innerHTML = '<i class="fas fa-shopping-bag mr-2"></i> Place Order';
+      }
+    });
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      renderOrderSummary();
+      
+      // If cart is empty, redirect after delay
+      if (cart.length === 0) {
+        showToast('Your cart is empty. Redirecting...', true);
+        setTimeout(() => {
+          window.location.href = 'menu.html';
+        }, 2000);
+      }
+      
+      // Initialize radio buttons
+      document.querySelector('input[name="payment"]:checked').dispatchEvent(new Event('change'));
+    });
+  </script>
 </body>
 </html>

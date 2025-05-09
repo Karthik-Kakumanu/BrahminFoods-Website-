@@ -1,200 +1,283 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin Panel</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      background: #f8f8f8;
-    }
-    .login-container {
-      max-width: 400px;
-      margin: auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    input {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-    }
-    button {
-      padding: 10px 15px;
-      background: #2b7cff;
-      color: white;
-      border: none;
-      cursor: pointer;
-      border-radius: 4px;
-    }
-    .error {
-      color: red;
-      margin-top: 10px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 30px;
-      background: #fff;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    th, td {
-      padding: 10px;
-      border: 1px solid #ccc;
-      text-align: left;
-    }
-    th {
-      background-color: #f4f4f4;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel - Brahmin Foods</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style> body { font-family: Arial, sans-serif; margin: 20px; background: #f8f8f8; } .login-container { max-width: 400px; margin: auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); } input { width: 100%; padding: 10px; margin: 10px 0; } button { padding: 10px 15px; background: #2b7cff; color: white; border: none; cursor: pointer; border-radius: 4px; } .error { color: red; margin-top: 10px; } table { width: 100%; border-collapse: collapse; margin-top: 30px; background: #fff; border-radius: 8px; overflow: hidden; } th, td { padding: 10px; border: 1px solid #ccc; text-align: left; } th { background-color: #f4f4f4; } </style>
 </head>
-<body>
+<body class="bg-gray-50 min-h-screen">
+  <div class="container mx-auto px-4 py-8">
+    <!-- Login Section -->
+    <div id="login-section" class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden p-8">
+      <div class="text-center mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">Brahmin Foods</h1>
+        <p class="text-gray-600">Admin Dashboard</p>
+      </div>
+      
+      <form id="loginForm" class="space-y-4">
+        <div>
+          <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+          <input type="text" id="username" required
+                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500">
+        </div>
+        
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+          <input type="password" id="password" required
+                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500">
+        </div>
+        
+        <button type="submit" id="login-btn"
+                class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+          Login
+        </button>
+        
+        <div id="login-error" class="text-red-500 text-sm text-center hidden"></div>
+      </form>
+    </div>
 
-<!-- LOGIN FORM -->
-<div id="login-section" class="login-container">
-  <h2>Admin Login</h2>
-  <form id="loginForm">
-    <input type="text" id="username" name="username" placeholder="Username" required />
-    <input type="password" id="password" name="password" placeholder="Password" required />
-    <button type="submit">Login</button>
-    <p id="error" class="error"></p>
-  </form>
-</div>
+    <!-- Orders Section -->
+    <div id="orders-section" class="hidden">
+      <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">
+          <i class="fas fa-clipboard-list mr-2"></i>Order Management
+        </h1>
+        <button id="logoutButton" 
+                class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition">
+          <i class="fas fa-sign-out-alt mr-2"></i>Logout
+        </button>
+      </div>
 
-<!-- ORDERS SECTION -->
-<div id="orders-section" style="display:none;">
-  <h1>🧾 All Orders</h1>
-  <button id="logoutButton">Logout</button>
-  <table id="orders-table">
-    <thead>
-      <tr>
-        <th>Order ID</th>
-        <th>Customer</th>
-        <th>Phone</th>
-        <th>Address</th>
-        <th>Items</th>
-        <th>Total</th>
-        <th>Delivery</th>
-        <th>Placed At</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-</div>
+      <div class="bg-white shadow overflow-hidden rounded-lg">
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order ID</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Items</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="orders-table-body" class="bg-white divide-y divide-gray-200">
+              <!-- Orders will be loaded here -->
+            </tbody>
+          </table>
+        </div>
+        
+        <div id="loading-indicator" class="p-4 text-center hidden">
+          <i class="fas fa-circle-notch loading-spinner text-green-500 mr-2"></i>
+          Loading orders...
+        </div>
+        
+        <div id="no-orders" class="p-8 text-center text-gray-500 hidden">
+          <i class="fas fa-clipboard text-4xl mb-2"></i>
+          <p>No orders found</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<script>
-  const API_BASE_URL = "https://brahminfoods-website-production.up.railway.app";
+  <script>
+    const API_BASE_URL = "https://brahminfoods-website-production.up.railway.app";
+    let authToken = null;
 
+    // DOM Elements
+    const loginSection = document.getElementById('login-section');
+    const ordersSection = document.getElementById('orders-section');
+    const loginForm = document.getElementById('loginForm');
+    const loginBtn = document.getElementById('login-btn');
+    const loginError = document.getElementById('login-error');
+    const ordersTableBody = document.getElementById('orders-table-body');
+    const loadingIndicator = document.getElementById('loading-indicator');
+    const noOrders = document.getElementById('no-orders');
 
+    // Format currency
+    const formatCurrency = (amount) => {
+      return new Intl.NumberFormat('en-IN', { 
+        style: 'currency', 
+        currency: 'INR',
+        minimumFractionDigits: 0
+      }).format(amount);
+    };
 
-  async function fetchOrders() {
-    try {
-      const res = await fetch(`${API_BASE_URL}/api/orders`, {
-        credentials: 'include'
-      });
+    // Format date
+    const formatDate = (dateString) => {
+      const options = { 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      };
+      return new Date(dateString).toLocaleDateString('en-IN', options);
+    };
 
-      if (!res.ok) {
-        const errorData = await res.json().catch(() => ({}));
-        throw new Error(errorData.error || 'Unauthorized or fetch failed');
+    // Show loading state
+    const setLoading = (isLoading) => {
+      if (isLoading) {
+        loadingIndicator.classList.remove('hidden');
+        ordersTableBody.classList.add('hidden');
+        noOrders.classList.add('hidden');
+      } else {
+        loadingIndicator.classList.add('hidden');
+        ordersTableBody.classList.remove('hidden');
       }
+    };
 
-      const orders = await res.json();
-      const tbody = document.querySelector('#orders-table tbody');
-      tbody.innerHTML = '';
+    // Fetch orders from API
+    const fetchOrders = async () => {
+      setLoading(true);
+      
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/orders`, {
+          headers: {
+            'Authorization': `Bearer ${authToken}`,
+            'Content-Type': 'application/json'
+          }
+        });
 
+        if (!response.ok) {
+          throw new Error('Failed to fetch orders');
+        }
+
+        const orders = await response.json();
+        renderOrders(orders);
+        
+        if (orders.length === 0) {
+          noOrders.classList.remove('hidden');
+        } else {
+          noOrders.classList.add('hidden');
+        }
+      } catch (error) {
+        console.error('Error fetching orders:', error);
+        showError('Failed to load orders. Please try again.');
+        logout();
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    // Render orders to table
+    const renderOrders = (orders) => {
+      ordersTableBody.innerHTML = '';
+      
       orders.forEach(order => {
-        const tr = document.createElement('tr');
-        const items = order.items || [];
-        const itemsList = items.map(item =>
-          `<div>
-            ID: ${item.id} | Name: ${item.name?.en || item.name || '-'} | ₹${item.price} × ${item.quantity} (${item.weight})
-          </div>`
-        ).join('');
-
-        tr.innerHTML = `
-          <td>${order.id}</td>
-          <td>${order.customer_name}</td>
-          <td>${order.phone}</td>
-          <td>${order.address}</td>
-          <td>${itemsList}</td>
-          <td>₹${order.total_price}</td>
-          <td>${order.delivery_type}</td>
-          <td>${order.created_at ? new Date(order.created_at).toLocaleString() : '-'}</td>
+        const row = document.createElement('tr');
+        row.className = 'order-row hover:bg-green-50';
+        
+        // Format items list
+        const itemsList = order.items.map(item => `
+          <div class="text-sm py-1">
+            ${item.quantity}x ${item.name?.en || item.name} (${item.weight})
+            <span class="text-gray-500">${formatCurrency(item.price)}</span>
+          </div>
+        `).join('');
+        
+        row.innerHTML = `
+          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+            #${order.id}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+            ${order.customer_name}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+            <a href="tel:${order.phone}" class="text-green-600 hover:text-green-800">
+              ${order.phone}
+            </a>
+          </td>
+          <td class="px-6 py-4 text-sm text-gray-500">
+            ${itemsList}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+            ${formatCurrency(order.total_price)}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+              ${order.status || 'Processing'}
+            </span>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+            <button class="text-green-600 hover:text-green-900 mr-3">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="text-red-600 hover:text-red-900">
+              <i class="fas fa-trash"></i>
+            </button>
+          </td>
         `;
-        tbody.appendChild(tr);
+        
+        ordersTableBody.appendChild(row);
       });
+    };
 
-      document.getElementById('login-section').style.display = 'none';
-      document.getElementById('orders-section').style.display = 'block';
+    // Show error message
+    const showError = (message) => {
+      loginError.textContent = message;
+      loginError.classList.remove('hidden');
+      setTimeout(() => loginError.classList.add('hidden'), 5000);
+    };
 
-    } catch (err) {
-      console.error('Fetch orders error:', err);
-      document.getElementById('error').textContent = err.message;
-    }
-  }
+    // Handle login
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+      
+      loginBtn.disabled = true;
+      loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Logging in...';
+      
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/admin/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
 
-  async function logout() {
-    try {
-      const res = await fetch(`${API_BASE_URL}/api/admin/logout`, {
-        method: 'POST',
-        credentials: 'include',
-      });
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.message || 'Invalid credentials');
+        }
 
-      if (res.ok) {
-        window.location.reload();
-      } else {
-        const errorData = await res.json().catch(() => ({}));
-        alert(errorData.error || 'Logout failed');
-      }
-    } catch (err) {
-      console.error('Logout error:', err);
-      alert('Error logging out. Try again.');
-    }
-  }
-
-  document.getElementById('loginForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const username = document.getElementById('username').value.trim();
-    const password = document.getElementById('password').value;
-    document.getElementById('error').textContent = '';
-
-    try {
-      const res = await fetch(`${API_BASE_URL}/api/admin/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ username, password }),
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
+        const data = await response.json();
+        authToken = data.token;
+        
+        loginSection.classList.add('hidden');
+        ordersSection.classList.remove('hidden');
         await fetchOrders();
-      } else {
-        document.getElementById('error').textContent = data.error || 'Login failed';
+      } catch (error) {
+        console.error('Login error:', error);
+        showError(error.message || 'Login failed. Please try again.');
+      } finally {
+        loginBtn.disabled = false;
+        loginBtn.innerHTML = 'Login';
       }
-    } catch (err) {
-      console.error('Login error:', err);
-      document.getElementById('error').textContent = 'Connection error. Try again.';
-    }
-  });
-
-  document.getElementById('logoutButton').addEventListener('click', logout);
-
-  // Auto-fetch on page load (if session is still valid)
-  window.addEventListener('load', () => {
-    fetchOrders().catch(() => {
-      // Not logged in – keep showing login
-      document.getElementById('orders-section').style.display = 'none';
-      document.getElementById('login-section').style.display = 'block';
     });
-  });
-</script>
 
+    // Handle logout
+    document.getElementById('logoutButton').addEventListener('click', logout);
+    
+    function logout() {
+      authToken = null;
+      ordersSection.classList.add('hidden');
+      loginSection.classList.remove('hidden');
+      document.getElementById('username').value = '';
+      document.getElementById('password').value = '';
+    }
+
+    // Check for existing session on page load
+    window.addEventListener('load', () => {
+      // In a real app, you would check for existing token in localStorage/cookies
+      // For now, we'll just show the login form
+      loginSection.classList.remove('hidden');
+    });
+  </script>
 </body>
 </html>
