@@ -110,12 +110,16 @@
       orders.forEach(order => {
         const row = document.createElement('tr');
         row.className = 'order-row hover:bg-green-50';
-        const itemsList = order.items.map(item => `
-          <div class="text-sm py-1">
-            ${item.quantity}x ${item.name?.en || item.name} (${item.weight})
-            <span class="text-gray-500">${formatCurrency(item.price)}</span>
-          </div>
-        `).join('');
+        const itemsList = Array.isArray(order.items) && order.items.length > 0
+  ? order.items.map(item => `
+      <div class="text-sm py-1">
+        ${item.quantity || 1}x ${item.name?.en || item.name || 'Unnamed'} 
+        (${item.weight || 'N/A'}) - 
+        <span class="text-gray-500">${formatCurrency(item.price || 0)}</span>
+      </div>
+    `).join('')
+  : '<span class="text-gray-400 italic">No items</span>';
+
         row.innerHTML = `
           <td class="px-6 py-4 text-sm font-medium text-gray-900">#${order.id}</td>
           <td class="px-6 py-4 text-sm text-gray-500">${order.customer_name}</td>
