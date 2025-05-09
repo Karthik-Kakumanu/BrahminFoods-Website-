@@ -504,14 +504,21 @@ document.getElementById('place-order-btn').addEventListener('click', function() 
 
   // Combine duplicate items (same logic as cart.html)
   const combinedCart = cart.reduce((acc, item) => {
-    const existingItem = acc.find(i => i.id === item.id);
-    if (existingItem) {
-      existingItem.quantity = (existingItem.quantity || 1) + (item.quantity || 1);
-    } else {
-      acc.push({...item, quantity: item.quantity || 1});
-    }
-    return acc;
-  }, []);
+  const existingItem = acc.find(i => i.id === item.id);
+  if (existingItem) {
+    existingItem.quantity = (existingItem.quantity || 1) + (item.quantity || 1);
+  } else {
+    acc.push({
+      id: item.id,
+      name: item.name,
+      price: item.price,
+      weight: item.weight || '', // Include weight here
+      quantity: item.quantity || 1
+    });
+  }
+  return acc;
+}, []);
+
 
   // Collect order data
   const orderData = {
