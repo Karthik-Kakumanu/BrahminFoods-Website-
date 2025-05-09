@@ -1,29 +1,13 @@
 require('dotenv').config();
-const mysql = require('mysql2');
-const session = require('express-session');
-const MySQLStore = require('express-mysql-session')(session);
 const path = require('path');
 const express = require('express');
+const session = require('express-session');
+const MySQLStore = require('express-mysql-session')(session);
 const cors = require('cors');
 const morgan = require('morgan');
 
-// ✅ MySQL Connection (Railway)
-const db = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  port: process.env.DB_PORT || 3306,
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : null
-});
-
-db.connect(err => {
-  if (err) {
-    console.error('❌ MySQL connection failed:', err.message);
-    process.exit(1);
-  }
-  console.log('✅ Connected to MySQL on Railway');
-});
+// ✅ Use shared MySQL pool from db.js
+const db = require('./db');
 
 const adminRouter = require('./routes/admin');
 const ordersRouter = require('./routes/orders');
@@ -48,7 +32,7 @@ const sessionStore = new MySQLStore({
   }
 }, db);
 
-// ✅ CORS setup (important!)
+// ✅ CORS setup
 const allowedOrigins = [
   'http://localhost:8080',
   'http://127.0.0.1:8080',
@@ -70,7 +54,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); // ✅ Allow preflight requests for all routes
+app.options('*', cors(corsOptions));
 
 // ✅ Middleware
 app.set('trust proxy', 1);
@@ -89,7 +73,7 @@ app.use(session({
     httpOnly: true,
     secure: NODE_ENV === 'production',
     sameSite: NODE_ENV === 'production' ? 'none' : 'lax',
-    maxAge: 1000 * 60 * 60
+    maxAge: 1000 * 60 * 60 // 1 hour
   }
 }));
 
@@ -97,7 +81,7 @@ app.use(session({
 app.use('/api/admin', adminRouter);
 app.use('/api/orders', ordersRouter);
 
-// ✅ Serve static frontend
+// ✅ Static frontend
 app.use(express.static(path.join(__dirname, './frontend')));
 
 // ✅ Health check
@@ -112,7 +96,7 @@ app.get('/health', (req, res) => {
   });
 });
 
-// ✅ Homepage route
+// ✅ Homepage
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, './frontend/menu.html'));
 });
@@ -122,7 +106,7 @@ app.use((req, res) => {
   res.status(404).sendFile(path.join(__dirname, './frontend/404.html'));
 });
 
-// ✅ Error handler
+// ✅ Global error handler
 app.use((err, req, res, next) => {
   console.error('❌ Server error:', err.stack);
   res.status(500).json({ error: 'Internal server error' });
