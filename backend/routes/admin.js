@@ -53,12 +53,36 @@ router.get('/orders', (req, res) => {
 
   db.query(query, (err, results) => {
     if (err) {
-      console.error('❌ Failed to fetch orders:', err);
-      return res.status(500).json({ error: 'Failed to fetch orders' });
+      console.error('❌ Error fetching orders:', err.message);
+      return res.status(500).json({ error: 'Failed to retrieve orders' });
     }
-    res.json(results);
+
+    const modifiedResults = results.map(order => {
+      let parsedItems = [];
+      try {
+        parsedItems = JSON.parse(order.items || '[]');
+      } catch (e) {
+        console.warn(`⚠️ Failed to parse items for order ID ${order.id}`);
+      }
+
+      const modifiedItems = parsedItems.map(item => ({
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity,
+        weight: item.weight
+      }));
+
+      return {
+        ...order,
+        items: modifiedItems
+      };
+    });
+
+    res.status(200).json(modifiedResults);
   });
 });
+
 
 // Optional dashboard route
 router.get('/dashboard', (req, res) => {
