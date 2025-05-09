@@ -71,7 +71,14 @@ router.get('/', (req, res) => {
     }
 
     const modifiedResults = results.map(order => {
-      const modifiedItems = JSON.parse(order.items).map(item => ({
+      let parsedItems = [];
+      try {
+        parsedItems = JSON.parse(order.items || '[]');
+      } catch (e) {
+        console.warn(`⚠️ Failed to parse items for order ID ${order.id}`);
+      }
+
+      const modifiedItems = parsedItems.map(item => ({
         id: item.id,
         name: item.name,
         price: item.price,
@@ -88,5 +95,6 @@ router.get('/', (req, res) => {
     res.status(200).json(modifiedResults);
   });
 });
+
 
 module.exports = router;
