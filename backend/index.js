@@ -37,7 +37,8 @@ const allowedOrigins = [
   'http://localhost:8080',
   'http://127.0.0.1:8080',
   'https://www.brahminfoods.in',
-  'https://brahminfoods-website.onrender.com'
+  'https://brahminfoods-website.onrender.com',
+  'https://brahminfoods-website-production.up.railway.app' 
 ];
 
 const corsOptions = {
