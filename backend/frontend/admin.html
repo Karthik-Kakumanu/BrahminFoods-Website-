@@ -85,9 +85,8 @@
   </div>
 
   <script>
-    const API_BASE_URL = "";
+    const API_BASE_URL = ""; // Same-origin, because frontend is inside backend
   
-    // DOM Elements
     const loginSection = document.getElementById('login-section');
     const ordersSection = document.getElementById('orders-section');
     const loginForm = document.getElementById('loginForm');
@@ -97,9 +96,8 @@
     const loadingIndicator = document.getElementById('loading-indicator');
     const noOrders = document.getElementById('no-orders');
   
-    const formatCurrency = (amount) => {
-      return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(amount);
-    };
+    const formatCurrency = (amount) =>
+      new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(amount);
   
     const formatDate = (dateString) => {
       const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
@@ -107,28 +105,20 @@
     };
   
     const setLoading = (isLoading) => {
-      if (isLoading) {
-        loadingIndicator.classList.remove('hidden');
-        ordersTableBody.classList.add('hidden');
-        noOrders.classList.add('hidden');
-      } else {
-        loadingIndicator.classList.add('hidden');
-        ordersTableBody.classList.remove('hidden');
-      }
+      loadingIndicator.classList.toggle('hidden', !isLoading);
+      ordersTableBody.classList.toggle('hidden', isLoading);
+      if (isLoading) noOrders.classList.add('hidden');
     };
   
     const fetchOrders = async () => {
       setLoading(true);
       try {
         const response = await fetch(`${API_BASE_URL}/api/orders`, {
-          credentials: 'include' // ✅ Session-based auth
+          credentials: 'include',
         });
-  
         if (!response.ok) throw new Error('Failed to fetch orders');
-  
         const orders = await response.json();
         renderOrders(orders);
-  
         noOrders.classList.toggle('hidden', orders.length !== 0);
       } catch (error) {
         console.error('Error fetching orders:', error);
@@ -141,17 +131,20 @@
   
     const renderOrders = (orders) => {
       ordersTableBody.innerHTML = '';
-  
-      orders.forEach(order => {
+      orders.forEach((order) => {
         const row = document.createElement('tr');
         row.className = 'order-row hover:bg-green-50';
   
-        const itemsList = order.items.map(item => `
-          <div class="text-sm py-1">
-            ${item.quantity}x ${item.name?.en || item.name} (${item.weight})
-            <span class="text-gray-500">${formatCurrency(item.price)}</span>
-          </div>
-        `).join('');
+        const itemsList = order.items
+          .map(
+            (item) => `
+            <div class="text-sm py-1">
+              ${item.quantity}x ${item.name?.en || item.name} (${item.weight})
+              <span class="text-gray-500">${formatCurrency(item.price)}</span>
+            </div>
+          `
+          )
+          .join('');
   
         row.innerHTML = `
           <td class="px-6 py-4 text-sm font-medium text-gray-900">#${order.id}</td>
@@ -171,7 +164,6 @@
             <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
           </td>
         `;
-  
         ordersTableBody.appendChild(row);
       });
     };
@@ -184,7 +176,6 @@
   
     loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-  
       const username = document.getElementById('username').value.trim();
       const password = document.getElementById('password').value;
   
@@ -195,8 +186,8 @@
         const response = await fetch(`${API_BASE_URL}/api/admin/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          credentials: 'include', // ✅ Important for sessions
-          body: JSON.stringify({ username, password })
+          credentials: 'include',
+          body: JSON.stringify({ username, password }),
         });
   
         if (!response.ok) {
@@ -220,10 +211,10 @@
       try {
         await fetch(`${API_BASE_URL}/api/admin/logout`, {
           method: 'POST',
-          credentials: 'include'
+          credentials: 'include',
         });
       } catch (e) {
-        console.warn('Logout request failed, continuing anyway.');
+        console.warn('Logout failed, continuing anyway.');
       }
       logout();
     });
@@ -234,8 +225,10 @@
       loginForm.reset();
     }
   
-    // Check session on page load
-    window.addEventListener('load', fetchOrders);
+    // ✅ ONLY show login form on page load — DO NOT fetch orders directly
+    window.addEventListener('load', () => {
+      loginSection.classList.remove('hidden');
+    });
   </script>
   
 </body>
