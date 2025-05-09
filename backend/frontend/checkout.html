@@ -530,7 +530,7 @@ document.getElementById('place-order-btn').addEventListener('click', function() 
   // Save order data to localStorage before redirecting
   localStorage.setItem('lastOrder', JSON.stringify(orderData));
  // Send order data to the server
- fetch("https://brahminfoods-website.onrender.com/api/orders", {
+ fetch("https://brahminfoods-website-production.up.railway.app/api/orders", {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json'
@@ -579,15 +579,15 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Display a toast notification when user adds an item to the cart (Example)
-document.getElementById('add-to-cart-btn').addEventListener('click', function() {
-  const toast = document.getElementById('toast');
-  toast.classList.add('show');
-  toast.textContent = "Item added to cart!";
+// document.getElementById('add-to-cart-btn').addEventListener('click', function() {
+//   const toast = document.getElementById('toast');
+//   toast.classList.add('show');
+//   toast.textContent = "Item added to cart!";
 
-  setTimeout(() => {
-    toast.classList.remove('show');
-  }, 3000);
-});
+//   setTimeout(() => {
+//     toast.classList.remove('show');
+//   }, 3000);
+// });
 </script>
 
 </body>
