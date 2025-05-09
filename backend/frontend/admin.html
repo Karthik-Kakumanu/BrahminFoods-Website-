@@ -85,10 +85,8 @@
   </div>
 
   <script>
-    const API_BASE_URL = "https://brahminfoods-website.onrender.com";
-
-    let authToken = null;
-
+    const API_BASE_URL = "";
+  
     // DOM Elements
     const loginSection = document.getElementById('login-section');
     const ordersSection = document.getElementById('orders-section');
@@ -98,29 +96,16 @@
     const ordersTableBody = document.getElementById('orders-table-body');
     const loadingIndicator = document.getElementById('loading-indicator');
     const noOrders = document.getElementById('no-orders');
-
-    // Format currency
+  
     const formatCurrency = (amount) => {
-      return new Intl.NumberFormat('en-IN', { 
-        style: 'currency', 
-        currency: 'INR',
-        minimumFractionDigits: 0
-      }).format(amount);
+      return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(amount);
     };
-
-    // Format date
+  
     const formatDate = (dateString) => {
-      const options = { 
-        year: 'numeric', 
-        month: 'short', 
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-      };
+      const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
       return new Date(dateString).toLocaleDateString('en-IN', options);
     };
-
-    // Show loading state
+  
     const setLoading = (isLoading) => {
       if (isLoading) {
         loadingIndicator.classList.remove('hidden');
@@ -131,154 +116,127 @@
         ordersTableBody.classList.remove('hidden');
       }
     };
-
-    // Fetch orders from API
+  
     const fetchOrders = async () => {
       setLoading(true);
-      
       try {
         const response = await fetch(`${API_BASE_URL}/api/orders`, {
-          headers: {
-            'Authorization': `Bearer ${authToken}`,
-            'Content-Type': 'application/json'
-          }
+          credentials: 'include' // ✅ Session-based auth
         });
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch orders');
-        }
-
+  
+        if (!response.ok) throw new Error('Failed to fetch orders');
+  
         const orders = await response.json();
         renderOrders(orders);
-        
-        if (orders.length === 0) {
-          noOrders.classList.remove('hidden');
-        } else {
-          noOrders.classList.add('hidden');
-        }
+  
+        noOrders.classList.toggle('hidden', orders.length !== 0);
       } catch (error) {
         console.error('Error fetching orders:', error);
-        showError('Failed to load orders. Please try again.');
+        showError('Failed to load orders. Please login again.');
         logout();
       } finally {
         setLoading(false);
       }
     };
-
-    // Render orders to table
+  
     const renderOrders = (orders) => {
       ordersTableBody.innerHTML = '';
-      
+  
       orders.forEach(order => {
         const row = document.createElement('tr');
         row.className = 'order-row hover:bg-green-50';
-        
-        // Format items list
+  
         const itemsList = order.items.map(item => `
           <div class="text-sm py-1">
             ${item.quantity}x ${item.name?.en || item.name} (${item.weight})
             <span class="text-gray-500">${formatCurrency(item.price)}</span>
           </div>
         `).join('');
-        
+  
         row.innerHTML = `
-          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-            #${order.id}
-          </td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-            ${order.customer_name}
-          </td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-            <a href="tel:${order.phone}" class="text-green-600 hover:text-green-800">
-              ${order.phone}
-            </a>
-          </td>
+          <td class="px-6 py-4 text-sm font-medium text-gray-900">#${order.id}</td>
+          <td class="px-6 py-4 text-sm text-gray-500">${order.customer_name}</td>
           <td class="px-6 py-4 text-sm text-gray-500">
-            ${itemsList}
+            <a href="tel:${order.phone}" class="text-green-600 hover:text-green-800">${order.phone}</a>
           </td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-            ${formatCurrency(order.total_price)}
-          </td>
-          <td class="px-6 py-4 whitespace-nowrap">
-            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+          <td class="px-6 py-4 text-sm text-gray-500">${itemsList}</td>
+          <td class="px-6 py-4 text-sm font-medium text-gray-900">${formatCurrency(order.total_price)}</td>
+          <td class="px-6 py-4 text-sm">
+            <span class="px-2 inline-flex text-xs font-semibold rounded-full bg-green-100 text-green-800">
               ${order.status || 'Processing'}
             </span>
           </td>
-          <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-            <button class="text-green-600 hover:text-green-900 mr-3">
-              <i class="fas fa-edit"></i>
-            </button>
-            <button class="text-red-600 hover:text-red-900">
-              <i class="fas fa-trash"></i>
-            </button>
+          <td class="px-6 py-4 text-right text-sm font-medium">
+            <button class="text-green-600 hover:text-green-900 mr-3"><i class="fas fa-edit"></i></button>
+            <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
           </td>
         `;
-        
+  
         ordersTableBody.appendChild(row);
       });
     };
-
-    // Show error message
+  
     const showError = (message) => {
       loginError.textContent = message;
       loginError.classList.remove('hidden');
       setTimeout(() => loginError.classList.add('hidden'), 5000);
     };
-
-    // Handle login
+  
     loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      
+  
       const username = document.getElementById('username').value.trim();
       const password = document.getElementById('password').value;
-      
+  
       loginBtn.disabled = true;
       loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Logging in...';
-      
+  
       try {
         const response = await fetch(`${API_BASE_URL}/api/admin/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
+          credentials: 'include', // ✅ Important for sessions
           body: JSON.stringify({ username, password })
         });
-
+  
         if (!response.ok) {
           const errorData = await response.json().catch(() => ({}));
           throw new Error(errorData.message || 'Invalid credentials');
         }
-
-        const data = await response.json();
-        authToken = data.token;
-        
+  
         loginSection.classList.add('hidden');
         ordersSection.classList.remove('hidden');
         await fetchOrders();
       } catch (error) {
         console.error('Login error:', error);
-        showError(error.message || 'Login failed. Please try again.');
+        showError(error.message || 'Login failed.');
       } finally {
         loginBtn.disabled = false;
         loginBtn.innerHTML = 'Login';
       }
     });
-
-    // Handle logout
-    document.getElementById('logoutButton').addEventListener('click', logout);
-    
+  
+    document.getElementById('logoutButton').addEventListener('click', async () => {
+      try {
+        await fetch(`${API_BASE_URL}/api/admin/logout`, {
+          method: 'POST',
+          credentials: 'include'
+        });
+      } catch (e) {
+        console.warn('Logout request failed, continuing anyway.');
+      }
+      logout();
+    });
+  
     function logout() {
-      authToken = null;
       ordersSection.classList.add('hidden');
       loginSection.classList.remove('hidden');
-      document.getElementById('username').value = '';
-      document.getElementById('password').value = '';
+      loginForm.reset();
     }
-
-    // Check for existing session on page load
-    window.addEventListener('load', () => {
-      // In a real app, you would check for existing token in localStorage/cookies
-      // For now, we'll just show the login form
-      loginSection.classList.remove('hidden');
-    });
+  
+    // Check session on page load
+    window.addEventListener('load', fetchOrders);
   </script>
+  
 </body>
 </html>

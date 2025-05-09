@@ -530,7 +530,7 @@ document.getElementById('place-order-btn').addEventListener('click', function() 
   // Save order data to localStorage before redirecting
   localStorage.setItem('lastOrder', JSON.stringify(orderData));
  // Send order data to the server
- fetch("https://brahminfoods-website-production.up.railway.app/api/orders", {
+ fetch("/api/orders", {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json'
