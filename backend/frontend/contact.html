@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Us - Brahmin Foods | Brahmin.in</title>
+  <meta name="description" content="Contact Brahmin Foods for inquiries, support, or bulk orders. Reach out via phone or our contact form.">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1A5D1A;
+      --primary-light: #4E9F3D;
+      --primary-dark: #0D3014;
+      --light: #F5F5DC;
+      --text: #0D3014;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--light);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      color: white;
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 2rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    .contact-info {
+      margin-bottom: 2rem;
+    }
+
+    .contact-info h2 {
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+
+    .contact-info p {
+      margin-bottom: 0.5rem;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    form label {
+      font-weight: 600;
+      margin-top: 1rem;
+    }
+
+    form input,
+    form textarea {
+      padding: 0.8rem;
+      border: 1px solid #ccc;
+      border-radius: 0.5rem;
+      margin-top: 0.3rem;
+      font-size: 1rem;
+    }
+
+    form textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    button {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: var(--primary-dark);
+    }
+
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 3rem;
+    }
+
+    .footer-links a {
+      color: white;
+      margin: 0 10px;
+      text-decoration: none;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Brahmin Foods</h1>
+    <p>Contact Us</p>
+  </header>
+
+  <div class="container">
+    <div class="contact-info">
+      <h2>Get in Touch</h2>
+      <p><strong>Phone:</strong> <a href="tel:7997991919">7997991919</a></p>
+      <p><strong>Email:</strong> <a href="mailto:mpavankumar12345@gmail.com">mpavankumar12345@gmail.com</a></p>
+      <p><strong>Address:</strong> Brahmin Foods, 2/14 Lane opp:SBI Treasury Bank, Brodipet, Guntur, Andhra Pradesh 522002, INDIA</p>
+    </div>
+
+    <form action="#" method="POST">
+      <label for="name">Your Name</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="email">Your Email</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="message">Message</label>
+      <textarea id="message" name="message" required></textarea>
+
+      <button type="submit">Send Message</button>
+    </form>
+  </div>
+
+  <footer>
+    <div class="footer-links">
+      <a href="menu.html">Menu</a>
+      <a href="aboutus.html">About Us</a>
+      <a href="privacy.html">Privacy Policy</a>
+    </div>
+    <div>© 2025 Brahmin Foods. All rights reserved.</div>
+  </footer>
+</body>
+</html>
