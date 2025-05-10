@@ -1,3 +1,4 @@
+<!-- ⬇️ Save this as admin.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,35 +7,83 @@
   <title>Admin Panel - Brahmin Foods</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <style> body { font-family: Arial, sans-serif; margin: 20px; background: #f8f8f8; } .login-container { max-width: 400px; margin: auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); } input { width: 100%; padding: 10px; margin: 10px 0; } button { padding: 10px 15px; background: #2b7cff; color: white; border: none; cursor: pointer; border-radius: 4px; } .error { color: red; margin-top: 10px; } table { width: 100%; border-collapse: collapse; margin-top: 30px; background: #fff; border-radius: 8px; overflow: hidden; } th, td { padding: 10px; border: 1px solid #ccc; text-align: left; } th { background-color: #f4f4f4; } </style>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f8f8f8;
+    }
+    .login-container {
+      max-width: 400px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+    }
+    button {
+      padding: 10px 15px;
+      background: #2b7cff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    .error {
+      color: red;
+      margin-top: 10px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 30px;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+  </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
   <div class="container mx-auto px-4 py-8">
+
     <!-- Login Section -->
     <div id="login-section" class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden p-8">
       <div class="text-center mb-6">
         <h1 class="text-2xl font-bold text-gray-800">Brahmin Foods</h1>
         <p class="text-gray-600">Admin Dashboard</p>
       </div>
-      
+
       <form id="loginForm" class="space-y-4">
         <div>
           <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
           <input type="text" id="username" required
                  class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500">
         </div>
-        
+
         <div>
           <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
           <input type="password" id="password" required
                  class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500">
         </div>
-        
+
         <button type="submit" id="login-btn"
                 class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
           Login
         </button>
-        
+
         <div id="login-error" class="text-red-500 text-sm text-center hidden"></div>
       </form>
     </div>
@@ -59,6 +108,7 @@
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order ID</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Address</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Items</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
@@ -70,12 +120,12 @@
             </tbody>
           </table>
         </div>
-        
+
         <div id="loading-indicator" class="p-4 text-center hidden">
-          <i class="fas fa-circle-notch loading-spinner text-green-500 mr-2"></i>
+          <i class="fas fa-circle-notch fa-spin text-green-500 mr-2"></i>
           Loading orders...
         </div>
-        
+
         <div id="no-orders" class="p-8 text-center text-gray-500 hidden">
           <i class="fas fa-clipboard text-4xl mb-2"></i>
           <p>No orders found</p>
@@ -94,62 +144,55 @@
     const ordersTableBody = document.getElementById('orders-table-body');
     const loadingIndicator = document.getElementById('loading-indicator');
     const noOrders = document.getElementById('no-orders');
-  
+
     const formatCurrency = (amount) =>
       new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(amount);
-  
+
     const setLoading = (isLoading) => {
       loadingIndicator.classList.toggle('hidden', !isLoading);
       ordersTableBody.classList.toggle('hidden', isLoading);
       noOrders.classList.add('hidden');
     };
-  
+
     const renderOrders = (orders) => {
-  ordersTableBody.innerHTML = '';
-  orders.forEach(order => {
-    const row = document.createElement('tr');
-    row.className = 'order-row hover:bg-green-50';
+      ordersTableBody.innerHTML = '';
+      orders.forEach(order => {
+        const row = document.createElement('tr');
+        row.className = 'order-row hover:bg-green-50';
 
-    // ✅ FIX: Safely parse items JSON string
-    let items = [];
-    try {
-      items = typeof order.items === 'string' ? JSON.parse(order.items) : order.items;
-    } catch (err) {
-      console.error("❌ Failed to parse items for order", order.id, err);
-    }
+        const items = Array.isArray(order.items) ? order.items : [];
+        const itemsList = items.length > 0
+          ? items.map(item => `
+              <div class="text-sm py-1">
+                ${item.quantity || 1}x ${(typeof item.name === 'object' ? item.name.en : item.name) || 'Unnamed'}
+                (${item.weight || 'N/A'}) <span class="text-gray-500">${formatCurrency(item.price || 0)}</span>
+              </div>
+            `).join('')
+          : '<span class="text-gray-400 italic">No items</span>';
 
-    const itemsList = Array.isArray(items) && items.length > 0
-      ? items.map(item => `
-          <div class="text-sm py-1">
-            ${item.quantity || 1}x ${(typeof item.name === 'object' ? item.name.en : item.name) || 'Unnamed'} (${item.weight || 'N/A'})
-            <span class="text-gray-500">${formatCurrency(item.price || 0)}</span>
-          </div>
-        `).join('')
-      : '<span class="text-gray-400 italic">No items</span>';
+        row.innerHTML = `
+          <td class="px-6 py-4 text-sm font-medium text-gray-900">#${order.id}</td>
+          <td class="px-6 py-4 text-sm text-gray-500">${order.customer_name}</td>
+          <td class="px-6 py-4 text-sm text-gray-500">
+            <a href="tel:${order.phone}" class="text-green-600 hover:text-green-800">${order.phone}</a>
+          </td>
+          <td class="px-6 py-4 text-sm text-gray-500">${order.address || '—'}</td>
+          <td class="px-6 py-4 text-sm text-gray-500">${itemsList}</td>
+          <td class="px-6 py-4 text-sm font-medium text-gray-900">${formatCurrency(order.total_price)}</td>
+          <td class="px-6 py-4 text-sm">
+            <span class="px-2 inline-flex text-xs font-semibold rounded-full bg-green-100 text-green-800">
+              ${order.status || 'Processing'}
+            </span>
+          </td>
+          <td class="px-6 py-4 text-right text-sm font-medium">
+            <button class="text-green-600 hover:text-green-900 mr-3" onclick="console.log('Edit order', ${order.id})"><i class="fas fa-edit"></i></button>
+            <button class="text-red-600 hover:text-red-900" onclick="console.log('Delete order', ${order.id})"><i class="fas fa-trash"></i></button>
+          </td>
+        `;
+        ordersTableBody.appendChild(row);
+      });
+    };
 
-    row.innerHTML = `
-      <td class="px-6 py-4 text-sm font-medium text-gray-900">#${order.id}</td>
-      <td class="px-6 py-4 text-sm text-gray-500">${order.customer_name}</td>
-      <td class="px-6 py-4 text-sm text-gray-500">
-        <a href="tel:${order.phone}" class="text-green-600 hover:text-green-800">${order.phone}</a>
-      </td>
-      <td class="px-6 py-4 text-sm text-gray-500">${itemsList}</td>
-      <td class="px-6 py-4 text-sm font-medium text-gray-900">${formatCurrency(order.total_price)}</td>
-      <td class="px-6 py-4 text-sm">
-        <span class="px-2 inline-flex text-xs font-semibold rounded-full bg-green-100 text-green-800">
-          ${order.status || 'Processing'}
-        </span>
-      </td>
-      <td class="px-6 py-4 text-right text-sm font-medium">
-        <button class="text-green-600 hover:text-green-900 mr-3"><i class="fas fa-edit"></i></button>
-        <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
-      </td>
-    `;
-    ordersTableBody.appendChild(row);
-  });
-};
-
-  
     const fetchOrders = async () => {
       setLoading(true);
       try {
@@ -168,20 +211,20 @@
         setLoading(false);
       }
     };
-  
+
     const showError = (message) => {
       loginError.textContent = message;
       loginError.classList.remove('hidden');
       setTimeout(() => loginError.classList.add('hidden'), 5000);
     };
-  
+
     loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const username = document.getElementById('username').value.trim();
       const password = document.getElementById('password').value;
       loginBtn.disabled = true;
       loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Logging in...';
-  
+
       try {
         const response = await fetch(`${API_BASE_URL}/api/admin/login`, {
           method: 'POST',
@@ -189,12 +232,12 @@
           credentials: 'include',
           body: JSON.stringify({ username, password })
         });
-  
+
         if (!response.ok) {
           const errorData = await response.json().catch(() => ({}));
           throw new Error(errorData.message || 'Invalid credentials');
         }
-  
+
         loginSection.classList.add('hidden');
         ordersSection.classList.remove('hidden');
         await fetchOrders();
@@ -206,7 +249,7 @@
         loginBtn.innerHTML = 'Login';
       }
     });
-  
+
     document.getElementById('logoutButton').addEventListener('click', async () => {
       try {
         await fetch(`${API_BASE_URL}/api/admin/logout`, {
@@ -218,16 +261,12 @@
       }
       logout();
     });
-  
+
     function logout() {
       ordersSection.classList.add('hidden');
       loginSection.classList.remove('hidden');
       loginForm.reset();
     }
-  
-    // ✅ Removed auto-fetch on load
-    // window.addEventListener('load', fetchOrders);
   </script>
-  
 </body>
 </html>
