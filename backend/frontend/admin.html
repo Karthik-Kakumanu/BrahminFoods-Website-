@@ -112,8 +112,8 @@
         const itemsList = Array.isArray(order.items) && order.items.length > 0
   ? order.items.map(item => `
       <div class="text-sm py-1">
-        ${item.quantity || 1}x ${item.name || 'Unnamed'} 
-(${item.weight || 'N/A'}) - 
+        ${item.quantity || 1}x ${(typeof item.name === 'object' ? item.name.en : item.name) || 'Unnamed'} (${item.weight || 'N/A'}) ...
+
 <span class="text-gray-500">${formatCurrency(item.price || 0)}</span>
 
       </div>
