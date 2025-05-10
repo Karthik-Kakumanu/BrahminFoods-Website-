@@ -99,7 +99,8 @@
       const itemsList = Array.isArray(items) && items.length > 0
         ? items.map(item => `
           <div class="text-sm py-1">
-            ${item.quantity || 1}x ${item.name || 'Unnamed'} (${item.weight || 'N/A'})
+            ${item.quantity || 1}x ${(typeof item.name === 'object' ? item.name.en : item.name) || 'Unnamed'} 
+            (${item.weight || 'N/A'}) - 
             <span class="text-gray-500">${formatCurrency(item.price || 0)}</span>
           </div>
         `).join('')
@@ -109,7 +110,7 @@
         <td class="px-6 py-4 text-sm font-medium text-gray-900">#${order.id}</td>
         <td class="px-6 py-4 text-sm text-gray-500">${order.customer_name}</td>
         <td class="px-6 py-4 text-sm text-green-600"><a href="tel:${order.phone}">${order.phone}</a></td>
-        <td class="px-6 py-4 text-sm text-gray-500">${order.address}</td>
+        <td class="px-6 py-4 text-sm text-gray-500">${order.address || '—'}</td>
         <td class="px-6 py-4 text-sm text-gray-500">${itemsList}</td>
         <td class="px-6 py-4 text-sm font-medium text-gray-900">${formatCurrency(order.total_price)}</td>
         <td class="px-6 py-4 text-sm">
@@ -117,8 +118,8 @@
             ${order.status || 'Processing'}
           </span>
         </td>
-        <td class="px-6 py-4 text-right text-sm font-medium">
-          <button onclick="editOrder(${order.id})" class="text-green-600 hover:text-green-900 mr-3"><i class="fas fa-edit"></i></button>
+        <td class="px-6 py-4 text-right text-sm font-medium space-x-2">
+          <button onclick="editOrder(${order.id})" class="text-green-600 hover:text-green-900"><i class="fas fa-edit"></i></button>
           <button onclick="deleteOrder(${order.id})" class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
         </td>
       `;
@@ -207,5 +208,6 @@
     alert("Edit coming soon. Order ID: " + id);
   }
 </script>
+
 </body>
 </html>
