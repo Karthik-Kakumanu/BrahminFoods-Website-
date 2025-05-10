@@ -444,157 +444,126 @@
     <span class="toast-message">Order placed successfully!</span>
   </div>
 
-  <script>
-    // Load cart from localStorage using the same key as cart.html
-const cart = JSON.parse(localStorage.getItem("brahminFoodsCart")) || [];
+ <script>
+  const cart = JSON.parse(localStorage.getItem("brahminFoodsCart")) || [];
 
-// Render order summary
-function renderOrderSummary() {
-  const orderItemsContainer = document.getElementById('order-items');
+  function renderOrderSummary() {
+    const orderItemsContainer = document.getElementById('order-items');
 
-  if (cart.length === 0) {
-    orderItemsContainer.innerHTML = '<div class="text-center py-4">Your cart is empty</div>';
-    return;
-  }
-
-  // Combine duplicate items (same logic as cart.html)
-  const combinedCart = cart.reduce((acc, item) => {
-    const existingItem = acc.find(i => i.id === item.id);
-    if (existingItem) {
-      existingItem.quantity = (existingItem.quantity || 1) + (item.quantity || 1);
-    } else {
-      acc.push({...item, quantity: item.quantity || 1});
+    if (cart.length === 0) {
+      orderItemsContainer.innerHTML = '<div class="text-center py-4">Your cart is empty</div>';
+      return;
     }
-    return acc;
-  }, []);
 
-  orderItemsContainer.innerHTML = combinedCart.map(item => `
-    <div class="order-summary-item">
-      <span class="font-medium">${item.name?.en || item.name} x ${item.quantity}</span>
-      <span class="font-medium">₹${(item.price * item.quantity).toLocaleString('en-IN')}</span>
-    </div>
-  `).join('');
+    const combinedCart = cart.reduce((acc, item) => {
+      const existingItem = acc.find(i => i.id === item.id && i.weight === item.weight);
+      if (existingItem) {
+        existingItem.quantity = (existingItem.quantity || 1) + (item.quantity || 1);
+      } else {
+        acc.push({ ...item, quantity: item.quantity || 1 });
+      }
+      return acc;
+    }, []);
 
-  const subtotal = combinedCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  const shipping = 40; // Match the DEFAULT_SHIPPING from cart.html
-  const total = subtotal + shipping;
+    orderItemsContainer.innerHTML = combinedCart.map(item => `
+      <div class="order-summary-item">
+        <span class="font-medium">${item.name?.en || item.name} x ${item.quantity}</span>
+        <span class="font-medium">₹${(item.price * item.quantity).toLocaleString('en-IN')}</span>
+      </div>
+    `).join('');
 
-  document.getElementById('order-subtotal').textContent = `₹${subtotal.toLocaleString('en-IN')}`;
-  document.getElementById('order-shipping').textContent = `₹${shipping.toLocaleString('en-IN')}`;
-  document.getElementById('order-total').textContent = `₹${total.toLocaleString('en-IN')}`;
-}
+    const subtotal = combinedCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const shipping = 40;
+    const total = subtotal + shipping;
 
-// Toggle courier fields based on delivery type
-document.getElementById('delivery-type').addEventListener('change', function() {
-  const courierFields = document.getElementById('courier-fields');
-  if (this.value === 'courier') {
-    courierFields.classList.remove('hidden');
-  } else {
-    courierFields.classList.add('hidden');
-  }
-});
-
-// Place order button functionality
-document.getElementById('place-order-btn').addEventListener('click', function() {
-  const form = document.getElementById('delivery-form');
-  if (!form.checkValidity()) {
-    form.reportValidity();
-    return;
+    document.getElementById('order-subtotal').textContent = `₹${subtotal.toLocaleString('en-IN')}`;
+    document.getElementById('order-shipping').textContent = `₹${shipping.toLocaleString('en-IN')}`;
+    document.getElementById('order-total').textContent = `₹${total.toLocaleString('en-IN')}`;
   }
 
-  // Combine duplicate items (same logic as cart.html)
-  const combinedCart = cart.reduce((acc, item) => {
-  const existingItem = acc.find(i => i.id === item.id);
-  if (existingItem) {
-    existingItem.quantity = (existingItem.quantity || 1) + (item.quantity || 1);
-  } else {
-    acc.push({
-      id: item.id,
-      name: item.name,
-      price: item.price,
-      weight: item.weight || '', // Include weight here
-      quantity: item.quantity || 1
-    });
-  }
-  return acc;
-}, []);
-
-
-  // Collect order data
-  const orderData = {
-    items: combinedCart,
-    subtotal: combinedCart.reduce((sum, item) => sum + (item.price * item.quantity), 0),
-    shipping: 40,
-    total: combinedCart.reduce((sum, item) => sum + (item.price * item.quantity), 0) + 40,
-    customerInfo: {
-      name: document.getElementById('full-name').value,
-      phone: document.getElementById('phone').value,
-      address: `${document.getElementById('address').value}, ${document.getElementById('city').value}, ${document.getElementById('state').value} - ${document.getElementById('pincode').value}`
-    },
-    deliveryType: document.getElementById('delivery-type').value
-  };
-
-  // Save order data to localStorage before redirecting
-  localStorage.setItem('lastOrder', JSON.stringify(orderData));
- // Send order data to the server
- fetch("/api/orders", {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify(orderData)
-})
-
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    return response.json();
-  })
-  .then(data => {
-    if (data.success) {
-      // Show success toast
-      const toast = document.getElementById('toast');
-      toast.querySelector('.toast-message').textContent = "Order Placed Successfully!";
-      toast.classList.add('show');
-      
-      // Clear cart and redirect after delay
-      localStorage.removeItem("brahminFoodsCart");
-      setTimeout(() => {
-        window.location.href = `order_confirmation.html?orderId=${data.orderId}`;
-      }, 1000);
-    } else {
-      throw new Error(data.error || 'Failed to place order');
-    }
-  })
-  .catch(error => {
-    console.error('Error:', error);
-    alert('Error placing order: ' + error.message);
+  document.getElementById('delivery-type').addEventListener('change', function () {
+    const courierFields = document.getElementById('courier-fields');
+    courierFields.classList.toggle('hidden', this.value !== 'courier');
   });
-});
 
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', function() {
-  renderOrderSummary();
+  document.getElementById('place-order-btn').addEventListener('click', function () {
+    const form = document.getElementById('delivery-form');
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
 
-  // If cart is empty, redirect to menu
-  if (cart.length === 0) {
-    setTimeout(() => {
-      window.location.href = 'menu.html';
-    }, 2000);
-  }
-});
+    const combinedCart = cart.reduce((acc, item) => {
+      const existingItem = acc.find(i => i.id === item.id && i.weight === item.weight);
+      if (existingItem) {
+        existingItem.quantity += item.quantity || 1;
+      } else {
+        acc.push({
+          id: item.id,
+          name: typeof item.name === 'object' ? item.name.en : item.name,
+          price: item.price,
+          weight: item.weight || '',
+          quantity: item.quantity || 1
+        });
+      }
+      return acc;
+    }, []);
 
-// Display a toast notification when user adds an item to the cart (Example)
-// document.getElementById('add-to-cart-btn').addEventListener('click', function() {
-//   const toast = document.getElementById('toast');
-//   toast.classList.add('show');
-//   toast.textContent = "Item added to cart!";
+    const subtotal = combinedCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const shipping = 40;
+    const total = subtotal + shipping;
 
-//   setTimeout(() => {
-//     toast.classList.remove('show');
-//   }, 3000);
-// });
+    const orderData = {
+      items: combinedCart,
+      subtotal,
+      shipping,
+      total,
+      customerInfo: {
+        name: document.getElementById('full-name').value,
+        phone: document.getElementById('phone').value,
+        address: `${document.getElementById('address').value}, ${document.getElementById('city').value}, ${document.getElementById('state').value} - ${document.getElementById('pincode').value}`
+      },
+      deliveryType: document.getElementById('delivery-type').value
+    };
+
+    localStorage.setItem('lastOrder', JSON.stringify(orderData));
+
+    fetch("/api/orders", {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(orderData)
+    })
+      .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.json();
+      })
+      .then(data => {
+        if (data.success) {
+          const toast = document.getElementById('toast');
+          toast.querySelector('.toast-message').textContent = "Order Placed Successfully!";
+          toast.classList.add('show');
+          localStorage.removeItem("brahminFoodsCart");
+          setTimeout(() => {
+            window.location.href = `order_confirmation.html?orderId=${data.orderId}`;
+          }, 1000);
+        } else {
+          throw new Error(data.error || 'Failed to place order');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Error placing order: ' + error.message);
+      });
+  });
+
+  document.addEventListener('DOMContentLoaded', function () {
+    renderOrderSummary();
+    if (cart.length === 0) {
+      setTimeout(() => {
+        window.location.href = 'menu.html';
+      }, 2000);
+    }
+  });
 </script>
 
 </body>
