@@ -91,12 +91,9 @@
       const row = document.createElement('tr');
       row.className = 'order-row hover:bg-green-50';
 
-      let items = [];
-      try {
-        items = typeof order.items === 'string' ? JSON.parse(order.items) : order.items;
-      } catch (e) {}
+      const items = Array.isArray(order.items) ? order.items : [];
 
-      const itemsList = Array.isArray(items) && items.length > 0
+      const itemsList = items.length > 0
         ? items.map(item => `
           <div class="text-sm py-1">
             ${item.quantity || 1}x ${(typeof item.name === 'object' ? item.name.en : item.name) || 'Unnamed'} 
