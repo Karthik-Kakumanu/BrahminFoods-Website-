@@ -34,7 +34,7 @@ router.post('/', (req, res) => {
     customerInfo.name.trim(),
     customerInfo.phone.trim(),
     customerInfo.address,
-    JSON.stringify(items),
+    typeof items === 'string' ? items : JSON.stringify(items),
     parseFloat(subtotal),
     parseFloat(shipping),
     parseFloat(total),
@@ -73,16 +73,12 @@ router.get('/', (req, res) => {
       let parsedItems = [];
 
       try {
-        console.log(`🧾 Raw items from DB for order ${order.id}:`, order.items);
-
-        const firstParse = JSON.parse(order.items || '[]');
-
-        if (Array.isArray(firstParse)) {
-          parsedItems = firstParse;
-          console.log(`✅ Parsed as array directly for order ${order.id}:`, parsedItems);
-        } else if (typeof firstParse === 'string') {
-          parsedItems = JSON.parse(firstParse);
-          console.log(`✅ Parsed twice for order ${order.id}:`, parsedItems);
+        let parsed = order.items;
+        if (typeof parsed === 'string') {
+          parsed = JSON.parse(parsed);
+        }
+        if (Array.isArray(parsed)) {
+          parsedItems = parsed;
         }
       } catch (e) {
         console.warn(`⚠️ Failed to parse items for order ${order.id}:`, e.message);
