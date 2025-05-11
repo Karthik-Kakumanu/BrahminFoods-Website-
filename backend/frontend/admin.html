@@ -127,7 +127,7 @@
   const fetchOrders = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE_URL}/api/orders`, { credentials: 'include' });
+      const res = await fetch(`${API_BASE_URL}/api/admin/orders`, { credentials: 'include' });
       if (!res.ok) throw new Error('Failed to fetch orders');
       const orders = await res.json();
       renderOrders(orders);

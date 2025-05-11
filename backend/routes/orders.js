@@ -83,8 +83,10 @@ router.get('/', (req, res) => {
         name: item.name,
         price: item.price,
         quantity: item.quantity,
-        weight: item.weight
+        weight: item.weight || 'N/A'
       }));
+      console.log('Parsed items for order:', modifiedItems);
+
 
       return {
         ...order,
