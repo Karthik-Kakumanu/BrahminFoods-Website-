@@ -10,7 +10,8 @@ router.post('/', (req, res) => {
     shipping,
     total,
     customerInfo,
-    deliveryType
+    deliveryType,
+    paymentMethod
   } = req.body;
 
   if (!items || !items.length || !customerInfo || !customerInfo.name || !customerInfo.phone || !customerInfo.address) {
