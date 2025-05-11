@@ -3,9 +3,11 @@ const bcrypt = require('bcryptjs');
 const router = express.Router();
 const db = require('../db');
 
+// Admin credentials
 const ADMIN_USERNAME = 'admin';
 const ADMIN_PASSWORD_HASH = '$2b$12$okbk48K5nUhcJ7YNaWvcIupUfdcNOhww8ILzPtLsBgMZkRSZ14dCy';
 
+// 🔐 Login Route
 router.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -27,6 +29,7 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// 🚪 Logout Route
 router.post('/logout', (req, res) => {
   req.session.destroy(err => {
     if (err) {
@@ -38,6 +41,7 @@ router.post('/logout', (req, res) => {
   });
 });
 
+// 📦 Get Orders (Admin Only)
 router.get('/orders', (req, res) => {
   if (!req.session.isAdmin) {
     return res.status(403).json({ error: 'Unauthorized' });
@@ -53,14 +57,18 @@ router.get('/orders', (req, res) => {
 
     const modifiedResults = results.map(order => {
       let parsedItems = [];
+
       try {
-        const firstParse = JSON.parse(order.items || '[]');
-        parsedItems = typeof firstParse === 'string' ? JSON.parse(firstParse) : firstParse;
+        let parsed = order.items;
+
+        if (typeof parsed === 'string') parsed = JSON.parse(parsed);
+        if (typeof parsed === 'string') parsed = JSON.parse(parsed); // handle double-stringified case
+        if (Array.isArray(parsed)) parsedItems = parsed;
       } catch (e) {
-        console.warn(`⚠️ Failed to parse items for order ID ${order.id}`, e);
+        console.warn(`⚠️ Failed to parse items for order ID ${order.id}:`, e.message);
       }
 
-      const modifiedItems = parsedItems.map(item => ({
+      const formattedItems = parsedItems.map(item => ({
         id: item.id,
         name: item.name,
         price: item.price,
@@ -68,10 +76,9 @@ router.get('/orders', (req, res) => {
         weight: item.weight || 'N/A'
       }));
 
-      const { items, ...rest } = order;
       return {
-        ...rest,
-        items: modifiedItems
+        ...order,
+        items: formattedItems
       };
     });
 
@@ -79,6 +86,7 @@ router.get('/orders', (req, res) => {
   });
 });
 
+// 🧭 Optional: Dashboard Test Route
 router.get('/dashboard', (req, res) => {
   if (req.session.isAdmin) {
     return res.json({ message: 'Welcome to the admin dashboard!' });
