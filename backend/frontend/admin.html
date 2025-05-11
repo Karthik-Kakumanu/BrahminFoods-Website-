@@ -206,40 +206,49 @@
     }
   }
 
-  function editOrder(id) {
-    const newAddress = prompt("Enter new address:");
-    const newStatus = prompt("Enter new status (Processing / Delivered):");
-    const newTotal = prompt("Enter new total price:");
+  async function editOrder(id) {
+  // Fetch the existing order first
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/admin/orders/${id}`, {
+      credentials: 'include'
+    });
+    if (!res.ok) throw new Error("Failed to fetch order");
+    const order = await res.json();
 
-    if (!newAddress || !newStatus || !newTotal) {
-      alert("All fields are required.");
+    // Prompt for new values (pre-filled with current values)
+    const newAddress = prompt("Enter new address:", order.address || '');
+    const newStatus = prompt("Enter new status (Processing / Delivered):", order.status || 'Processing');
+    const newTotal = prompt("Enter new total price:", order.total_price);
+
+    // If user clicks cancel on any prompt, stop
+    if (newAddress === null || newStatus === null || newTotal === null) {
       return;
     }
 
     const updatedData = {
-      address: newAddress,
-      status: newStatus,
-      total_price: parseFloat(newTotal)
+      address: newAddress.trim() || order.address,
+      status: newStatus.trim() || order.status,
+      total_price: newTotal.trim() ? parseFloat(newTotal) : order.total_price
     };
 
-    fetch(`${API_BASE_URL}/api/admin/orders/${id}`, {
+    const updateRes = await fetch(`${API_BASE_URL}/api/admin/orders/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
       credentials: 'include',
       body: JSON.stringify(updatedData)
-    })
-    .then(res => res.json())
-    .then(data => {
-      alert(data.message || 'Order updated!');
-      fetchOrders();
-    })
-    .catch(err => {
-      console.error(err);
-      alert("Update failed.");
     });
+
+    const data = await updateRes.json();
+    alert(data.message || 'Order updated!');
+    fetchOrders();
+  } catch (err) {
+    console.error(err);
+    alert("Failed to edit order.");
   }
+}
+
 </script>
 
 </body>

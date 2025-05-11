@@ -519,6 +519,9 @@
     const shipping = 40;
     const total = subtotal + shipping;
 
+     const selectedPayment = document.querySelector('input[name="payment"]:checked');
+    const paymentMethod = selectedPayment ? selectedPayment.value.toUpperCase() : 'COD';
+
     const orderData = {
       items: combinedCart, // ✅ actual array, not a string
       subtotal,
@@ -530,7 +533,7 @@
         address: `${document.getElementById('address').value}, ${document.getElementById('city').value}, ${document.getElementById('state').value} - ${document.getElementById('pincode').value}`
       },
       deliveryType: document.getElementById('delivery-type').value,
-      paymentMethod: document.querySelector(('input[name="payment"]:checked')?.value || 'COD').toUpperCase()
+      paymentMethod: paymentMethod
 
     };
 
