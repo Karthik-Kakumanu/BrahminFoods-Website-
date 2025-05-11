@@ -70,8 +70,10 @@ router.get('/orders', (req, res) => {
         weight: item.weight || 'N/A'  // ✅ fallback
       }));
 
+     const { items, ...rest } = order;
+
       return {
-        ...order,
+        ...rest,
         items: modifiedItems
       };
     });
