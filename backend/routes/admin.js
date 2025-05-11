@@ -94,4 +94,63 @@ router.get('/dashboard', (req, res) => {
   res.status(403).json({ error: 'Access denied' });
 });
 
+// ✅ Delete an order by ID (Admin route)
+router.delete('/orders/:id', (req, res) => {
+  if (!req.session.isAdmin) {
+    return res.status(403).json({ error: 'Unauthorized' });
+  }
+
+  const orderId = req.params.id;
+
+  db.query('DELETE FROM orders WHERE id = ?', [orderId], (err, result) => {
+    if (err) {
+      console.error('❌ Error deleting order:', err.message);
+      return res.status(500).json({ error: 'Failed to delete order' });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+
+    res.json({ message: 'Order deleted successfully' });
+  });
+});
+
+// ✅ Edit/Update an order (Admin only)
+router.put('/orders/:id', (req, res) => {
+  if (!req.session.isAdmin) {
+    return res.status(403).json({ error: 'Unauthorized' });
+  }
+
+  const orderId = req.params.id;
+  const { items, total_price, address, status } = req.body;
+
+  let serializedItems;
+  try {
+    serializedItems = typeof items === 'string' ? items : JSON.stringify(items);
+  } catch (e) {
+    return res.status(400).json({ error: 'Invalid items format' });
+  }
+
+  const updateQuery = `
+    UPDATE orders 
+    SET items = ?, total_price = ?, address = ?, status = ? 
+    WHERE id = ?
+  `;
+
+  db.query(updateQuery, [serializedItems, total_price, address, status || 'Processing', orderId], (err, result) => {
+    if (err) {
+      console.error('❌ Error updating order:', err.message);
+      return res.status(500).json({ error: 'Failed to update order' });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+
+    res.json({ message: '✅ Order updated successfully' });
+  });
+});
+
+
 module.exports = router;

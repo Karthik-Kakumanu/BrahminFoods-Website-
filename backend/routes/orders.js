@@ -40,7 +40,8 @@ router.post('/', (req, res) => {
       subtotal,
       shipping,
       total_price,
-      delivery_type
+      delivery_type,
+      payment_method
     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
@@ -52,7 +53,8 @@ router.post('/', (req, res) => {
     parseFloat(subtotal),
     parseFloat(shipping),
     parseFloat(total),
-    deliveryType || 'guntur'
+    deliveryType || 'guntur',
+    paymentMethod || 'COD'
   ];
 
   db.query(sql, values, (err, result) => {

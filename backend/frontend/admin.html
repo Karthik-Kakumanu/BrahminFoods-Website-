@@ -67,8 +67,8 @@
 
 <script>
   const API_BASE_URL = window.location.origin.includes("localhost")
-  ? "http://localhost:10000" // For local dev
-  : window.location.origin;  // For production (same domain as backend)
+    ? "http://localhost:10000"
+    : window.location.origin;
 
   const loginSection = document.getElementById('login-section');
   const ordersSection = document.getElementById('orders-section');
@@ -91,28 +91,20 @@
   const renderOrders = (orders) => {
     ordersTableBody.innerHTML = '';
     orders.forEach(order => {
-      console.log("🧾 Raw order.items from backend:", order.items);
-
       let items = [];
-      if (typeof order.items === 'string') {
-        try {
-          items = JSON.parse(order.items);
-        } catch (e) {
-          console.warn(`❌ Failed to parse items for order #${order.id}`, e);
-          items = [];
-        }
-      } else if (Array.isArray(order.items)) {
-        items = order.items;
+      try {
+        items = typeof order.items === 'string' ? JSON.parse(order.items) : order.items;
+      } catch (e) {
+        items = [];
       }
 
-      const itemsList = items.length > 0
+      const itemsList = items.length
         ? items.map(item => `
-          <div class="text-sm py-1">
-            ${item.quantity || 1}x ${item.name?.en || item.name || 'Unnamed'} 
-            (${item.weight || 'N/A'}) - 
-            <span class="text-gray-500">${formatCurrency(item.price || 0)}</span>
-          </div>
-        `).join('')
+            <div class="text-sm py-1">
+              ${item.quantity || 1}x ${item.name?.en || item.name || 'Unnamed'}
+              (${item.weight || 'N/A'}) -
+              <span class="text-gray-500">${formatCurrency(item.price || 0)}</span>
+            </div>`).join('')
         : '<span class="text-gray-400 italic">No items</span>';
 
       const row = document.createElement('tr');
@@ -124,16 +116,13 @@
         <td class="px-6 py-4 text-sm text-gray-500">${order.address || '—'}</td>
         <td class="px-6 py-4 text-sm text-gray-500">${itemsList}</td>
         <td class="px-6 py-4 text-sm font-medium text-gray-900">${formatCurrency(order.total_price)}</td>
-        <td class="px-6 py-4 text-sm">
-          <span class="px-2 inline-flex text-xs font-semibold rounded-full bg-green-100 text-green-800">
-            ${order.status || 'Processing'}
-          </span>
-        </td>
+        <td class="px-6 py-4 text-sm">${order.status || 'Processing'}</td>
+        <td class="px-6 py-4 text-sm text-gray-600">${order.payment_method || '—'}</td>
+        <td class="px-6 py-4 text-sm text-gray-600">${order.delivery_type || '—'}</td>
         <td class="px-6 py-4 text-right text-sm font-medium space-x-2">
           <button onclick="editOrder(${order.id})" class="text-green-600 hover:text-green-900"><i class="fas fa-edit"></i></button>
           <button onclick="deleteOrder(${order.id})" class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
-        </td>
-      `;
+        </td>`;
       ordersTableBody.appendChild(row);
     });
   };
@@ -147,7 +136,6 @@
       renderOrders(orders);
       noOrders.classList.toggle('hidden', orders.length !== 0);
     } catch (err) {
-      console.error(err);
       showError("Failed to load orders.");
       logout();
     } finally {
@@ -216,7 +204,38 @@
   }
 
   function editOrder(id) {
-    alert("Edit coming soon. Order ID: " + id);
+    const newAddress = prompt("Enter new address:");
+    const newStatus = prompt("Enter new status (Processing / Delivered):");
+    const newTotal = prompt("Enter new total price:");
+
+    if (!newAddress || !newStatus || !newTotal) {
+      alert("All fields are required.");
+      return;
+    }
+
+    const updatedData = {
+      address: newAddress,
+      status: newStatus,
+      total_price: parseFloat(newTotal)
+    };
+
+    fetch(`${API_BASE_URL}/api/admin/orders/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+      body: JSON.stringify(updatedData)
+    })
+    .then(res => res.json())
+    .then(data => {
+      alert(data.message || 'Order updated!');
+      fetchOrders();
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Update failed.");
+    });
   }
 </script>
 
