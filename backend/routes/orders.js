@@ -43,7 +43,7 @@ router.post('/', (req, res) => {
       total_price,
       delivery_type,
       payment_method
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)
   `;
 
   const values = [
