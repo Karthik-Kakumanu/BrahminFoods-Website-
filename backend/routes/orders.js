@@ -17,6 +17,20 @@ router.post('/', (req, res) => {
     return res.status(400).json({ error: 'Required fields are missing' });
   }
 
+  // ✅ Properly handle stringified or object-based items
+  let serializedItems;
+  try {
+    if (typeof items === 'string') {
+      const parsed = JSON.parse(items); // validate stringified array
+      serializedItems = JSON.stringify(parsed);
+    } else {
+      serializedItems = JSON.stringify(items);
+    }
+  } catch (e) {
+    console.error('❌ Invalid items format:', e.message);
+    return res.status(400).json({ error: 'Invalid items format' });
+  }
+
   const sql = `
     INSERT INTO orders (
       customer_name,
@@ -34,7 +48,7 @@ router.post('/', (req, res) => {
     customerInfo.name.trim(),
     customerInfo.phone.trim(),
     customerInfo.address,
-    typeof items === 'string' ? items : JSON.stringify(items),
+    serializedItems,
     parseFloat(subtotal),
     parseFloat(shipping),
     parseFloat(total),

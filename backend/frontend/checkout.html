@@ -460,7 +460,13 @@
       if (existingItem) {
         existingItem.quantity = (existingItem.quantity || 1) + (item.quantity || 1);
       } else {
-        acc.push({ ...item, quantity: item.quantity || 1 });
+        acc.push({
+          id: item.id,
+          name: item.name,
+          price: item.price,
+          weight: item.weight || '',
+          quantity: item.quantity || 1
+        });
       }
       return acc;
     }, []);
@@ -500,7 +506,7 @@
       } else {
         acc.push({
           id: item.id,
-          name: typeof item.name === 'object' ? item.name.en : item.name,
+          name: item.name, // preserve full object if it's an object
           price: item.price,
           weight: item.weight || '',
           quantity: item.quantity || 1
@@ -514,7 +520,7 @@
     const total = subtotal + shipping;
 
     const orderData = {
-      items: combinedCart,
+      items: combinedCart, // ✅ actual array, not a string
       subtotal,
       shipping,
       total,
@@ -533,27 +539,24 @@
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(orderData)
     })
-      .then(response => {
-        if (!response.ok) throw new Error('Network response was not ok');
-        return response.json();
-      })
-      .then(data => {
-        if (data.success) {
-          const toast = document.getElementById('toast');
-          toast.querySelector('.toast-message').textContent = "Order Placed Successfully!";
-          toast.classList.add('show');
-          localStorage.removeItem("brahminFoodsCart");
-          setTimeout(() => {
-            window.location.href = `order_confirmation.html?orderId=${data.orderId}`;
-          }, 1000);
-        } else {
-          throw new Error(data.error || 'Failed to place order');
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        alert('Error placing order: ' + error.message);
-      });
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        const toast = document.getElementById('toast');
+        toast.querySelector('.toast-message').textContent = "Order Placed Successfully!";
+        toast.classList.add('show');
+        localStorage.removeItem("brahminFoodsCart");
+        setTimeout(() => {
+          window.location.href = `order_confirmation.html?orderId=${data.orderId}`;
+        }, 1000);
+      } else {
+        throw new Error(data.error || 'Failed to place order');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Error placing order: ' + error.message);
+    });
   });
 
   document.addEventListener('DOMContentLoaded', function () {
