@@ -88,21 +88,32 @@
   const renderOrders = (orders) => {
     ordersTableBody.innerHTML = '';
     orders.forEach(order => {
-      const row = document.createElement('tr');
-      row.className = 'order-row hover:bg-green-50';
+      console.log("🧾 Raw order.items from backend:", order.items);
 
-      const items = Array.isArray(order.items) ? order.items : [];
+      let items = [];
+      if (typeof order.items === 'string') {
+        try {
+          items = JSON.parse(order.items);
+        } catch (e) {
+          console.warn(`❌ Failed to parse items for order #${order.id}`, e);
+          items = [];
+        }
+      } else if (Array.isArray(order.items)) {
+        items = order.items;
+      }
 
       const itemsList = items.length > 0
         ? items.map(item => `
           <div class="text-sm py-1">
-            ${item.quantity || 1}x ${item.name?.en ||item.name|| 'Unnamed'} 
+            ${item.quantity || 1}x ${item.name?.en || item.name || 'Unnamed'} 
             (${item.weight || 'N/A'}) - 
             <span class="text-gray-500">${formatCurrency(item.price || 0)}</span>
           </div>
         `).join('')
         : '<span class="text-gray-400 italic">No items</span>';
 
+      const row = document.createElement('tr');
+      row.className = 'order-row hover:bg-green-50';
       row.innerHTML = `
         <td class="px-6 py-4 text-sm font-medium text-gray-900">#${order.id}</td>
         <td class="px-6 py-4 text-sm text-gray-500">${order.customer_name}</td>
