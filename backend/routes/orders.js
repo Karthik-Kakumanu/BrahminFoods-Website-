@@ -71,17 +71,22 @@ router.get('/', (req, res) => {
 
     const modifiedResults = results.map(order => {
       let parsedItems = [];
-try {
-  const firstParse = JSON.parse(order.items || '[]');
-  if (Array.isArray(firstParse)) {
-    parsedItems = firstParse;
-  } else if (typeof firstParse === 'string') {
-    parsedItems = JSON.parse(firstParse);
-  }
-} catch (e) {
-  console.warn(`⚠️ Failed to parse items for order ID ${order.id}`, e.message);
-}
 
+      try {
+        console.log(`🧾 Raw items from DB for order ${order.id}:`, order.items);
+
+        const firstParse = JSON.parse(order.items || '[]');
+
+        if (Array.isArray(firstParse)) {
+          parsedItems = firstParse;
+          console.log(`✅ Parsed as array directly for order ${order.id}:`, parsedItems);
+        } else if (typeof firstParse === 'string') {
+          parsedItems = JSON.parse(firstParse);
+          console.log(`✅ Parsed twice for order ${order.id}:`, parsedItems);
+        }
+      } catch (e) {
+        console.warn(`⚠️ Failed to parse items for order ${order.id}:`, e.message);
+      }
 
       return {
         ...order,
