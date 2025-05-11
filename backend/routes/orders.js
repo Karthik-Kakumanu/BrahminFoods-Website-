@@ -4,7 +4,7 @@ const db = require('../db');
 
 // ✅ Place a new order
 router.post('/', (req, res) => {
-  const { 
+  const {
     items,
     subtotal,
     shipping,
@@ -19,17 +19,17 @@ router.post('/', (req, res) => {
 
   const sql = `
     INSERT INTO orders (
-      customer_name, 
-      phone, 
-      address, 
-      items, 
-      subtotal, 
-      shipping, 
-      total_price, 
+      customer_name,
+      phone,
+      address,
+      items,
+      subtotal,
+      shipping,
+      total_price,
       delivery_type
     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
   `;
-  
+
   const values = [
     customerInfo.name.trim(),
     customerInfo.phone.trim(),
@@ -72,24 +72,17 @@ router.get('/', (req, res) => {
     const modifiedResults = results.map(order => {
       let parsedItems = [];
       try {
+        // First parse
         const firstParse = JSON.parse(order.items || '[]');
+        // If it's still a string, parse again
         parsedItems = typeof firstParse === 'string' ? JSON.parse(firstParse) : firstParse;
       } catch (e) {
-        console.warn(`⚠️ Failed to parse items for order ID ${order.id}`, e);
+        console.warn(`⚠️ Failed to parse items for order ID ${order.id}`);
       }
 
-      const modifiedItems = parsedItems.map(item => ({
-        id: item.id,
-        name: item.name,
-        price: item.price,
-        quantity: item.quantity,
-        weight: item.weight || 'N/A'
-      }));
-
-      const { items, ...rest } = order;
       return {
-        ...rest,
-        items: modifiedItems
+        ...order,
+        items: parsedItems
       };
     });
 
@@ -97,7 +90,7 @@ router.get('/', (req, res) => {
   });
 });
 
-// ✅ Delete order by ID (Admin only)
+// ✅ Delete an order
 router.delete('/:id', (req, res) => {
   if (!req.session.isAdmin) {
     return res.status(403).json({ error: 'Unauthorized' });
