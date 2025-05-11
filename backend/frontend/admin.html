@@ -190,7 +190,7 @@
   async function deleteOrder(id) {
     if (!confirm("Are you sure to delete this order?")) return;
     try {
-      const res = await fetch(`${API_BASE_URL}/api/orders/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/admin/orders/${id}`, {
         method: 'DELETE',
         credentials: 'include'
       });
