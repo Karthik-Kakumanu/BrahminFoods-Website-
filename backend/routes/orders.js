@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db');
 
-// 🧾 Place a new order
+// ✅ Place a new order
 router.post('/', (req, res) => {
   const { 
     items,
@@ -13,7 +13,6 @@ router.post('/', (req, res) => {
     deliveryType
   } = req.body;
 
-  // Basic validation
   if (!items || !items.length || !customerInfo || !customerInfo.name || !customerInfo.phone || !customerInfo.address) {
     return res.status(400).json({ error: 'Required fields are missing' });
   }
@@ -39,7 +38,7 @@ router.post('/', (req, res) => {
     parseFloat(subtotal),
     parseFloat(shipping),
     parseFloat(total),
-    deliveryType || 'guntur' // Default value
+    deliveryType || 'guntur'
   ];
 
   db.query(sql, values, (err, result) => {
@@ -51,12 +50,12 @@ router.post('/', (req, res) => {
     res.status(201).json({
       success: true,
       message: '✅ Order placed successfully!',
-      orderId: result.insertId // ✅ Send back the generated order ID
+      orderId: result.insertId
     });
   });
 });
 
-// 📋 Get all orders (Admin only)
+// ✅ Get all orders (Admin only)
 router.get('/', (req, res) => {
   if (!req.session.isAdmin) {
     return res.status(403).json({ error: 'Unauthorized' });
@@ -73,9 +72,10 @@ router.get('/', (req, res) => {
     const modifiedResults = results.map(order => {
       let parsedItems = [];
       try {
-        parsedItems = JSON.parse(order.items || '[]');
+        const firstParse = JSON.parse(order.items || '[]');
+        parsedItems = typeof firstParse === 'string' ? JSON.parse(firstParse) : firstParse;
       } catch (e) {
-        console.warn(`⚠️ Failed to parse items for order ID ${order.id}`);
+        console.warn(`⚠️ Failed to parse items for order ID ${order.id}`, e);
       }
 
       const modifiedItems = parsedItems.map(item => ({
@@ -85,11 +85,10 @@ router.get('/', (req, res) => {
         quantity: item.quantity,
         weight: item.weight || 'N/A'
       }));
-      console.log('Parsed items for order:', modifiedItems);
 
-
+      const { items, ...rest } = order;
       return {
-        ...order,
+        ...rest,
         items: modifiedItems
       };
     });
@@ -98,5 +97,26 @@ router.get('/', (req, res) => {
   });
 });
 
+// ✅ Delete order by ID (Admin only)
+router.delete('/:id', (req, res) => {
+  if (!req.session.isAdmin) {
+    return res.status(403).json({ error: 'Unauthorized' });
+  }
+
+  const orderId = req.params.id;
+
+  db.query('DELETE FROM orders WHERE id = ?', [orderId], (err, result) => {
+    if (err) {
+      console.error('❌ Error deleting order:', err.message);
+      return res.status(500).json({ error: 'Failed to delete order' });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+
+    res.json({ message: 'Order deleted successfully' });
+  });
+});
 
 module.exports = router;

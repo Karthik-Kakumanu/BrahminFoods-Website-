@@ -3,11 +3,9 @@ const bcrypt = require('bcryptjs');
 const router = express.Router();
 const db = require('../db');
 
-// Hardcoded admin credentials
 const ADMIN_USERNAME = 'admin';
 const ADMIN_PASSWORD_HASH = '$2b$12$okbk48K5nUhcJ7YNaWvcIupUfdcNOhww8ILzPtLsBgMZkRSZ14dCy';
 
-// Admin login
 router.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -29,7 +27,6 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// Admin logout
 router.post('/logout', (req, res) => {
   req.session.destroy(err => {
     if (err) {
@@ -41,13 +38,13 @@ router.post('/logout', (req, res) => {
   });
 });
 
-// ✅ Protected route: Get orders
 router.get('/orders', (req, res) => {
   if (!req.session.isAdmin) {
     return res.status(403).json({ error: 'Unauthorized' });
   }
 
   const query = 'SELECT * FROM orders ORDER BY created_at DESC';
+
   db.query(query, (err, results) => {
     if (err) {
       console.error('❌ Error fetching orders:', err.message);
@@ -57,9 +54,10 @@ router.get('/orders', (req, res) => {
     const modifiedResults = results.map(order => {
       let parsedItems = [];
       try {
-        parsedItems = JSON.parse(order.items || '[]');
+        const firstParse = JSON.parse(order.items || '[]');
+        parsedItems = typeof firstParse === 'string' ? JSON.parse(firstParse) : firstParse;
       } catch (e) {
-        console.warn(`⚠️ Failed to parse items for order ID ${order.id}`);
+        console.warn(`⚠️ Failed to parse items for order ID ${order.id}`, e);
       }
 
       const modifiedItems = parsedItems.map(item => ({
@@ -67,11 +65,10 @@ router.get('/orders', (req, res) => {
         name: item.name,
         price: item.price,
         quantity: item.quantity,
-        weight: item.weight || 'N/A'  // ✅ fallback
+        weight: item.weight || 'N/A'
       }));
 
-     const { items, ...rest } = order;
-
+      const { items, ...rest } = order;
       return {
         ...rest,
         items: modifiedItems
@@ -82,7 +79,6 @@ router.get('/orders', (req, res) => {
   });
 });
 
-// Optional dashboard route
 router.get('/dashboard', (req, res) => {
   if (req.session.isAdmin) {
     return res.json({ message: 'Welcome to the admin dashboard!' });
