@@ -5,7 +5,7 @@ const db = require('../db');
 
 // Admin credentials
 const ADMIN_USERNAME = 'admin';
-const ADMIN_PASSWORD_HASH = '$2b$12$okbk48K5nUhcJ7YNaWvcIupUfdcNOhww8ILzPtLsBgMZkRSZ14dCy';
+const ADMIN_PASSWORD_HASH = '$2b$12$JZl9Acv6F9vu9HsbRYxrk.kAHqx87zeO3igEBRyMdcQqs4Lp5t.Ge';
 
 // 🔐 Login Route
 router.post('/login', async (req, res) => {
