@@ -82,8 +82,6 @@
   const loadingIndicator = document.getElementById('loading-indicator');
   const noOrders = document.getElementById('no-orders');
 
-  let refreshInterval = null; // Global interval handler
-
   const formatCurrency = (amount) =>
     new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(amount);
 
@@ -141,7 +139,7 @@
       renderOrders(orders);
       noOrders.classList.toggle('hidden', orders.length !== 0);
     } catch (err) {
-      console.error("Failed to load orders. Session may be expired.");
+      showError("Failed to load orders.");
       logout();
     } finally {
       setLoading(false);
@@ -172,7 +170,6 @@
       loginSection.classList.add('hidden');
       ordersSection.classList.remove('hidden');
       await fetchOrders();
-      startAutoRefresh(); // ✅ Start auto-refresh after login success
     } catch (err) {
       showError(err.message);
     } finally {
@@ -190,7 +187,6 @@
   });
 
   function logout() {
-    clearInterval(refreshInterval);
     ordersSection.classList.add('hidden');
     loginSection.classList.remove('hidden');
     loginForm.reset();
@@ -211,74 +207,52 @@
   }
 
   async function editOrder(id) {
-    try {
-      const res = await fetch(`${API_BASE_URL}/api/admin/orders/${id}`, {
-        credentials: 'include'
-      });
-      if (!res.ok) throw new Error("Failed to fetch order");
-      const order = await res.json();
+  // Fetch the existing order first
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/admin/orders/${id}`, {
+      credentials: 'include'
+    });
+    if (!res.ok) throw new Error("Failed to fetch order");
+    const order = await res.json();
 
-      const newAddress = prompt("Enter new address:", order.address || '');
-      const newStatus = prompt("Enter new status (Processing / Delivered):", order.status || 'Processing');
-      const newTotal = prompt("Enter new total price:", order.total_price);
+    // Prompt for new values (pre-filled with current values)
+    const newAddress = prompt("Enter new address:", order.address || '');
+    const newStatus = prompt("Enter new status (Processing / Delivered):", order.status || 'Processing');
+    const newTotal = prompt("Enter new total price:", order.total_price);
 
-      if (newAddress === null || newStatus === null || newTotal === null) {
-        return;
-      }
-
-      const updatedData = {
-        address: newAddress.trim() || order.address,
-        status: newStatus.trim() || order.status,
-        total_price: newTotal.trim() ? parseFloat(newTotal) : order.total_price
-      };
-
-      const updateRes = await fetch(`${API_BASE_URL}/api/admin/orders/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        credentials: 'include',
-        body: JSON.stringify(updatedData)
-      });
-
-      if (!updateRes.ok) {
-        const errorData = await updateRes.json();
-        throw new Error(errorData.error || 'Failed to update order');
-      }
-
-      const data = await updateRes.json();
-      alert(data.message || 'Order updated!');
-      fetchOrders();
-    } catch (err) {
-      console.error(err);
-      alert("Failed to edit order." + err.message);
+    // If user clicks cancel on any prompt, stop
+    if (newAddress === null || newStatus === null || newTotal === null) {
+      return;
     }
-  }
 
-  // ✅ Session check on page load (important)
-  async function checkSession() {
-    try {
-      const res = await fetch(`${API_BASE_URL}/api/admin/dashboard`, { credentials: 'include' });
-      if (res.ok) {
-        loginSection.classList.add('hidden');
-        ordersSection.classList.remove('hidden');
-        await fetchOrders();
-        startAutoRefresh();
-      } else {
-        console.log('Session invalid or expired, showing login.');
-      }
-    } catch (err) {
-      console.warn("Session check failed");
+    const updatedData = {
+      address: newAddress.trim() || order.address,
+      status: newStatus.trim() || order.status,
+      total_price: newTotal.trim() ? parseFloat(newTotal) : order.total_price
+    };
+
+    const updateRes = await fetch(`${API_BASE_URL}/api/admin/orders/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+      body: JSON.stringify(updatedData)
+    });
+
+    if (!updateRes.ok) {
+      const errorData = await updateRes.json();
+      throw new Error(errorData.error || 'Failed to update order');
     }
-  }
 
-  function startAutoRefresh() {
-    clearInterval(refreshInterval);
-    refreshInterval = setInterval(fetchOrders, 10000);
+    const data = await updateRes.json();
+    alert(data.message || 'Order updated!');
+    fetchOrders();
+  } catch (err) {
+    console.error(err);
+    alert("Failed to edit order."+err.message);
   }
-
-  // ✅ Run session check when page loads
-  checkSession();
+}
 
 </script>
 
