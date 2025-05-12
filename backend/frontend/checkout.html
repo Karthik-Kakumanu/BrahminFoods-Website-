@@ -539,7 +539,7 @@
 
     localStorage.setItem('lastOrder', JSON.stringify(orderData));
 
-    fetch("/api/orders", {
+    fetch(`${window.location.origin}/api/orders`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(orderData)

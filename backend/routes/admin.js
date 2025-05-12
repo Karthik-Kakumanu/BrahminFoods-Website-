@@ -41,7 +41,7 @@ router.post('/logout', (req, res) => {
   });
 });
 
-// 📦 Get Orders (Admin Only)
+// 📦 Get All Orders (Admin only)
 router.get('/orders', (req, res) => {
   if (!req.session.isAdmin) {
     return res.status(403).json({ error: 'Unauthorized' });
@@ -57,12 +57,10 @@ router.get('/orders', (req, res) => {
 
     const modifiedResults = results.map(order => {
       let parsedItems = [];
-
       try {
         let parsed = order.items;
-
         if (typeof parsed === 'string') parsed = JSON.parse(parsed);
-        if (typeof parsed === 'string') parsed = JSON.parse(parsed); // handle double-stringified case
+        if (typeof parsed === 'string') parsed = JSON.parse(parsed);
         if (Array.isArray(parsed)) parsedItems = parsed;
       } catch (e) {
         console.warn(`⚠️ Failed to parse items for order ID ${order.id}:`, e.message);
@@ -86,33 +84,32 @@ router.get('/orders', (req, res) => {
   });
 });
 
-// 🧭 Optional: Dashboard Test Route
-router.get('/dashboard', (req, res) => {
-  if (req.session.isAdmin) {
-    return res.json({ message: 'Welcome to the admin dashboard!' });
-  }
-  res.status(403).json({ error: 'Access denied' });
-});
-
-// ✅ Delete an order by ID (Admin route)
-router.delete('/orders/:id', (req, res) => {
+// ✅ Get Single Order by ID (Admin only) — Fixed
+router.get('/orders/:id', (req, res) => {
   if (!req.session.isAdmin) {
     return res.status(403).json({ error: 'Unauthorized' });
   }
 
   const orderId = req.params.id;
 
-  db.query('DELETE FROM orders WHERE id = ?', [orderId], (err, result) => {
+  db.query('SELECT * FROM orders WHERE id = ?', [orderId], (err, results) => {
     if (err) {
-      console.error('❌ Error deleting order:', err.message);
-      return res.status(500).json({ error: 'Failed to delete order' });
+      console.error('❌ Error fetching order:', err.message);
+      return res.status(500).json({ error: 'Failed to fetch order' });
     }
 
-    if (result.affectedRows === 0) {
+    if (results.length === 0) {
       return res.status(404).json({ error: 'Order not found' });
     }
 
-    res.json({ message: 'Order deleted successfully' });
+    let order = results[0];
+    try {
+      order.items = typeof order.items === 'string' ? JSON.parse(order.items) : order.items;
+    } catch (e) {
+      console.warn(`⚠️ Failed to parse items for order ID ${orderId}:`, e.message);
+    }
+
+    res.json(order);
   });
 });
 
@@ -152,5 +149,34 @@ router.put('/orders/:id', (req, res) => {
   });
 });
 
+// ✅ Delete an order by ID (Admin route)
+router.delete('/orders/:id', (req, res) => {
+  if (!req.session.isAdmin) {
+    return res.status(403).json({ error: 'Unauthorized' });
+  }
+
+  const orderId = req.params.id;
+
+  db.query('DELETE FROM orders WHERE id = ?', [orderId], (err, result) => {
+    if (err) {
+      console.error('❌ Error deleting order:', err.message);
+      return res.status(500).json({ error: 'Failed to delete order' });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+
+    res.json({ message: '✅ Order deleted successfully' });
+  });
+});
+
+// 🧭 Dashboard Test Route
+router.get('/dashboard', (req, res) => {
+  if (req.session.isAdmin) {
+    return res.json({ message: 'Welcome to the admin dashboard!' });
+  }
+  res.status(403).json({ error: 'Access denied' });
+});
 
 module.exports = router;

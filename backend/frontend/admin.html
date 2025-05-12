@@ -240,12 +240,17 @@
       body: JSON.stringify(updatedData)
     });
 
+    if (!updateRes.ok) {
+      const errorData = await updateRes.json();
+      throw new Error(errorData.error || 'Failed to update order');
+    }
+
     const data = await updateRes.json();
     alert(data.message || 'Order updated!');
     fetchOrders();
   } catch (err) {
     console.error(err);
-    alert("Failed to edit order.");
+    alert("Failed to edit order."+err.message);
   }
 }
 
