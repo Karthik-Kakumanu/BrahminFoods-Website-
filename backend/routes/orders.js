@@ -2,6 +2,12 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db');
 
+// Helper: Safely parse float with fallback
+const safeParseFloat = (value, fallback = 0) => {
+  const num = parseFloat(value);
+  return isNaN(num) ? fallback : num;
+};
+
 // ✅ Place a new order
 router.post('/', (req, res) => {
   const {
