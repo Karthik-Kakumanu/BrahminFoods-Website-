@@ -131,6 +131,7 @@
   };
 
   const fetchOrders = async () => {
+    setInterval(fetchOrders, 10000); 
     setLoading(true);
     try {
       const res = await fetch(`${API_BASE_URL}/api/admin/orders`, { credentials: 'include' });
