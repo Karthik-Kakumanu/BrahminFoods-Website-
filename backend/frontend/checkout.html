@@ -479,7 +479,7 @@
     `).join('');
 
     const subtotal = combinedCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const shipping = 40;
+    const shipping = 50;
     const total = subtotal + shipping;
 
     document.getElementById('order-subtotal').textContent = `₹${subtotal.toLocaleString('en-IN')}`;

@@ -715,8 +715,8 @@
     <div class="header-content">
       <h1 class="logo-text">Brahmin Foods</h1>
       <p class="telugu-text">ఆంధ్ర బ్రాహ్మణ వంటకాలు</p>
-      <p class="tagline en">Authentic Vegetarian Cuisine Since 2005</p>
-      <p class="tagline te" style="display:none">2005 నుండి స్వచ్ఛమైన శాకాహార ఆహారం</p>
+      <p class="tagline en">Authentic Vegetarian Cuisine Since 2000</p>
+      <p class="tagline te" style="display:none">2000 నుండి స్వచ్ఛమైన శాకాహార ఆహారం</p>
     </div>
   </header>
 
@@ -726,13 +726,13 @@
       <span class="en">All</span>
       <span class="te" style="display:none">అన్ని</span>
     </button>
-    <button class="filter-btn" data-category="podulu">
-      <span class="en">Powders</span>
-      <span class="te" style="display:none">పొడులు</span>
-    </button>
     <button class="filter-btn" data-category="pachchallu">
       <span class="en">Pickles</span>
       <span class="te" style="display:none">పచ్చళ్ళు</span>
+    </button>
+    <button class="filter-btn" data-category="podulu">
+      <span class="en">Powders</span>
+      <span class="te" style="display:none">పొడులు</span>
     </button>
     <button class="filter-btn" data-category="snacks">
       <span class="en">Snacks</span>
@@ -781,162 +781,6 @@
   <script>
     // Menu Data with English and Telugu
     const menuItems = [
-      // Podulu (Powders) - all priced at ₹480 per kg
-      {
-        id: 1,
-        name: { en: "Kandi Podi", te: "కంది పొడి" },
-        description: { en: "Traditional roasted dal powder", te: "సాంప్రదాయ కాల్చిన కంది పొడి" },
-        category: "podulu",
-        heritage: { en: "Classic Andhra Brahmin recipe", te: "క్లాసిక్ ఆంధ్ర బ్రాహ్మణ వంటకం" },
-        rating: 4.7,
-        image: "pictures/kandi-podi.jpg",
-        quantityOptions: [
-          { weight: "250g", price: 120 },
-          { weight: "500g", price: 240 },
-          { weight: "1kg", price: 480 }
-        ]
-      },
-      {
-        id: 2,
-        name: { en: "Nuvvulu Podi", te: "నువ్వుల పొడి" },
-        description: { en: "Sesame seed powder with spices", te: "నువ్వులు మరియు మసాలా దినుసులతో తయారు చేసిన పొడి" },
-        category: "podulu",
-        heritage: { en: "Traditional Andhra recipe", te: "సాంప్రదాయ ఆంధ్ర వంటకం" },
-        rating: 4.6,
-        image: "pictures/nuvulu-podi.jpeg",
-        quantityOptions: [
-          { weight: "250g", price: 120 },
-          { weight: "500g", price: 240 },
-          { weight: "1kg", price: 480 }
-        ]
-      },
-      {
-        id: 3,
-        name: { en: "Dhaniyala Karam Podi", te: "ధనియాల కారప్పొడి" },
-        description: { en: "Spicy coriander powder", te: "కారంగల ధనియాల పొడి" },
-        category: "podulu",
-        heritage: { en: "Classic Andhra Brahmin recipe", te: "క్లాసిక్ ఆంధ్ర బ్రాహ్మణ వంటకం" },
-        rating: 4.8,
-        image: "pictures/dhanyala-podi.jpeg",
-        quantityOptions: [
-          { weight: "250g", price: 120 },
-          { weight: "500g", price: 240 },
-          { weight: "1kg", price: 480 }
-        ]
-      },
-      {
-        id: 4,
-        name: { en: "Kobbari Podi", te: "కొబ్బరిపొడి" },
-        description: { en: "Roasted coconut powder", te: "కాల్చిన కొబ్బరి పొడి" },
-        category: "podulu",
-        heritage: { en: "Traditional coastal recipe", te: "సాంప్రదాయ తీర ప్రాంత వంటకం" },
-        rating: 4.5,
-        image: "pictures/kobbari-podi.jpeg",
-        quantityOptions: [
-          { weight: "250g", price: 120 },
-          { weight: "500g", price: 240 },
-          { weight: "1kg", price: 480 }
-        ]
-      },
-      {
-        id: 5,
-        name: { en: "Pappulu Podi", te: "పప్పుల పొడి" },
-        description: { en: "Mixed lentil powder", te: "మిశ్రమ పప్పుల పొడి" },
-        category: "podulu",
-        heritage: { en: "Classic Andhra Brahmin recipe", te: "క్లాసిక్ ఆంధ్ర బ్రాహ్మణ వంటకం" },
-        rating: 4.7,
-        image: "pictures/pappulu-podi.jpeg",
-        quantityOptions: [
-          { weight: "250g", price: 120 },
-          { weight: "500g", price: 240 },
-          { weight: "1kg", price: 480 }
-        ]
-      },
-      {
-        id: 6,
-        name: { en: "Sambar Powder", te: "సాంబార్ పొడి" },
-        description: { en: "Traditional sambar spice mix", te: "సాంప్రదాయ సాంబార్ మసాలా మిశ్రమం" },
-        category: "podulu",
-        heritage: { en: "Authentic South Indian recipe", te: "అసలైన దక్షిణ భారత వంటకం" },
-        rating: 4.9,
-        image: "pictures/sambar-powder.jpeg",
-        quantityOptions: [
-          { weight: "250g", price: 120 },
-          { weight: "500g", price: 240 },
-          { weight: "1kg", price: 480 }
-        ]
-      },
-      {
-        id: 7,
-        name: { en: "Rasam Powder", te: "రసం పొడి" },
-        description: { en: "Traditional rasam spice mix", te: "సాంప్రదాయ రసం మసాలా మిశ్రమం" },
-        category: "podulu",
-        heritage: { en: "Classic Tamil Brahmin recipe", te: "క్లాసిక్ తమిళ బ్రాహ్మణ వంటకం" },
-        rating: 4.8,
-        image: "pictures/rasam-powder.jpeg",
-        quantityOptions: [
-          { weight: "250g", price: 120 },
-          { weight: "500g", price: 240 },
-          { weight: "1kg", price: 480 }
-        ]
-      },
-      {
-        id: 8,
-        name: { en: "Palli Podi", te: "పల్లీ పొడి" },
-        description: { en: "Roasted peanut powder", te: "కాల్చిన పల్లీ పొడి" },
-        category: "podulu",
-        heritage: { en: "Traditional Andhra recipe", te: "సాంప్రదాయ ఆంధ్ర వంటకం" },
-        rating: 4.7,
-        image: "pictures/palli-podi.jpeg",
-        quantityOptions: [
-          { weight: "250g", price: 120 },
-          { weight: "500g", price: 240 },
-          { weight: "1kg", price: 480 }
-        ]
-      },
-      {
-        id: 9,
-        name: { en: "Karivepaku Podi", te: "కరివేపాకు పొడి" },
-        description: { en: "Curry leaf powder with spices", te: "కరివేపాకు మరియు మసాలా దినుసులతో తయారు చేసిన పొడి" },
-        category: "podulu",
-        heritage: { en: "Classic South Indian recipe", te: "క్లాసిక్ దక్షిణ భారత వంటకం" },
-        rating: 4.8,
-        image: "pictures/karivepaku-podi.jpeg",
-        quantityOptions: [
-          { weight: "250g", price: 120 },
-          { weight: "500g", price: 240 },
-          { weight: "1kg", price: 480 }
-        ]
-      },
-      {
-        id: 10,
-        name: { en: "Nalla Karam", te: "నల్లకారం" },
-        description: { en: "Black pepper powder", te: "నల్ల మిరియాలు పొడి" },
-        category: "podulu",
-        heritage: { en: "Traditional South Indian recipe", te: "సాంప్రదాయ దక్షిణ భారత వంటకం" },
-        rating: 4.7,
-        image: "pictures/blackpepper-powder.jpeg",
-        quantityOptions: [
-          { weight: "250g", price: 120 },
-          { weight: "500g", price: 240 },
-          { weight: "1kg", price: 480 }
-        ]
-      },
-      {
-        id: 11,
-        name: { en: "Vellulli Karam", te: "వెల్లుల్లి కారం" },
-        description: { en: "Garlic powder with spices", te: "వెల్లుల్లి మరియు మసాలా దినుసులతో తయారు చేసిన పొడి" },
-        category: "podulu",
-        heritage: { en: "Classic Andhra recipe", te: "క్లాసిక్ ఆంధ్ర వంటకం" },
-        rating: 4.8,
-        image: "pictures/garlic-powder.jpeg",
-        quantityOptions: [
-          { weight: "250g", price: 120 },
-          { weight: "500g", price: 240 },
-          { weight: "1kg", price: 480 }
-        ]
-      },
-
       // Pachchallu (Pickles) - all priced at ₹400 per kg
       {
         id: 12,
@@ -1148,6 +992,161 @@
           { weight: "1kg", price: 400 }
         ]
       },
+      // Podulu (Powders) - all priced at ₹480 per kg
+      {
+        id: 1,
+        name: { en: "Kandi Podi", te: "కంది పొడి" },
+        description: { en: "Traditional roasted dal powder", te: "సాంప్రదాయ కాల్చిన కంది పొడి" },
+        category: "podulu",
+        heritage: { en: "Classic Andhra Brahmin recipe", te: "క్లాసిక్ ఆంధ్ర బ్రాహ్మణ వంటకం" },
+        rating: 4.7,
+        image: "pictures/kandi-podi.jpg",
+        quantityOptions: [
+          { weight: "250g", price: 130 },
+          { weight: "500g", price: 250 },
+          { weight: "1kg", price: 500 }
+        ]
+      },
+      {
+        id: 2,
+        name: { en: "Nuvvulu Podi", te: "నువ్వుల పొడి" },
+        description: { en: "Sesame seed powder with spices", te: "నువ్వులు మరియు మసాలా దినుసులతో తయారు చేసిన పొడి" },
+        category: "podulu",
+        heritage: { en: "Traditional Andhra recipe", te: "సాంప్రదాయ ఆంధ్ర వంటకం" },
+        rating: 4.6,
+        image: "pictures/nuvulu-podi.jpeg",
+        quantityOptions: [
+          { weight: "250g", price: 130 },
+          { weight: "500g", price: 250 },
+          { weight: "1kg", price: 500 }
+        ]
+      },
+      {
+        id: 3,
+        name: { en: "Dhaniyala Karam Podi", te: "ధనియాల కారప్పొడి" },
+        description: { en: "Spicy coriander powder", te: "కారంగల ధనియాల పొడి" },
+        category: "podulu",
+        heritage: { en: "Classic Andhra Brahmin recipe", te: "క్లాసిక్ ఆంధ్ర బ్రాహ్మణ వంటకం" },
+        rating: 4.8,
+        image: "pictures/dhanyala-podi.jpeg",
+        quantityOptions: [
+          { weight: "250g", price: 130 },
+          { weight: "500g", price: 250 },
+          { weight: "1kg", price: 500 }
+        ]
+      },
+      {
+        id: 4,
+        name: { en: "Kobbari Podi", te: "కొబ్బరిపొడి" },
+        description: { en: "Roasted coconut powder", te: "కాల్చిన కొబ్బరి పొడి" },
+        category: "podulu",
+        heritage: { en: "Traditional coastal recipe", te: "సాంప్రదాయ తీర ప్రాంత వంటకం" },
+        rating: 4.5,
+        image: "pictures/kobbari-podi.jpeg",
+        quantityOptions: [
+          { weight: "250g", price: 130 },
+          { weight: "500g", price: 250 },
+          { weight: "1kg", price: 500 }
+        ]
+      },
+      {
+        id: 5,
+        name: { en: "Pappulu Podi", te: "పప్పుల పొడి" },
+        description: { en: "Mixed lentil powder", te: "మిశ్రమ పప్పుల పొడి" },
+        category: "podulu",
+        heritage: { en: "Classic Andhra Brahmin recipe", te: "క్లాసిక్ ఆంధ్ర బ్రాహ్మణ వంటకం" },
+        rating: 4.7,
+        image: "pictures/pappulu-podi.jpeg",
+        quantityOptions: [
+          { weight: "250g", price: 130 },
+          { weight: "500g", price: 250 },
+          { weight: "1kg", price: 500 }
+        ]
+      },
+      {
+        id: 6,
+        name: { en: "Sambar Powder", te: "సాంబార్ పొడి" },
+        description: { en: "Traditional sambar spice mix", te: "సాంప్రదాయ సాంబార్ మసాలా మిశ్రమం" },
+        category: "podulu",
+        heritage: { en: "Authentic South Indian recipe", te: "అసలైన దక్షిణ భారత వంటకం" },
+        rating: 4.9,
+        image: "pictures/sambar-powder.jpeg",
+        quantityOptions: [
+          { weight: "250g", price: 130 },
+          { weight: "500g", price: 250 },
+          { weight: "1kg", price: 500 }
+        ]
+      },
+      {
+        id: 7,
+        name: { en: "Rasam Powder", te: "రసం పొడి" },
+        description: { en: "Traditional rasam spice mix", te: "సాంప్రదాయ రసం మసాలా మిశ్రమం" },
+        category: "podulu",
+        heritage: { en: "Classic Tamil Brahmin recipe", te: "క్లాసిక్ తమిళ బ్రాహ్మణ వంటకం" },
+        rating: 4.8,
+        image: "pictures/rasam-powder.jpeg",
+        quantityOptions: [
+          { weight: "250g", price: 130 },
+          { weight: "500g", price: 250 },
+          { weight: "1kg", price: 500 }
+        ]
+      },
+      {
+        id: 8,
+        name: { en: "Palli Podi", te: "పల్లీ పొడి" },
+        description: { en: "Roasted peanut powder", te: "కాల్చిన పల్లీ పొడి" },
+        category: "podulu",
+        heritage: { en: "Traditional Andhra recipe", te: "సాంప్రదాయ ఆంధ్ర వంటకం" },
+        rating: 4.7,
+        image: "pictures/palli-podi.jpeg",
+        quantityOptions: [
+          { weight: "250g", price: 130 },
+          { weight: "500g", price: 250 },
+          { weight: "1kg", price: 500 }
+        ]
+      },
+      {
+        id: 9,
+        name: { en: "Karivepaku Podi", te: "కరివేపాకు పొడి" },
+        description: { en: "Curry leaf powder with spices", te: "కరివేపాకు మరియు మసాలా దినుసులతో తయారు చేసిన పొడి" },
+        category: "podulu",
+        heritage: { en: "Classic South Indian recipe", te: "క్లాసిక్ దక్షిణ భారత వంటకం" },
+        rating: 4.8,
+        image: "pictures/karivepaku-podi.jpeg",
+        quantityOptions: [
+          { weight: "250g", price: 130 },
+          { weight: "500g", price: 250 },
+          { weight: "1kg", price: 500 }
+        ]
+      },
+      {
+        id: 10,
+        name: { en: "Nalla Karam", te: "నల్లకారం" },
+        description: { en: "Black pepper powder", te: "నల్ల మిరియాలు పొడి" },
+        category: "podulu",
+        heritage: { en: "Traditional South Indian recipe", te: "సాంప్రదాయ దక్షిణ భారత వంటకం" },
+        rating: 4.7,
+        image: "pictures/blackpepper-powder.jpeg",
+        quantityOptions: [
+          { weight: "250g", price: 130 },
+          { weight: "500g", price: 250 },
+          { weight: "1kg", price: 500 }
+        ]
+      },
+      {
+        id: 11,
+        name: { en: "Vellulli Karam", te: "వెల్లుల్లి కారం" },
+        description: { en: "Garlic powder with spices", te: "వెల్లుల్లి మరియు మసాలా దినుసులతో తయారు చేసిన పొడి" },
+        category: "podulu",
+        heritage: { en: "Classic Andhra recipe", te: "క్లాసిక్ ఆంధ్ర వంటకం" },
+        rating: 4.8,
+        image: "pictures/garlic-powder.jpeg",
+        quantityOptions: [
+          { weight: "250g", price: 130 },
+          { weight: "500g", price: 250 },
+          { weight: "1kg", price: 500 }
+        ]
+      },
 
       // Snacks - with fixed prices as specified
       {
@@ -1303,7 +1302,7 @@
     te: "దీపావళి, వివాహ వేడుకలలో ప్రసిద్ధి చెందిన భారతీయ మిఠాయి." 
   },
   rating: 4.8,
-  image: "pictures/boondhi_ladoo.jpeg",
+  image: "pictures/bandoo-ladoo.jpg",
   price: 320
 },
 
@@ -1376,6 +1375,70 @@
             "పెరుగు"
           ]
         }
+      },
+      {
+        id: 43,
+        name: { en: "Sunnundallu", te: "సున్నుండ్లు" },
+        description: { 
+          en: "Nutritious laddulu made from roasted urad dal and jaggery", 
+          te: "పచ్చి మినపపప్పు, బెల్లంతో తయారు చేసిన పోషకమైన మిఠాయి" 
+        },
+        category: "sweets",
+        heritage: { 
+          en: "Traditional Andhra protein-rich sweet", 
+          te: "సాంప్రదాయ ఆంధ్ర ఆరోగ్యకరమైన మిఠాయి" 
+        },
+        rating: 4.9,
+        image: "pictures/sunundalu.jpg",
+        price: 320
+      },
+      {
+        id: 44,
+        name: { en: "Coconut Laddulu", te: "కొబ్బరి లడ్డ్లు" },
+        description: { 
+          en: "Delicious sweet balls made with grated coconut and jaggery", 
+          te: "తురిమిన కొబ్బరి మరియు బెల్లంతో తయారైన రుచికరమైన లడ్డ్లు" 
+        },
+        category: "sweets",
+        heritage: { 
+          en: "Common festive sweet in South India", 
+          te: "దక్షిణ భారతీయ పండుగలలో సాధారణమైన మిఠాయి" 
+        },
+        rating: 4.7,
+        image: "pictures/coconut-ladoo.jpg",
+        price: 320
+      },
+      {
+        id: 45,
+        name: { en: "Rava Laddulu", te: "రవ్వ లడ్డ్లు" },
+        description: { 
+          en: "Classic laddulu made with semolina, ghee, and sugar", 
+          te: "రవ్వ, నెయ్యి మరియు పంచదారతో తయారైన క్లాసిక్ లడ్డ్లు" 
+        },
+        category: "sweets",
+        heritage: { 
+          en: "Popular Indian homemade sweet", 
+          te: "ప్రచురమైన భారతీయ ఇంటి మిఠాయి" 
+        },
+        rating: 4.6,
+        image: "pictures/rava-ladoo.jpg",
+        price: 320
+      },
+      {
+        id: 46,
+        name: { en: "Palli Chikki", te: "పల్లి చిక్కీ" },
+        description: { 
+          en: "Crunchy sweet made from peanuts and jaggery", 
+          te: "పల్లీలు మరియు బెల్లంతో తయారైన కరకరలాడే తీపి" 
+        },
+        category: "sweets",
+        heritage: { 
+          en: "Traditional Indian brittle sweet", 
+          te: "సాంప్రదాయ భారతీయ చిక్కీ" 
+        },
+        rating: 4.8,
+        image: "pictures/palli-chikki.jpg",
+        price: 320
       }
     ];
 
