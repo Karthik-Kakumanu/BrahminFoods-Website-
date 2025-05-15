@@ -293,10 +293,6 @@
         <span>Subtotal</span>
         <span id="subtotal">₹0</span>
       </div>
-      <div class="summary-row">
-        <span>Shipping</span>
-        <span id="shipping">₹50</span>
-      </div>
       <div class="summary-row summary-total">
         <span>Total</span>
         <span id="total">₹0</span>
@@ -324,7 +320,6 @@
 
   <script>
     let cart = JSON.parse(localStorage.getItem('brahminFoodsCart')) || [];
-    const DEFAULT_SHIPPING = 50; // Default shipping cost set to ₹50
 
     // Function to combine duplicate items in cart
     function combineDuplicateItems(cart) {
@@ -390,11 +385,9 @@
       `).join('');
 
       const subtotal = combinedCart.reduce((sum, item) => sum + item.price * (item.quantity || 1), 0);
-      const shipping = DEFAULT_SHIPPING; // Always use the default shipping cost
-      const total = subtotal + shipping;
+      const total = subtotal; // Total is now just the subtotal since we removed shipping
 
       document.getElementById('subtotal').textContent = `₹${subtotal.toLocaleString('en-IN')}`;
-      document.getElementById('shipping').textContent = `₹${shipping.toLocaleString('en-IN')}`;
       document.getElementById('total').textContent = `₹${total.toLocaleString('en-IN')}`;
     }
 

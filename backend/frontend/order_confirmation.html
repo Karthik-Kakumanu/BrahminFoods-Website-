@@ -222,7 +222,7 @@
       // Get order details from localStorage
       const order = JSON.parse(localStorage.getItem('lastOrder'));
       const urlParams = new URLSearchParams(window.location.search);
-      const orderId = urlParams.get('orderId');
+      const orderId = order?.orderId || urlParams.get('orderId');
 
       // ✅ Set the orderId to the HTML
       document.getElementById('order-id').textContent = orderId || '--';
