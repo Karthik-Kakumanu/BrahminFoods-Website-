@@ -715,7 +715,7 @@
     <div class="header-content">
       <h1 class="logo-text">Brahmin Foods</h1>
       <p class="telugu-text">ఆంధ్ర బ్రాహ్మణ వంటకాలు</p>
-      <p class="tagline en">Authentic vegetarian cuisine since 2005</p>
+      <p class="tagline en">Authentic Vegetarian Cuisine Since 2005</p>
       <p class="tagline te" style="display:none">2005 నుండి స్వచ్ఛమైన శాకాహార ఆహారం</p>
     </div>
   </header>
@@ -741,6 +741,10 @@
     <button class="filter-btn" data-category="meals">
       <span class="en">Meals & Catering</span>
       <span class="te" style="display:none">భోజనాలు & క్యాటరింగ్</span>
+    </button>
+    <button class="filter-btn" data-category="sweets">
+      <span class="en">sweets</span>
+      <span class="te" style="display:none">స్వీట్లు</span>
     </button>
   </div>
 
@@ -1200,7 +1204,7 @@
         id: 32,
         name: { en: "Gavvalu", te: "గవ్వలు" },
         description: { en: "Shell-shaped rice flour snack", te: "చిప్ప ఆకారంలో ఉండే బియ్యపు పిండితో తయారు చేసిన స్నాక్" },
-        category: "snacks",
+        category: "sweets",
         heritage: { en: "Traditional South Indian snack", te: "సాంప్రదాయ దక్షిణ భారత స్నాక్" },
         rating: 4.8,
         image: "pictures/gavvalu.jpeg",
@@ -1220,7 +1224,7 @@
         id: 34,
         name: { en: "Ariselu", te: "అరిసెలు" },
         description: { en: "Sweet rice flour snack", te: "తీపి బియ్యపు పిండితో తయారు చేసిన స్నాక్" },
-        category: "snacks",
+        category: "sweets",
         heritage: { en: "Traditional South Indian sweet", te: "సాంప్రదాయ దక్షిణ భారత మిఠాయి" },
         rating: 4.9,
         image: "pictures/ariselu.jpeg",
@@ -1286,6 +1290,33 @@
         image: "pictures/ooramirchi.jpeg",
         price: 320
       },
+      {
+  id: 41,
+  name: { en: "Boondhi Ladoo", te: "బూంధి లడ్డు" },
+  description: { 
+    en: "Sweet and delicious round-shaped dessert made with fried boondhi soaked in sugar syrup.", 
+    te: "పాకంలో ముంచి తయారు చేసిన బూంధిలతో తయారైన మిఠాయి." 
+  },
+  category: "sweets",
+  heritage: { 
+    en: "Popular Indian festive sweet, especially during Diwali and weddings.", 
+    te: "దీపావళి, వివాహ వేడుకలలో ప్రసిద్ధి చెందిన భారతీయ మిఠాయి." 
+  },
+  rating: 4.8,
+  image: "pictures/boondhi_ladoo.jpeg",
+  price: 320
+},
+
+      {
+        id: 40,
+        name: { en: "Ooramirchi", te: "ఊరమిర్చి" },
+        description: { en: "Spicy chili snack", te: "కారంగల మిరపకాయలతో తయారు చేసిన స్నాక్" },
+        category: "snacks",
+        heritage: { en: "Traditional Andhra snack", te: "సాంప్రదాయ ఆంధ్ర స్నాక్" },
+        rating: 4.8,
+        image: "pictures/ooramirchi.jpeg",
+        price: 320
+      },
       
       // Meal Combos and Catering (removed item 43 as requested)
       {
@@ -1299,7 +1330,6 @@
         price: 150,
         includes: {
           en: [
-            "Rice",
             "Pappu (Dal)",
             "Curry",
             "Fry",
@@ -1308,7 +1338,6 @@
             "Pickle"
           ],
           te: [
-            "బియ్యం",
             "పప్పు",
             "కూర",
             "వేపుడు",
