@@ -48,6 +48,7 @@ router.post('/', (req, res) => {
       subtotal,
       shipping,
       total_price,
+      weight,
       delivery_type,
       payment_method
     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)
@@ -61,6 +62,7 @@ router.post('/', (req, res) => {
     parseFloat(subtotal),
     parseFloat(shipping),
     parseFloat(total),
+    parseFloat(req.body.weight) || 0,
     deliveryType || 'guntur',
     paymentMethod || 'COD'
   ];

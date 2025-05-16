@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,11 +46,11 @@
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500">Address</th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500">Items</th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500">Total</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500">Weight (kg)</th> <!-- NEW -->
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500">Status</th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500">Payment</th>
-<th class="px-6 py-3 text-left text-xs font-medium text-gray-500">Delivery</th>
-<th class="px-6 py-3 text-left text-xs font-medium text-gray-500">Actions</th>
-
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500">Delivery</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500">Actions</th>
             </tr>
           </thead>
           <tbody id="orders-table-body" class="bg-white divide-y divide-gray-200"></tbody>
@@ -119,6 +118,7 @@
         <td class="px-6 py-4 text-sm text-gray-500">${order.address || '—'}</td>
         <td class="px-6 py-4 text-sm text-gray-500">${itemsList}</td>
         <td class="px-6 py-4 text-sm font-medium text-gray-900">${formatCurrency(order.total_price)}</td>
+        <td class="px-6 py-4 text-sm text-gray-900">${order.weight ? order.weight.toFixed(2) + ' kg' : '—'}</td> <!-- NEW -->
         <td class="px-6 py-4 text-sm">${order.status || 'Processing'}</td>
         <td class="px-6 py-4 text-sm text-gray-600">${order.payment_method || '—'}</td>
         <td class="px-6 py-4 text-sm text-gray-600">${order.delivery_type || '—'}</td>
@@ -208,53 +208,57 @@
   }
 
   async function editOrder(id) {
-  // Fetch the existing order first
-  try {
-    const res = await fetch(`${API_BASE_URL}/api/admin/orders/${id}`, {
-      credentials: 'include'
-    });
-    if (!res.ok) throw new Error("Failed to fetch order");
-    const order = await res.json();
+    // Fetch the existing order first
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/admin/orders/${id}`, {
+        credentials: 'include'
+      });
+      if (!res.ok) throw new Error("Failed to fetch order");
+      const order = await res.json();
 
-    // Prompt for new values (pre-filled with current values)
-    const newAddress = prompt("Enter new address:", order.address || '');
-    const newStatus = prompt("Enter new status (Processing / Delivered):", order.status || 'Processing');
-    const newTotal = prompt("Enter new total price:", order.total_price);
+      // Prompt for new values (pre-filled with current values)
+      const newAddress = prompt("Enter new address:", order.address || '');
+      const newStatus = prompt("Enter new status (Processing / Delivered):", order.status || 'Processing');
+      const newTotal = prompt("Enter new total price:", order.total_price);
+      const newWeight = prompt("Enter new weight (kg):", order.weight || '0');
 
-    // If user clicks cancel on any prompt, stop
-    if (newAddress === null || newStatus === null || newTotal === null) {
-      return;
+      // If user clicks cancel on any prompt, stop
+      if (newAddress === null || newStatus === null || newTotal === null || newWeight === null) {
+        return;
+      }
+
+      const updatedData = {
+        address: newAddress.trim() || order.address,
+        status: newStatus.trim() || order.status,
+        total_price: newTotal.trim() ? parseFloat(newTotal) : order.total_price,
+        weight: newWeight.trim() ? parseFloat(newWeight) : order.weight
+      };
+
+      const updateRes = await fetch(`${API_BASE_URL}/api/admin/orders/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify(updatedData)
+      });
+
+      if (!updateRes.ok) {
+        const errorData = await updateRes.json();
+        throw new Error(errorData.error || 'Failed to update order');
+      }
+
+      const data = await updateRes.json();
+      alert(data.message || 'Order updated!');
+      fetchOrders();
+    } catch (err) {
+      console.error(err);
+      alert("Failed to edit order." + err.message);
     }
-
-    const updatedData = {
-      address: newAddress.trim() || order.address,
-      status: newStatus.trim() || order.status,
-      total_price: newTotal.trim() ? parseFloat(newTotal) : order.total_price
-    };
-
-    const updateRes = await fetch(`${API_BASE_URL}/api/admin/orders/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      credentials: 'include',
-      body: JSON.stringify(updatedData)
-    });
-
-    if (!updateRes.ok) {
-      const errorData = await updateRes.json();
-      throw new Error(errorData.error || 'Failed to update order');
-    }
-
-    const data = await updateRes.json();
-    alert(data.message || 'Order updated!');
-    fetchOrders();
-  } catch (err) {
-    console.error(err);
-    alert("Failed to edit order."+err.message);
   }
-}
 
+  // Initial fetch on page load
+  document.addEventListener('DOMContentLoaded', fetchOrders);
 </script>
 
 </body>
