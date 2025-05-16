@@ -51,7 +51,7 @@ router.post('/', (req, res) => {
       weight,
       delivery_type,
       payment_method
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
   const values = [

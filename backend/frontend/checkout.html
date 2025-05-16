@@ -848,7 +848,7 @@
       });
 
       // Handle place order button
-      document.getElementById('place-order-btn')?.addEventListener('click', function() {
+      document.getElementById('place-order-btn')?.addEventListener('click', async function() {
         if (isProcessingOrder) return;
         
         // Validate form
@@ -910,40 +910,45 @@
             deliveryType: document.getElementById('delivery-type').value,
             paymentMethod: paymentMethod.toUpperCase(),
             timestamp: new Date().toISOString(),
-            orderId: `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`
-          };
-
-          // In a real app, you would send this to your backend
-          localStorage.setItem('lastOrder', JSON.stringify(orderData));
-          
+            
+          };          
           // Simulate API call
           const placeOrderBtn = document.getElementById('place-order-btn');
           placeOrderBtn.disabled = true;
           isProcessingOrder = true;
           placeOrderBtn.innerHTML = '<span class="loading-spinner"></span> Processing...';
 
-          setTimeout(() => {
-            // Show success toast
-            showToast("Order Placed Successfully!");
-            
-            // Clear cart and redirect
-            localStorage.removeItem("brahminFoodsCart");
-            
-            setTimeout(() => {
-              window.location.href = `order_confirmation.html?orderId=${orderData.orderId}`;
-            }, 1000);
-          }, 1500);
-        } catch (e) {
-          console.error("Error placing order:", e);
-          showToast("Error placing order. Please try again.", true);
-          document.getElementById('place-order-btn').disabled = false;
-          isProcessingOrder = false;
-          document.getElementById('place-order-btn').innerHTML = '<i class="fas fa-shopping-bag mr-2"></i> Place Order';
-        }
-      });
+          // Send to backend
+    const response = await fetch(`${window.location.origin}/api/orders`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(orderData)
+    });
 
-      // Initial render
-      updateOrderSummary();
+    if (!response.ok) {
+      throw new Error('Failed to place order');
+    }
+
+    const result = await response.json();
+    
+    showToast("Order Placed Successfully!");
+    localStorage.removeItem("brahminFoodsCart");
+    
+    // Redirect to confirmation page with order ID
+    window.location.href = `order_confirmation.html?orderId=${result.orderId}`;
+  } catch (e) {
+    console.error("Error placing order:", e);
+    showToast("Error placing order. Please try again.", true);
+    document.getElementById('place-order-btn').disabled = false;
+    isProcessingOrder = false;
+    document.getElementById('place-order-btn').innerHTML = '<i class="fas fa-shopping-bag mr-2"></i> Place Order';
+  }
+});
+
+// Initial render
+updateOrderSummary();
     });
   </script>
 </body>
