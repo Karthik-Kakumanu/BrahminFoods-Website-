@@ -226,6 +226,7 @@
       if (newAddress === null || newStatus === null || newTotal === null || newWeight === null) return;
 
       const updatedData = {
+        items: order.items,
         address: newAddress.trim() || order.address,
         status: newStatus.trim() || order.status,
         total_price: newTotal.trim() ? parseFloat(newTotal) : order.total_price,
