@@ -37,6 +37,7 @@ router.post('/', (req, res) => {
     console.error('❌ Invalid items format:', e.message);
     return res.status(400).json({ error: 'Invalid items format' });
   }
+  console.log('🛒 Items:', serializedItems); // Debug log
 
   const sql = `
     INSERT INTO orders (
