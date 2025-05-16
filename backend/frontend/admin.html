@@ -3,12 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Admin dashboard for managing Brahmin Foods orders" />
   <title>Admin Panel - Brahmin Foods</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 </head>
 <body class="bg-gray-50 min-h-screen">
 <div class="container mx-auto px-4 py-8">
+  <!-- 🔐 Login Section -->
   <div id="login-section" class="max-w-md mx-auto bg-white rounded-xl shadow-md p-8">
     <div class="text-center mb-6">
       <h1 class="text-2xl font-bold text-gray-800">Brahmin Foods</h1>
@@ -28,6 +30,7 @@
     </form>
   </div>
 
+  <!-- 📦 Orders Section -->
   <div id="orders-section" class="hidden">
     <div class="flex justify-between items-center mb-6">
       <h1 class="text-2xl font-bold text-gray-800"><i class="fas fa-clipboard-list mr-2"></i>Order Management</h1>
@@ -46,7 +49,7 @@
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500">Address</th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500">Items</th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500">Total</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500">Weight (kg)</th> <!-- NEW -->
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500">Weight (kg)</th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500">Status</th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500">Payment</th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500">Delivery</th>
@@ -118,7 +121,7 @@
         <td class="px-6 py-4 text-sm text-gray-500">${order.address || '—'}</td>
         <td class="px-6 py-4 text-sm text-gray-500">${itemsList}</td>
         <td class="px-6 py-4 text-sm font-medium text-gray-900">${formatCurrency(order.total_price)}</td>
-        <td class="px-6 py-4 text-sm text-gray-900">${order.weight ? order.weight.toFixed(2) + ' kg' : '—'}</td> <!-- NEW -->
+        <td class="px-6 py-4 text-sm text-gray-900">${order.weight ? order.weight.toFixed(2) + ' kg' : '—'}</td>
         <td class="px-6 py-4 text-sm">${order.status || 'Processing'}</td>
         <td class="px-6 py-4 text-sm text-gray-600">${order.payment_method || '—'}</td>
         <td class="px-6 py-4 text-sm text-gray-600">${order.delivery_type || '—'}</td>
@@ -170,7 +173,7 @@
       loginSection.classList.add('hidden');
       ordersSection.classList.remove('hidden');
       await fetchOrders();
-      setInterval(fetchOrders, 90000); 
+      setInterval(fetchOrders, 90000);
     } catch (err) {
       showError(err.message);
     } finally {
@@ -208,7 +211,6 @@
   }
 
   async function editOrder(id) {
-    // Fetch the existing order first
     try {
       const res = await fetch(`${API_BASE_URL}/api/admin/orders/${id}`, {
         credentials: 'include'
@@ -216,16 +218,12 @@
       if (!res.ok) throw new Error("Failed to fetch order");
       const order = await res.json();
 
-      // Prompt for new values (pre-filled with current values)
       const newAddress = prompt("Enter new address:", order.address || '');
       const newStatus = prompt("Enter new status (Processing / Delivered):", order.status || 'Processing');
       const newTotal = prompt("Enter new total price:", order.total_price);
       const newWeight = prompt("Enter new weight (kg):", order.weight || '0');
 
-      // If user clicks cancel on any prompt, stop
-      if (newAddress === null || newStatus === null || newTotal === null || newWeight === null) {
-        return;
-      }
+      if (newAddress === null || newStatus === null || newTotal === null || newWeight === null) return;
 
       const updatedData = {
         address: newAddress.trim() || order.address,
@@ -236,9 +234,7 @@
 
       const updateRes = await fetch(`${API_BASE_URL}/api/admin/orders/${id}`, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
         body: JSON.stringify(updatedData)
       });
@@ -253,13 +249,9 @@
       fetchOrders();
     } catch (err) {
       console.error(err);
-      alert("Failed to edit order." + err.message);
+      alert("Failed to edit order. " + err.message);
     }
   }
-
-  // Initial fetch on page load
-  document.addEventListener('DOMContentLoaded', fetchOrders);
 </script>
-
 </body>
 </html>

@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const router = express.Router();
 const db = require('../db');
 
-// Admin credentials
+// Admin credentials (❗ Ideally use environment variables instead)
 const ADMIN_USERNAME = 'admin';
 const ADMIN_PASSWORD_HASH = '$2b$12$JZl9Acv6F9vu9HsbRYxrk.kAHqx87zeO3igEBRyMdcQqs4Lp5t.Ge';
 
@@ -84,7 +84,7 @@ router.get('/orders', (req, res) => {
   });
 });
 
-// ✅ Get Single Order by ID (Admin only) — Fixed
+// ✅ Get Single Order by ID (Admin only)
 router.get('/orders/:id', (req, res) => {
   if (!req.session.isAdmin) {
     return res.status(403).json({ error: 'Unauthorized' });
@@ -120,7 +120,7 @@ router.put('/orders/:id', (req, res) => {
   }
 
   const orderId = req.params.id;
-  const { items, total_price, address, status } = req.body;
+  const { items, total_price, address, status, weight } = req.body;
 
   let serializedItems;
   try {
@@ -131,11 +131,11 @@ router.put('/orders/:id', (req, res) => {
 
   const updateQuery = `
     UPDATE orders 
-    SET items = ?, total_price = ?, address = ?, status = ? 
+    SET items = ?, total_price = ?, address = ?, status = ?, weight = ? 
     WHERE id = ?
   `;
 
-  db.query(updateQuery, [serializedItems, total_price, address, status || 'Processing', orderId], (err, result) => {
+  db.query(updateQuery, [serializedItems, total_price, address, status || 'Processing', weight || 0, orderId], (err, result) => {
     if (err) {
       console.error('❌ Error updating order:', err.message);
       return res.status(500).json({ error: 'Failed to update order' });
